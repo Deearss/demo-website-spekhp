@@ -66,20 +66,20 @@ export default function HomePage() {
         </div>
 
         {/* ── Brand Filter ── */}
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-5">
+        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-10 py-5">
           <BrandFilter brands={allBrands} active={brand} onSelect={setBrand} />
         </div>
 
         {/* ── 3-Column Layout: Left Ad | Content | Right Ad ── */}
         <div className="w-full px-4 sm:px-6 lg:px-8 pb-20">
-          <div className="mx-auto max-w-7xl flex gap-6 items-start justify-center">
+          <div className="mx-auto max-w-screen-2xl flex gap-6 items-start justify-center">
             {/* Left sidebar ad */}
             <aside className="hidden xl:flex flex-col gap-4 w-40 shrink-0 sticky top-24">
               <AdBanner slot="mpu-top" />
             </aside>
 
             {/* Center: phone grid */}
-            <div className="flex-1 min-w-0 max-w-5xl">
+            <div className="flex-1 min-w-0 max-w-7xl">
               <p
                 className="text-xs mb-4 mt-1"
                 style={{ color: "var(--text-3)" }}

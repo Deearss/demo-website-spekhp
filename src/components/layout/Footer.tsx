@@ -9,7 +9,7 @@ export default function Footer() {
       className="mt-auto w-full"
       style={{ borderTop: "1px solid var(--border)", background: "var(--bg-2)" }}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+      <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-10 py-10">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
           {/* Brand */}
           <div className="flex items-center gap-2.5">

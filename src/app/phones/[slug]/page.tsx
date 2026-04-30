@@ -55,14 +55,14 @@ export default async function PhoneDetailPage({ params }: Props) {
 
         {/* 3-column wrapper */}
         <div className="w-full px-4 sm:px-6 lg:px-8 pb-20 pt-6">
-          <div className="mx-auto max-w-7xl flex gap-6 items-start justify-center">
+          <div className="mx-auto max-w-screen-2xl flex gap-6 items-start justify-center">
             {/* Left sidebar ad */}
             <aside className="hidden xl:flex flex-col gap-4 w-40 shrink-0 sticky top-24">
               <AdBanner slot="mpu-top" />
             </aside>
 
             {/* Center content */}
-            <div className="flex-1 min-w-0 max-w-4xl">
+            <div className="flex-1 min-w-0 max-w-5xl">
               {/* Back */}
               <Link
                 href="/"
