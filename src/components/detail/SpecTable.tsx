@@ -1,8 +1,11 @@
-import type { PhoneSpecs } from "@/types/phone"
+import type { PhoneSpecs } from "@/types/phone";
 
-type Props = { specs: PhoneSpecs }
+type Props = { specs: PhoneSpecs };
 
-const sections: { title: string; rows: { label: string; key: keyof PhoneSpecs }[] }[] = [
+const sections: {
+  title: string;
+  rows: { label: string; key: keyof PhoneSpecs }[];
+}[] = [
   {
     title: "Network",
     rows: [{ label: "Technology", key: "network" }],
@@ -92,7 +95,7 @@ const sections: { title: string; rows: { label: string; key: keyof PhoneSpecs }[
       { label: "Price (IDR)", key: "priceIDR" },
     ],
   },
-]
+];
 
 export default function SpecTable({ specs }: Props) {
   return (
@@ -103,8 +106,8 @@ export default function SpecTable({ specs }: Props) {
           className="flex flex-col lg:flex-row py-6 border-b border-white/5"
         >
           {/* Section header */}
-          <div className="w-full lg:w-48 shrink-0 mb-4 lg:mb-0">
-            <span className="text-xs font-bold uppercase tracking-widest text-gold">
+          <div className="w-full lg:w-48 shrink-0 mb-4 p-0 lg:mb-0">
+            <span className="text-xs font-bold uppercase tracking-widest text-gold leading-none relative -top-1.5">
               {section.title}
             </span>
           </div>
@@ -113,10 +116,10 @@ export default function SpecTable({ specs }: Props) {
           <div className="flex-1 flex flex-col gap-4">
             {section.rows.map((row) => (
               <div key={row.key} className="flex flex-col sm:flex-row sm:gap-6">
-                <span className="w-full sm:w-40 shrink-0 text-sm font-medium text-text-3">
+                <span className="w-full sm:w-40 shrink-0 text-sm font-medium text-text-3 leading-none">
                   {row.label}
                 </span>
-                <span className="text-sm text-text mt-0.5 sm:mt-0">
+                <span className="text-sm text-text mt-0.5 sm:mt-0 leading-none">
                   {specs[row.key] || "—"}
                 </span>
               </div>
@@ -125,5 +128,5 @@ export default function SpecTable({ specs }: Props) {
         </div>
       ))}
     </div>
-  )
+  );
 }
