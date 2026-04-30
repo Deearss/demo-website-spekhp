@@ -42,7 +42,7 @@ export default async function PhoneDetailPage({ params }: Props) {
       <main className="flex-1">
         {/* Leaderboard Ad */}
         <div
-          className="w-full px-4 sm:px-8 py-4"
+          className="w-full px-4 sm:px-8 pt-20 pb-4"
           style={{
             background: "var(--bg-2)",
             borderBottom: "1px solid var(--border-2)",
@@ -82,7 +82,7 @@ export default async function PhoneDetailPage({ params }: Props) {
                     alt={phone.name}
                     fill
                     sizes="(max-width: 640px) 192px, 256px"
-                    className="object-contain p-6"
+                    className="object-contain"
                     priority
                   />
                 </div>
@@ -111,7 +111,10 @@ export default async function PhoneDetailPage({ params }: Props) {
                   {/* Hero stats */}
                   <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-8 mt-2">
                     {heroStats.map((s) => (
-                      <div key={s.label} className="flex flex-col gap-1.5 min-w-[80px]">
+                      <div
+                        key={s.label}
+                        className="flex flex-col gap-1.5 min-w-20"
+                      >
                         <div className="flex items-center justify-center sm:justify-start gap-1.5 text-text-3">
                           {s.icon}
                           <span className="text-[10px] uppercase tracking-wider">
