@@ -1,35 +1,31 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import "./globals.css"
 
 const inter = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-sans",
   display: "swap",
-});
+})
 
 export const metadata: Metadata = {
-  title: {
-    default: "Demo Website",
-    template: "%s | Demo Website",
-  },
-  description: "Demo website project.",
+  title: { default: "SpecHive — Database Spesifikasi HP", template: "%s | SpecHive" },
+  description: "Temukan dan bandingkan spesifikasi lengkap smartphone terbaru. Database HP terlengkap di Indonesia.",
+  keywords: ["spesifikasi hp", "database ponsel", "review smartphone", "harga hp"],
   openGraph: {
     type: "website",
     locale: "id_ID",
-    siteName: "Demo Website",
+    siteName: "SpecHive",
+    title: "SpecHive — Database Spesifikasi HP",
+    description: "Temukan dan bandingkan spesifikasi lengkap smartphone terbaru.",
   },
-};
+}
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="id" className={`${inter.variable} h-full`}>
       <body className="min-h-dvh flex flex-col antialiased">{children}</body>
     </html>
-  );
+  )
 }

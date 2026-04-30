@@ -1,65 +1,84 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { useState, useMemo } from "react"
+import Navbar from "@/components/layout/Navbar"
+import Footer from "@/components/layout/Footer"
+import SearchBar from "@/components/home/SearchBar"
+import BrandFilter from "@/components/home/BrandFilter"
+import PhoneGrid from "@/components/home/PhoneGrid"
+import AdBanner from "@/components/shared/AdBanner"
+import CookieBanner from "@/components/shared/CookieBanner"
+import { getPhones, getBrands } from "@/lib/api"
+
+const allPhones = getPhones()
+const allBrands = getBrands()
+
+export default function HomePage() {
+  const [search, setSearch] = useState("")
+  const [brand, setBrand] = useState("All")
+
+  const phones = useMemo(
+    () => getPhones({ brand: brand === "All" ? undefined : brand, search }),
+    [search, brand]
+  )
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <Navbar />
+      <main className="flex-1">
+        {/* Hero / Search section */}
+        <section
+          className="w-full py-14 px-4"
+          style={{
+            background: "linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)",
+            borderBottom: "1px solid var(--border)",
+          }}
+        >
+          <div className="mx-auto max-w-3xl flex flex-col items-center gap-6 text-center">
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
+                Database{" "}
+                <span className="gold-text">Spesifikasi HP</span>
+              </h1>
+              <p className="mt-2 text-sm sm:text-base" style={{ color: "var(--text-2)" }}>
+                Temukan spesifikasi lengkap {allPhones.length}+ smartphone dari berbagai brand terkemuka
+              </p>
+            </div>
+            <SearchBar value={search} onChange={setSearch} />
+          </div>
+        </section>
+
+        {/* Ad leaderboard */}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6">
+          <AdBanner slot="leaderboard" />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-39.5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/8 px-5 transition-colors hover:border-transparent hover:bg-black/4 dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-39.5"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Brand filter */}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6">
+          <BrandFilter brands={allBrands} active={brand} onSelect={setBrand} />
+        </div>
+
+        {/* Main content: grid + sidebar */}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6 pb-16">
+          <div className="flex gap-6 items-start">
+            {/* Phone grid */}
+            <div className="flex-1 min-w-0">
+              <p className="text-xs mb-4" style={{ color: "var(--text-3)" }}>
+                {phones.length} hasil ditemukan
+              </p>
+              <PhoneGrid phones={phones} />
+            </div>
+
+            {/* Sidebar ads */}
+            <aside className="hidden lg:flex flex-col gap-4 w-[300px] shrink-0 sticky top-24">
+              <AdBanner slot="mpu-top" />
+              <AdBanner slot="mpu-sticky" />
+            </aside>
+          </div>
         </div>
       </main>
-    </div>
-  );
+      <Footer />
+      <CookieBanner />
+    </>
+  )
 }
