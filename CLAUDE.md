@@ -4,6 +4,11 @@
 <!-- Update this section once the project purpose is defined -->
 Next.js web application.
 
+## ⚠️ Critical: Deploy / Push Rules
+- **NEVER run `git push` or trigger a Netlify deploy** unless Dier explicitly says to push/deploy.
+- `git commit` locally is fine. `git push` is NOT unless told.
+- Reason: Netlify free tier has limited build minutes — accidental pushes burn the quota.
+
 ## Critical Reminders for Claude
 - **Font:** Inter (loaded via `next/font/google`) — never Geist
 - **Tailwind v4+** — use native v4 syntax, no deprecated v3 classes

@@ -8,6 +8,11 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # Project-Specific AI Instructions
 
+## ⚠️ Critical: Deploy / Push Rules
+- **NEVER run `git push` or trigger a Netlify deploy** unless Dier explicitly says to push/deploy.
+- `git commit` locally is fine. `git push` is NOT unless told.
+- Reason: Netlify free tier has limited build minutes — accidental pushes burn the quota.
+
 ## Folder Structure
 ```
 /src/components  — reusable UI components

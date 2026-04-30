@@ -4,6 +4,11 @@
 <!-- Update this section once the project purpose is defined -->
 Next.js web application.
 
+## ⚠️ Critical: Deploy / Push Rules
+- **NEVER run `git push` or trigger a Netlify deploy** unless Dier explicitly says to push/deploy.
+- `git commit` locally is fine. `git push` is NOT unless told.
+- Reason: Netlify free tier has limited build minutes — accidental pushes burn the quota.
+
 ## Key Rules for Gemini
 - **Always ask before acting** on anything non-trivial
 - **Tailwind v4.2+** — never v3 class names, native v4 syntax only
