@@ -11,6 +11,20 @@ type Props = {
 export default function SearchBar({ value, onChange }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isMac, setIsMac] = useState(false);
+  const [localValue, setLocalValue] = useState(value);
+
+  // Sync external value changes (e.g., clear from parent)
+  useEffect(() => {
+    setLocalValue(value);
+  }, [value]);
+
+  // Debounce user typing
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onChange(localValue);
+    }, 300); // 300ms debounce
+    return () => clearTimeout(timer);
+  }, [localValue, onChange]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -42,6 +56,7 @@ export default function SearchBar({ value, onChange }: Props) {
       ) {
         e.preventDefault();
         inputRef.current?.blur();
+        setLocalValue("");
         onChange("");
       }
     };
@@ -62,8 +77,8 @@ export default function SearchBar({ value, onChange }: Props) {
         ref={inputRef}
         type="text"
         placeholder="Cari nama HP, brand, atau chipset..."
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        value={localValue}
+        onChange={(e) => setLocalValue(e.target.value)}
         className="w-full h-13 pl-11 pr-11 sm:pr-24 rounded-xl text-sm font-medium outline-none transall"
         style={{
           background: "var(--surface)",
@@ -82,9 +97,10 @@ export default function SearchBar({ value, onChange }: Props) {
 
       {/* Action Area: Clear Button or Shortcut Hint */}
       <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-        {value ? (
+        {localValue ? (
           <button
             onClick={() => {
+              setLocalValue("");
               onChange("");
               inputRef.current?.focus();
             }}

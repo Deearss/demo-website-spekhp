@@ -11,7 +11,7 @@ type Props = {
 export default function PhoneGrid({ phones, isLoading }: Props) {
   if (isLoading) {
     return (
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1">
         {Array.from({ length: 10 }).map((_, i) => (
           <div
             key={i}
