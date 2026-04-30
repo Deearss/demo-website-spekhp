@@ -34,7 +34,7 @@ export default function Footer() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="transall hover:text-[var(--gold)]"
+                className="transall hover:text-gold"
               >
                 {l.label}
               </Link>

@@ -34,7 +34,7 @@ export default function CookieBanner() {
           <p className="text-sm" style={{ color: "var(--text-2)" }}>
             Kami menggunakan cookie untuk meningkatkan pengalaman Anda dan menampilkan iklan yang relevan.
             Dengan melanjutkan, Anda menyetujui{" "}
-            <Link href="/privacy" className="underline transall hover:text-[var(--gold)]">
+            <Link href="/privacy" className="underline transall hover:text-gold">
               Kebijakan Privasi
             </Link>{" "}
             kami.
