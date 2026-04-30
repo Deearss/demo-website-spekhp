@@ -120,6 +120,17 @@ function pick(arr, idx) {
   return arr[idx % arr.length]
 }
 
+const brandImages = {
+  Samsung: "/images/brands/samsung.png",
+  Apple: "/images/brands/apple.png",
+  Xiaomi: "/images/brands/xiaomi.png",
+  OPPO: "/images/brands/oppo.png",
+  Vivo: "/images/brands/vivo.png",
+  Realme: "/images/brands/realme.png",
+  OnePlus: "/images/brands/oneplus.png",
+  Google: "/images/brands/google.png",
+}
+
 function randPrice(min, max, i) {
   const step = Math.floor((max - min) / 5)
   const raw = min + (i % 6) * step
