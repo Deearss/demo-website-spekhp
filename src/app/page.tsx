@@ -28,11 +28,11 @@ export default function HomePage() {
       <main className="flex-1">
         {/* ── Hero / Search ── */}
         <section
-          className="w-full py-16 px-4"
+          className="w-full pt-20 px-4"
           style={{
             background:
               "linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)",
-            borderBottom: "1px solid var(--border)",
+            // borderBottom: "1px solid var(--border)",
           }}
         >
           <div className="mx-auto max-w-2xl flex flex-col items-center gap-6 text-center">

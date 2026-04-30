@@ -63,19 +63,19 @@ export default function PhoneGrid({ phones }: Props) {
 
             {/* Stats */}
             <div
-              className="grid grid-cols-2 gap-1 pt-2"
+              className="grid grid-cols-2 gap-2 pt-3 pb-1.5"
               style={{ borderTop: "1px solid var(--border-2)" }}
             >
               {[
-                { icon: <Monitor size={10} />, val: phone.displayInches },
-                { icon: <Camera size={10} />, val: phone.mainCameraMP },
+                { icon: <Monitor size={14} />, val: phone.displayInches },
+                { icon: <Camera size={14} />, val: phone.mainCameraMP },
                 {
-                  icon: <Cpu size={10} />,
+                  icon: <Cpu size={14} />,
                   val: phone.ramChipset.split("/")[0].trim(),
                 },
-                { icon: <Battery size={10} />, val: phone.batteryMah },
+                { icon: <Battery size={14} />, val: phone.batteryMah },
               ].map((s, i) => (
-                <div key={i} className="flex items-center gap-1">
+                <div key={i} className="flex items-center gap-1.5">
                   <span style={{ color: "var(--text-3)" }}>{s.icon}</span>
                   <span
                     className="text-[10px] truncate"
