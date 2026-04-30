@@ -96,10 +96,10 @@ export default function HomePage() {
 
             {/* Center: phone grid */}
             <div className="flex-1 min-w-0 max-w-7xl relative">
-              <div 
-                className="sticky top-[149px] z-30 py-2.5 -mt-2 mb-4 px-2 sm:px-0"
-                style={{ 
-                  background: "rgba(13,27,42,0.9)", 
+              <div
+                className="sticky top-37.25 z-30 py-2.5 -mt-2 mb-4 px-2 sm:px-0"
+                style={{
+                  background: "rgba(13,27,42,0.9)",
                   backdropFilter: "blur(12px)",
                   WebkitBackdropFilter: "blur(12px)",
                   borderBottom: "1px solid var(--border)",
