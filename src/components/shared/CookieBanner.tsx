@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useState, startTransition } from "react"
 import { Cookie, X } from "lucide-react"
 
 export default function CookieBanner() {
@@ -9,7 +9,7 @@ export default function CookieBanner() {
 
   useEffect(() => {
     const accepted = localStorage.getItem("cookie_accepted")
-    if (!accepted) setVisible(true)
+    if (!accepted) startTransition(() => setVisible(true))
   }, [])
 
   const handleAccept = () => {

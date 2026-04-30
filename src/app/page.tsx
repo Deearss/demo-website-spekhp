@@ -1,26 +1,26 @@
-"use client"
+"use client";
 
-import { useState, useMemo } from "react"
-import Navbar from "@/components/layout/Navbar"
-import Footer from "@/components/layout/Footer"
-import SearchBar from "@/components/home/SearchBar"
-import BrandFilter from "@/components/home/BrandFilter"
-import PhoneGrid from "@/components/home/PhoneGrid"
-import AdBanner from "@/components/shared/AdBanner"
-import CookieBanner from "@/components/shared/CookieBanner"
-import { getPhones, getBrands } from "@/lib/api"
+import { useState, useMemo } from "react";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import SearchBar from "@/components/home/SearchBar";
+import BrandFilter from "@/components/home/BrandFilter";
+import PhoneGrid from "@/components/home/PhoneGrid";
+import AdBanner from "@/components/shared/AdBanner";
+import CookieBanner from "@/components/shared/CookieBanner";
+import { getPhones, getBrands } from "@/lib/api";
 
-const allPhones = getPhones()
-const allBrands = getBrands()
+const allPhones = getPhones();
+const allBrands = getBrands();
 
 export default function HomePage() {
-  const [search, setSearch] = useState("")
-  const [brand, setBrand] = useState("All")
+  const [search, setSearch] = useState("");
+  const [brand, setBrand] = useState("All");
 
   const phones = useMemo(
     () => getPhones({ brand: brand === "All" ? undefined : brand, search }),
-    [search, brand]
-  )
+    [search, brand],
+  );
 
   return (
     <>
@@ -30,18 +30,22 @@ export default function HomePage() {
         <section
           className="w-full py-14 px-4"
           style={{
-            background: "linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)",
+            background:
+              "linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)",
             borderBottom: "1px solid var(--border)",
           }}
         >
           <div className="mx-auto max-w-3xl flex flex-col items-center gap-6 text-center">
             <div>
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
-                Database{" "}
-                <span className="gold-text">Spesifikasi HP</span>
+                Database <span className="gold-text">Spesifikasi HP</span>
               </h1>
-              <p className="mt-2 text-sm sm:text-base" style={{ color: "var(--text-2)" }}>
-                Temukan spesifikasi lengkap {allPhones.length}+ smartphone dari berbagai brand terkemuka
+              <p
+                className="mt-2 text-sm sm:text-base"
+                style={{ color: "var(--text-2)" }}
+              >
+                Temukan spesifikasi lengkap {allPhones.length}+ smartphone dari
+                berbagai brand terkemuka
               </p>
             </div>
             <SearchBar value={search} onChange={setSearch} />
@@ -70,7 +74,7 @@ export default function HomePage() {
             </div>
 
             {/* Sidebar ads */}
-            <aside className="hidden lg:flex flex-col gap-4 w-[300px] shrink-0 sticky top-24">
+            <aside className="hidden lg:flex flex-col gap-4 w-75 shrink-0 sticky top-24">
               <AdBanner slot="mpu-top" />
               <AdBanner slot="mpu-sticky" />
             </aside>
@@ -80,5 +84,5 @@ export default function HomePage() {
       <Footer />
       <CookieBanner />
     </>
-  )
+  );
 }
