@@ -3,44 +3,46 @@
 
 /* ── Design Tokens ── */
 :root {
-  --bg:         #0D1B2A;
-  --bg-2:       #112233;
-  --bg-3:       #162d44;
-  --surface:    #1a2e42;
-  --surface-2:  #1f3550;
-  --border:     rgba(201, 168, 76, 0.15);
-  --border-2:   rgba(255,255,255,0.08);
-  --gold:       #C9A84C;
+  --bg: #0d1b2a;
+  --bg-2: #112233;
+  --bg-3: #162d44;
+  --surface: #1a2e42;
+  --surface-2: #1f3550;
+  --border: rgba(201, 168, 76, 0.15);
+  --border-2: rgba(255, 255, 255, 0.08);
+  --gold: #c9a84c;
   --gold-light: #e0c070;
-  --gold-dim:   rgba(201, 168, 76, 0.12);
-  --text:       #f0f4f8;
-  --text-2:     #a8bbd0;
-  --text-3:     #6a8099;
-  --radius:     10px;
+  --gold-dim: rgba(201, 168, 76, 0.12);
+  --text: #f0f4f8;
+  --text-2: #a8bbd0;
+  --text-3: #6a8099;
+  --radius: 10px;
 }
 
 @theme inline {
-  --color-bg:        var(--bg);
-  --color-bg-2:      var(--bg-2);
-  --color-bg-3:      var(--bg-3);
-  --color-surface:   var(--surface);
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-bg-3: var(--bg-3);
+  --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
-  --color-gold:      var(--gold);
-  --color-gold-light:var(--gold-light);
-  --color-text:      var(--text);
-  --color-text-2:    var(--text-2);
-  --color-text-3:    var(--text-3);
-  --font-sans:       "Inter", system-ui, sans-serif;
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --font-sans: "Inter", system-ui, sans-serif;
 }
 
 /* ── Base ── */
-*, *::before, *::after {
+/* *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
+} */
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   background: var(--bg);
@@ -50,20 +52,40 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-a { color: inherit; text-decoration: none; }
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
 /* ── Scrollbar ── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--surface-2); border-radius: 3px; }
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-2);
+  border-radius: 3px;
+}
 
 /* ── Utilities ── */
 @layer utilities {
-  .flexc  { @apply flex flex-row justify-center items-center; }
-  .flexcc { @apply flex flex-col justify-center items-center; }
-  .transall { @apply transition-all ease-in-out duration-150; }
-  .transcenter  { @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2; }
-  .atranscenter { @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2; }
+  .flexc {
+    @apply flex flex-row justify-center items-center;
+  }
+  .flexcc {
+    @apply flex flex-col justify-center items-center;
+  }
+  .transall {
+    @apply transition-all ease-in-out duration-150;
+  }
+  .transcenter {
+    @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+  .atranscenter {
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
 
   .glass {
     background: rgba(26, 46, 66, 0.7);
@@ -79,7 +101,9 @@ a { color: inherit; text-decoration: none; }
     background-clip: text;
   }
 
-  .gold-border { border-color: var(--gold) !important; }
+  .gold-border {
+    border-color: var(--gold) !important;
+  }
 
   .card-hover {
     transition: all 150ms ease-in-out;
