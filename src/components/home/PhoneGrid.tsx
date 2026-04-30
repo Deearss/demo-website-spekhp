@@ -3,9 +3,38 @@ import Link from "next/link";
 import { Battery, Camera, Cpu, Monitor } from "lucide-react";
 import type { Phone } from "@/types/phone";
 
-type Props = { phones: Phone[] };
+type Props = { 
+  phones: Phone[] 
+  isLoading?: boolean
+};
 
-export default function PhoneGrid({ phones }: Props) {
+export default function PhoneGrid({ phones, isLoading }: Props) {
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <div key={i} className="flex flex-col rounded-xl overflow-hidden bg-surface border border-white/5 animate-pulse">
+            <div className="relative w-full aspect-square bg-bg-2/50" />
+            <div className="flex flex-col gap-3 p-3">
+              <div>
+                <div className="h-2 w-1/4 bg-white/10 rounded mb-2" />
+                <div className="h-3.5 w-3/4 bg-white/10 rounded" />
+              </div>
+              <div className="grid grid-cols-2 gap-2 pt-3 pb-1.5 border-t border-white/5 mt-1">
+                {[1, 2, 3, 4].map((j) => (
+                  <div key={j} className="flex items-center gap-2">
+                    <div className="h-3.5 w-3.5 bg-white/10 rounded-full shrink-0" />
+                    <div className="h-2 w-full max-w-[40px] bg-white/10 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   if (phones.length === 0) {
     return (
       <div className="flex flex-col items-center gap-3 py-20 text-text-3">

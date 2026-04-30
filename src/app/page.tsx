@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
+import type { Phone } from "@/types/phone";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SearchBar from "@/components/home/SearchBar";
@@ -16,11 +17,20 @@ const allBrands = getBrands();
 export default function HomePage() {
   const [search, setSearch] = useState("");
   const [brand, setBrand] = useState("All");
+  
+  // Simulated loading state
+  const [isLoading, setIsLoading] = useState(true);
+  const [phones, setPhones] = useState<Phone[]>([]);
 
-  const phones = useMemo(
-    () => getPhones({ brand: brand === "All" ? undefined : brand, search }),
-    [search, brand],
-  );
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setPhones(getPhones({ brand: brand === "All" ? undefined : brand, search }));
+      setIsLoading(false);
+    }, 600); // 600ms delay for realism
+
+    return () => clearTimeout(timer);
+  }, [search, brand]);
 
   return (
     <>
@@ -65,11 +75,16 @@ export default function HomePage() {
           <div className="mx-auto max-w-2xl flex flex-col gap-2">
             <SearchBar value={search} onChange={setSearch} />
             <div className="px-1 flexc min-h-4">
-              {(search.trim() !== "" || brand !== "All") && (
+              {isLoading ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full border-[1.5px] border-text-3 border-t-gold animate-spin" />
+                  <p className="text-[11px] font-medium text-text-3">Mencari data...</p>
+                </div>
+              ) : (search.trim() !== "" || brand !== "All") ? (
                 <p className="text-[11px] font-medium text-text-3">
                   {phones.length} hasil ditemukan
                 </p>
-              )}
+              ) : null}
             </div>
           </div>
         </div>
@@ -103,7 +118,7 @@ export default function HomePage() {
 
             {/* Center: phone grid */}
             <div className="flex-1 min-w-0 max-w-7xl pt-1">
-              <PhoneGrid phones={phones} />
+              <PhoneGrid phones={phones} isLoading={isLoading} />
             </div>
 
             {/* Right sidebar ad */}
