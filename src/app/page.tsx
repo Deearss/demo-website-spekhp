@@ -27,12 +27,12 @@ export default function HomePage() {
       <Navbar />
       <main className="flex-1">
         {/* ── Hero / Search ── */}
+        {/* ── Hero ── */}
         <section
-          className="w-full pt-20 px-4"
+          className="w-full pt-20 pb-8 px-4"
           style={{
             background:
               "linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)",
-            // borderBottom: "1px solid var(--border)",
           }}
         >
           <div className="mx-auto max-w-2xl flex flex-col items-center gap-6 text-center">
@@ -48,9 +48,24 @@ export default function HomePage() {
                 berbagai brand terkemuka
               </p>
             </div>
-            <SearchBar value={search} onChange={setSearch} />
           </div>
         </section>
+
+        {/* ── Sticky Search Bar ── */}
+        <div
+          className="sticky top-16 z-40 w-full px-4 py-4 mb-2"
+          style={{
+            background: "rgba(13,27,42,0.85)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            borderBottom: "1px solid var(--border)",
+            marginTop: "-1px", // Seamless connection to hero
+          }}
+        >
+          <div className="mx-auto max-w-2xl">
+            <SearchBar value={search} onChange={setSearch} />
+          </div>
+        </div>
 
         {/* ── Brand Filter ── */}
         <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-10 py-5">

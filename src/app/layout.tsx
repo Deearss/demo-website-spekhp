@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-
+import ScrollToTop from "@/components/shared/ScrollToTop"
 const inter = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -25,7 +25,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="id" className={`${inter.variable} h-full`}>
-      <body className="min-h-dvh flex flex-col antialiased">{children}</body>
+      <body className="min-h-dvh flex flex-col antialiased">
+        {children}
+        <ScrollToTop />
+      </body>
     </html>
   )
 }
