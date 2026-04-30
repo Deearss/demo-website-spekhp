@@ -3,7 +3,6 @@ import { join, dirname } from "path"
 import { fileURLToPath } from "url"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const PLACEHOLDER_IMG = "https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24.jpg"
 
 const brandTemplates = [
   {
