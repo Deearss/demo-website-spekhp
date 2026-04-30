@@ -50,8 +50,8 @@ export default function HomePage() {
               "linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)",
           }}
         >
-          <div className="mx-auto max-w-xl flex flex-col items-center gap-6 text-center">
-            <div>
+          <div className="mx-auto max-w-2xl flex flex-col items-center gap-6 text-center">
+            <div className="px-5 sm:px-0">
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
                 Database <span className="gold-text">Spesifikasi HP</span>
               </h1>

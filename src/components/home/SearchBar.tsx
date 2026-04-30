@@ -14,7 +14,10 @@ export default function SearchBar({ value, onChange }: Props) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsMac(typeof navigator !== "undefined" && /Mac|iPod|iPhone|iPad/.test(navigator.platform));
+      setIsMac(
+        typeof navigator !== "undefined" &&
+          /Mac|iPod|iPhone|iPad/.test(navigator.platform),
+      );
     }, 0);
     return () => clearTimeout(timer);
   }, []);
@@ -61,7 +64,7 @@ export default function SearchBar({ value, onChange }: Props) {
         placeholder="Cari nama HP, brand, atau chipset..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full h-13 pl-11 pr-24 rounded-xl text-sm font-medium outline-none transall"
+        className="w-full h-13 pl-11 pr-11 sm:pr-24 rounded-xl text-sm font-medium outline-none transall"
         style={{
           background: "var(--surface)",
           border: "1px solid var(--border)",
