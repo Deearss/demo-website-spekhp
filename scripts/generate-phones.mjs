@@ -154,7 +154,7 @@ for (const t of brandTemplates) {
       slug: slugify(model),
       brand: t.brand,
       name: model,
-      image: PLACEHOLDER_IMG,
+      image: brandImages[t.brand] || "/images/placeholder-phone.png",
       releaseYear: 2023 + (i % 2),
       displayInches: display.size.replace(" inches", '"'),
       mainCameraMP: cam.mp,

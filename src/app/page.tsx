@@ -52,22 +52,23 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── Brand Filter ── */}
+        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-10 py-5">
+          <BrandFilter brands={allBrands} active={brand} onSelect={setBrand} />
+        </div>
+
         {/* ── Leaderboard Ad (full width, centered) ── */}
         <div
-          className="w-full px-4 sm:px-8 py-4"
+          className="w-full px-4 sm:px-8 py-4 mb-4"
           style={{
             background: "var(--bg-2)",
+            borderTop: "1px solid var(--border-2)",
             borderBottom: "1px solid var(--border-2)",
           }}
         >
           <div className="mx-auto max-w-182">
             <AdBanner slot="leaderboard" />
           </div>
-        </div>
-
-        {/* ── Brand Filter ── */}
-        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-10 py-5">
-          <BrandFilter brands={allBrands} active={brand} onSelect={setBrand} />
         </div>
 
         {/* ── 3-Column Layout: Left Ad | Content | Right Ad ── */}
