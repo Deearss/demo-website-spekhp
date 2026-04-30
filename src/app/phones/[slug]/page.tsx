@@ -20,6 +20,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: phone.name,
     description: `Spesifikasi lengkap ${phone.name}: ${phone.specs.chipset}, ${phone.mainCameraMP} kamera, ${phone.batteryMah} baterai.`,
+    openGraph: {
+      title: `${phone.name} - Spesifikasi dan Harga Terbaru`,
+      description: `Spesifikasi lengkap ${phone.name}: ${phone.specs.chipset}, ${phone.mainCameraMP} kamera, ${phone.batteryMah} baterai.`,
+      images: [
+        {
+          url: phone.image,
+          width: 800,
+          height: 800,
+          alt: phone.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${phone.name} - Spesifikasi dan Harga`,
+      description: `Spesifikasi lengkap ${phone.name}. Cek detail selengkapnya di sini!`,
+      images: [phone.image],
+    },
   };
 }
 
