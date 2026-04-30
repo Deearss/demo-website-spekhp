@@ -13,7 +13,10 @@ export default function SearchBar({ value, onChange }: Props) {
   const [isMac, setIsMac] = useState(false);
 
   useEffect(() => {
-    setIsMac(typeof navigator !== "undefined" && /Mac|iPod|iPhone|iPad/.test(navigator.platform));
+    const timer = setTimeout(() => {
+      setIsMac(typeof navigator !== "undefined" && /Mac|iPod|iPhone|iPad/.test(navigator.platform));
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {

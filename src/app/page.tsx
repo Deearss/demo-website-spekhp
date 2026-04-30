@@ -102,7 +102,7 @@ export default function HomePage() {
                   background: "rgba(13,27,42,0.9)",
                   backdropFilter: "blur(12px)",
                   WebkitBackdropFilter: "blur(12px)",
-                  borderBottom: "1px solid var(--border)",
+                  // borderBottom: "1px solid var(--border)",
                 }}
               >
                 <p
