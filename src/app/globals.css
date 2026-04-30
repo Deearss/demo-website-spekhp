@@ -59,14 +59,14 @@ a {
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar {
-  width: 9px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--surface-2);
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
 /* ── Utilities ── */

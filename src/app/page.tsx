@@ -64,7 +64,7 @@ export default function HomePage() {
         >
           <div className="mx-auto max-w-2xl flex flex-col gap-2">
             <SearchBar value={search} onChange={setSearch} />
-            <div className="px-1 flexc min-h-[16px]">
+            <div className="px-1 flexc min-h-4">
               {(search.trim() !== "" || brand !== "All") && (
                 <p className="text-[11px] font-medium text-text-3">
                   {phones.length} hasil ditemukan
