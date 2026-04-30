@@ -8,6 +8,7 @@ import Footer from "@/components/layout/Footer";
 import SpecTable from "@/components/detail/SpecTable";
 import AdBanner from "@/components/shared/AdBanner";
 import PhoneGrid from "@/components/home/PhoneGrid";
+import AutoScroll from "@/components/detail/AutoScroll";
 import { getPhoneBySlug, getRelatedPhones } from "@/lib/api";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -38,11 +39,12 @@ export default async function PhoneDetailPage({ params }: Props) {
 
   return (
     <>
+      <AutoScroll />
       <Navbar />
       <main className="flex-1">
         {/* Leaderboard Ad */}
         <div
-          className="w-full px-4 sm:px-8 pt-20 pb-4"
+          className="w-full px-4 sm:px-8 py-4"
           style={{
             background: "var(--bg-2)",
             borderBottom: "1px solid var(--border-2)",
