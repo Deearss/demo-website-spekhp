@@ -17,19 +17,24 @@ const allBrands = getBrands();
 export default function HomePage() {
   const [search, setSearch] = useState("");
   const [brand, setBrand] = useState("All");
-  
+
   // Simulated loading state
   const [isLoading, setIsLoading] = useState(true);
   const [phones, setPhones] = useState<Phone[]>([]);
 
   useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      setPhones(getPhones({ brand: brand === "All" ? undefined : brand, search }));
+    const startTimer = setTimeout(() => setIsLoading(true), 0);
+    const fetchTimer = setTimeout(() => {
+      setPhones(
+        getPhones({ brand: brand === "All" ? undefined : brand, search }),
+      );
       setIsLoading(false);
     }, 600); // 600ms delay for realism
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(startTimer);
+      clearTimeout(fetchTimer);
+    };
   }, [search, brand]);
 
   return (
@@ -45,7 +50,7 @@ export default function HomePage() {
               "linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)",
           }}
         >
-          <div className="mx-auto max-w-2xl flex flex-col items-center gap-6 text-center">
+          <div className="mx-auto max-w-xl flex flex-col items-center gap-6 text-center">
             <div>
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
                 Database <span className="gold-text">Spesifikasi HP</span>
@@ -78,9 +83,11 @@ export default function HomePage() {
               {isLoading ? (
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full border-[1.5px] border-text-3 border-t-gold animate-spin" />
-                  <p className="text-[11px] font-medium text-text-3">Mencari data...</p>
+                  <p className="text-[11px] font-medium text-text-3">
+                    Mencari data...
+                  </p>
                 </div>
-              ) : (search.trim() !== "" || brand !== "All") ? (
+              ) : search.trim() !== "" || brand !== "All" ? (
                 <p className="text-[11px] font-medium text-text-3">
                   {phones.length} hasil ditemukan
                 </p>
