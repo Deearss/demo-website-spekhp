@@ -44,7 +44,7 @@
     }
   },
   {
-    "slug": "galaxy-s24",
+    "slug": "galaxy-s24-plus",
     "brand": "Samsung",
     "name": "Galaxy S24+",
     "image": "https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24.jpg",
@@ -1144,7 +1144,7 @@
     }
   },
   {
-    "slug": "redmi-note-13-pro",
+    "slug": "redmi-note-13-pro-plus",
     "brand": "Xiaomi",
     "name": "Redmi Note 13 Pro+",
     "image": "https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24.jpg",
@@ -1892,7 +1892,7 @@
     }
   },
   {
-    "slug": "realme-12-pro",
+    "slug": "realme-12-pro-plus",
     "brand": "Realme",
     "name": "Realme 12 Pro+",
     "image": "https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s24.jpg",

@@ -109,7 +109,11 @@ const colorSets = [
 ]
 
 function slugify(name) {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
+  return name
+    .toLowerCase()
+    .replace(/\+/g, "-plus")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
 }
 
 function pick(arr, idx) {
