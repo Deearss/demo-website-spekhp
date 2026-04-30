@@ -4,18 +4,18 @@ import Footer from "@/components/layout/Footer"
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
-  description: "Syarat dan ketentuan penggunaan website SpecHive.",
+  description: "Syarat dan ketentuan penggunaan website WebSpec Demo.",
 }
 
 export default function TermsPage() {
   const sections = [
     {
       title: "1. Penerimaan Syarat",
-      body: `Dengan mengakses dan menggunakan website SpecHive ("Layanan"), Anda menyetujui untuk terikat oleh syarat dan ketentuan ini. Jika Anda tidak setuju dengan bagian mana pun dari syarat ini, Anda tidak diizinkan menggunakan Layanan kami.`,
+      body: `Dengan mengakses dan menggunakan website WebSpec Demo ("Layanan"), Anda menyetujui untuk terikat oleh syarat dan ketentuan ini. Jika Anda tidak setuju dengan bagian mana pun dari syarat ini, Anda tidak diizinkan menggunakan Layanan kami.`,
     },
     {
       title: "2. Penggunaan Layanan",
-      body: `SpecHive menyediakan database informasi spesifikasi smartphone untuk tujuan informasional. Anda diizinkan menggunakan Layanan ini untuk keperluan pribadi dan non-komersial. Anda tidak boleh menggunakan Layanan ini untuk tujuan yang melanggar hukum, menyebarkan konten berbahaya, atau mengganggu operasional website.`,
+      body: `WebSpec Demo menyediakan database informasi spesifikasi smartphone untuk tujuan informasional. Anda diizinkan menggunakan Layanan ini untuk keperluan pribadi dan non-komersial. Anda tidak boleh menggunakan Layanan ini untuk tujuan yang melanggar hukum, menyebarkan konten berbahaya, atau mengganggu operasional website.`,
     },
     {
       title: "3. Akurasi Informasi",
@@ -23,15 +23,15 @@ export default function TermsPage() {
     },
     {
       title: "4. Hak Kekayaan Intelektual",
-      body: `Seluruh konten pada SpecHive, termasuk namun tidak terbatas pada teks, grafis, logo, dan desain tampilan, adalah milik SpecHive dan dilindungi oleh hukum hak cipta yang berlaku. Dilarang menyalin, mendistribusikan, atau memodifikasi konten tanpa izin tertulis.`,
+      body: `Seluruh konten pada WebSpec Demo, termasuk namun tidak terbatas pada teks, grafis, logo, dan desain tampilan, adalah milik WebSpec Demo dan dilindungi oleh hukum hak cipta yang berlaku. Dilarang menyalin, mendistribusikan, atau memodifikasi konten tanpa izin tertulis.`,
     },
     {
       title: "5. Iklan Pihak Ketiga",
-      body: `SpecHive menampilkan iklan dari pihak ketiga, termasuk Google AdSense. Kami tidak bertanggung jawab atas konten iklan yang ditampilkan. Interaksi Anda dengan pengiklan, termasuk pembayaran dan pengiriman barang/jasa, sepenuhnya antara Anda dan pengiklan terkait.`,
+      body: `WebSpec Demo menampilkan iklan dari pihak ketiga, termasuk Google AdSense. Kami tidak bertanggung jawab atas konten iklan yang ditampilkan. Interaksi Anda dengan pengiklan, termasuk pembayaran dan pengiriman barang/jasa, sepenuhnya antara Anda dan pengiklan terkait.`,
     },
     {
       title: "6. Pembatasan Tanggung Jawab",
-      body: `Layanan SpecHive disediakan "sebagaimana adanya" tanpa jaminan apa pun. Kami tidak bertanggung jawab atas kerugian langsung, tidak langsung, insidental, atau konsekuensial yang timbul dari penggunaan atau ketidakmampuan menggunakan Layanan ini.`,
+      body: `Layanan WebSpec Demo disediakan "sebagaimana adanya" tanpa jaminan apa pun. Kami tidak bertanggung jawab atas kerugian langsung, tidak langsung, insidental, atau konsekuensial yang timbul dari penggunaan atau ketidakmampuan menggunakan Layanan ini.`,
     },
     {
       title: "7. Perubahan Syarat",

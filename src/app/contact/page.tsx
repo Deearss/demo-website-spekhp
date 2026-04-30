@@ -6,7 +6,7 @@ import ContactForm from "@/components/contact/ContactForm"
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description: "Hubungi tim SpecHive untuk pertanyaan, saran, atau kerjasama.",
+  description: "Hubungi tim WebSpec Demo untuk pertanyaan, saran, atau kerjasama.",
 }
 
 export default function ContactPage() {
@@ -28,7 +28,7 @@ export default function ContactPage() {
             {/* Info cards */}
             <div className="flex flex-col gap-4">
               {[
-                { icon: <Mail size={18} />, label: "Email", val: "hello@spechive.id" },
+                { icon: <Mail size={18} />, label: "Email", val: "hello@webspecdemo.id" },
                 { icon: <MapPin size={18} />, label: "Lokasi", val: "Indonesia" },
                 { icon: <Clock size={18} />, label: "Jam Operasional", val: "Sen–Jum, 09.00–17.00 WIB" },
               ].map((item) => (

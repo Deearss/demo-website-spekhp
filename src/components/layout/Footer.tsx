@@ -20,7 +20,7 @@ export default function Footer() {
               <Cpu size={14} className="text-[#0D1B2A]" />
             </div>
             <span className="font-bold">
-              Spec<span className="gold-text">Hive</span>
+              WebSpec <span className="gold-text">Demo</span>
             </span>
           </div>
 
@@ -43,7 +43,7 @@ export default function Footer() {
 
           {/* Copyright */}
           <p className="text-xs" style={{ color: "var(--text-3)" }}>
-            © {year} SpecHive. All rights reserved.
+            © {year} WebSpec Demo. All rights reserved.
           </p>
         </div>
       </div>

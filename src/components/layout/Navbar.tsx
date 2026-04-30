@@ -35,7 +35,7 @@ export default function Navbar() {
               <Cpu size={16} className="text-[#0D1B2A]" />
             </div>
             <span className="text-lg font-bold tracking-tight">
-              Spec<span className="gold-text">Hive</span>
+              WebSpec <span className="gold-text">Demo</span>
             </span>
           </Link>
 

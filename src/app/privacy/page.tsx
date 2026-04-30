@@ -4,14 +4,14 @@ import Footer from "@/components/layout/Footer"
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Kebijakan privasi dan penggunaan data pengguna SpecHive.",
+  description: "Kebijakan privasi dan penggunaan data pengguna WebSpec Demo.",
 }
 
 export default function PrivacyPage() {
   const sections = [
     {
       title: "1. Informasi yang Kami Kumpulkan",
-      body: `SpecHive dapat mengumpulkan informasi berikut: (a) Data penggunaan anonim melalui layanan analitik seperti Google Analytics, termasuk halaman yang dikunjungi, durasi kunjungan, dan perangkat yang digunakan; (b) Data cookie dan teknologi pelacakan serupa untuk meningkatkan pengalaman pengguna; (c) Informasi yang Anda berikan secara sukarela melalui formulir kontak.`,
+      body: `WebSpec Demo dapat mengumpulkan informasi berikut: (a) Data penggunaan anonim melalui layanan analitik seperti Google Analytics, termasuk halaman yang dikunjungi, durasi kunjungan, dan perangkat yang digunakan; (b) Data cookie dan teknologi pelacakan serupa untuk meningkatkan pengalaman pengguna; (c) Informasi yang Anda berikan secara sukarela melalui formulir kontak.`,
     },
     {
       title: "2. Penggunaan Informasi",

@@ -10,14 +10,14 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: { default: "SpecHive — Database Spesifikasi HP", template: "%s | SpecHive" },
+  title: { default: "WebSpec Demo — Database Spesifikasi HP", template: "%s | WebSpec Demo" },
   description: "Temukan dan bandingkan spesifikasi lengkap smartphone terbaru. Database HP terlengkap di Indonesia.",
   keywords: ["spesifikasi hp", "database ponsel", "review smartphone", "harga hp"],
   openGraph: {
     type: "website",
     locale: "id_ID",
-    siteName: "SpecHive",
-    title: "SpecHive — Database Spesifikasi HP",
+    siteName: "WebSpec Demo",
+    title: "WebSpec Demo — Database Spesifikasi HP",
     description: "Temukan dan bandingkan spesifikasi lengkap smartphone terbaru.",
   },
 }
