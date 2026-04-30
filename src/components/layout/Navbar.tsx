@@ -1,18 +1,19 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useState } from "react"
-import { Menu, X, Cpu } from "lucide-react"
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
-  const pathname = usePathname()
-  const [open, setOpen] = useState(false)
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
   const links = [
     { href: "/", label: "Home" },
     { href: "/contact", label: "Contact" },
-  ]
+  ];
 
   return (
     <nav
@@ -32,7 +33,13 @@ export default function Navbar() {
               className="relative flex h-8 w-8 items-center justify-center rounded-lg transall group-hover:scale-105 overflow-hidden"
               style={{ boxShadow: "0 0 16px rgba(201,168,76,0.2)" }}
             >
-              <img src="/images/logo.png" alt="WebSpec Logo" className="w-full h-full object-cover" />
+              <Image
+                src="/images/logo.png"
+                alt="WebSpec Logo"
+                width={32}
+                height={32}
+                className="w-full h-full object-cover"
+              />
             </div>
             <span className="text-lg font-bold tracking-tight">
               WebSpec <span className="gold-text">Demo</span>
@@ -48,7 +55,8 @@ export default function Navbar() {
                 className="px-4 py-2 rounded-lg text-sm font-medium transall"
                 style={{
                   color: pathname === l.href ? "var(--gold)" : "var(--text-2)",
-                  background: pathname === l.href ? "var(--gold-dim)" : "transparent",
+                  background:
+                    pathname === l.href ? "var(--gold-dim)" : "transparent",
                 }}
               >
                 {l.label}
@@ -80,7 +88,9 @@ export default function Navbar() {
               href={l.href}
               onClick={() => setOpen(false)}
               className="px-4 py-3 rounded-lg text-sm font-medium transall"
-              style={{ color: pathname === l.href ? "var(--gold)" : "var(--text-2)" }}
+              style={{
+                color: pathname === l.href ? "var(--gold)" : "var(--text-2)",
+              }}
             >
               {l.label}
             </Link>
@@ -88,5 +98,5 @@ export default function Navbar() {
         </div>
       )}
     </nav>
-  )
+  );
 }
