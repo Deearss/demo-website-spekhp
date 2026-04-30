@@ -53,7 +53,7 @@ export default function HomePage() {
 
         {/* ── Sticky Search Bar ── */}
         <div
-          className="sticky top-16 z-40 w-full px-4 py-4 mb-2"
+          className="sticky top-16 z-40 w-full px-4 pt-4 pb-2 mb-2"
           style={{
             background: "rgba(13,27,42,0.85)",
             backdropFilter: "blur(12px)",
@@ -62,8 +62,13 @@ export default function HomePage() {
             marginTop: "-1px", // Seamless connection to hero
           }}
         >
-          <div className="mx-auto max-w-2xl">
+          <div className="mx-auto max-w-2xl flex flex-col gap-2">
             <SearchBar value={search} onChange={setSearch} />
+            <div className="px-1 flex items-center justify-between">
+              <p className="text-[11px] font-medium text-text-3">
+                {phones.length} hasil ditemukan
+              </p>
+            </div>
           </div>
         </div>
 
@@ -95,23 +100,7 @@ export default function HomePage() {
             </aside>
 
             {/* Center: phone grid */}
-            <div className="flex-1 min-w-0 max-w-7xl relative">
-              <div
-                className="sticky top-37.25 z-30 py-2.5 -mt-2 mb-4 px-2 sm:px-0"
-                style={{
-                  background: "rgba(13,27,42,0.9)",
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-                  // borderBottom: "1px solid var(--border)",
-                }}
-              >
-                <p
-                  className="text-xs font-medium"
-                  style={{ color: "var(--text-3)" }}
-                >
-                  {phones.length} hasil ditemukan
-                </p>
-              </div>
+            <div className="flex-1 min-w-0 max-w-7xl pt-1">
               <PhoneGrid phones={phones} />
             </div>
 
