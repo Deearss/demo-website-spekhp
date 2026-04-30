@@ -26,60 +26,66 @@ export default function HomePage() {
     <>
       <Navbar />
       <main className="flex-1">
-        {/* Hero / Search section */}
+
+        {/* ── Hero / Search ── */}
         <section
-          className="w-full py-14 px-4"
+          className="w-full py-16 px-4"
           style={{
-            background:
-              "linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)",
+            background: "linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)",
             borderBottom: "1px solid var(--border)",
           }}
         >
-          <div className="mx-auto max-w-3xl flex flex-col items-center gap-6 text-center">
+          <div className="mx-auto max-w-2xl flex flex-col items-center gap-6 text-center">
             <div>
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
                 Database <span className="gold-text">Spesifikasi HP</span>
               </h1>
-              <p
-                className="mt-2 text-sm sm:text-base"
-                style={{ color: "var(--text-2)" }}
-              >
-                Temukan spesifikasi lengkap {allPhones.length}+ smartphone dari
-                berbagai brand terkemuka
+              <p className="mt-3 text-sm sm:text-base" style={{ color: "var(--text-2)" }}>
+                Temukan spesifikasi lengkap {allPhones.length}+ smartphone dari berbagai brand terkemuka
               </p>
             </div>
             <SearchBar value={search} onChange={setSearch} />
           </div>
         </section>
 
-        {/* Ad leaderboard */}
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6">
-          <AdBanner slot="leaderboard" />
+        {/* ── Leaderboard Ad (full width, centered) ── */}
+        <div className="w-full px-4 sm:px-8 py-4" style={{ background: "var(--bg-2)", borderBottom: "1px solid var(--border-2)" }}>
+          <div className="mx-auto max-w-[728px]">
+            <AdBanner slot="leaderboard" />
+          </div>
         </div>
 
-        {/* Brand filter */}
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6">
+        {/* ── Brand Filter ── */}
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-5">
           <BrandFilter brands={allBrands} active={brand} onSelect={setBrand} />
         </div>
 
-        {/* Main content: grid + sidebar */}
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6 pb-16">
-          <div className="flex gap-6 items-start">
-            {/* Phone grid */}
-            <div className="flex-1 min-w-0">
-              <p className="text-xs mb-4" style={{ color: "var(--text-3)" }}>
+        {/* ── 3-Column Layout: Left Ad | Content | Right Ad ── */}
+        <div className="w-full px-4 sm:px-6 lg:px-8 pb-20">
+          <div className="mx-auto max-w-screen-xl flex gap-6 items-start justify-center">
+
+            {/* Left sidebar ad */}
+            <aside className="hidden xl:flex flex-col gap-4 w-[160px] shrink-0 sticky top-24">
+              <AdBanner slot="mpu-top" />
+            </aside>
+
+            {/* Center: phone grid */}
+            <div className="flex-1 min-w-0 max-w-5xl">
+              <p className="text-xs mb-4 mt-1" style={{ color: "var(--text-3)" }}>
                 {phones.length} hasil ditemukan
               </p>
               <PhoneGrid phones={phones} />
             </div>
 
-            {/* Sidebar ads */}
-            <aside className="hidden lg:flex flex-col gap-4 w-75 shrink-0 sticky top-24">
+            {/* Right sidebar ad */}
+            <aside className="hidden lg:flex flex-col gap-4 w-[160px] xl:w-[300px] shrink-0 sticky top-24">
               <AdBanner slot="mpu-top" />
               <AdBanner slot="mpu-sticky" />
             </aside>
+
           </div>
         </div>
+
       </main>
       <Footer />
       <CookieBanner />

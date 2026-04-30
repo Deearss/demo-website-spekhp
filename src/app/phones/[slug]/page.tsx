@@ -40,12 +40,25 @@ export default async function PhoneDetailPage({ params }: Props) {
     <>
       <Navbar />
       <main className="flex-1">
-        {/* Ad leaderboard */}
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6">
-          <AdBanner slot="leaderboard" />
+
+        {/* Leaderboard Ad */}
+        <div className="w-full px-4 sm:px-8 py-4" style={{ background: "var(--bg-2)", borderBottom: "1px solid var(--border-2)" }}>
+          <div className="mx-auto max-w-[728px]">
+            <AdBanner slot="leaderboard" />
+          </div>
         </div>
 
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6 pb-16">
+        {/* 3-column wrapper */}
+        <div className="w-full px-4 sm:px-6 lg:px-8 pb-20 pt-6">
+          <div className="mx-auto max-w-screen-xl flex gap-6 items-start justify-center">
+
+            {/* Left sidebar ad */}
+            <aside className="hidden xl:flex flex-col gap-4 w-[160px] shrink-0 sticky top-24">
+              <AdBanner slot="mpu-top" />
+            </aside>
+
+            {/* Center content */}
+            <div className="flex-1 min-w-0 max-w-4xl">
           {/* Back */}
           <Link
             href="/"
@@ -144,18 +157,13 @@ export default async function PhoneDetailPage({ params }: Props) {
             </div>
           </div>
 
-          {/* Content + sidebar */}
-          <div className="flex gap-6 items-start">
-            <div className="flex-1 min-w-0">
+              {/* Spec table */}
               <SpecTable specs={phone.specs} />
 
-              {/* Related */}
+              {/* Related phones */}
               {related.length > 0 && (
-                <div className="mt-10">
-                  <h2
-                    className="text-lg font-bold mb-4"
-                    style={{ color: "var(--text)" }}
-                  >
+                <div className="mt-12">
+                  <h2 className="text-lg font-bold mb-4" style={{ color: "var(--text)" }}>
                     HP {phone.brand} Lainnya
                   </h2>
                   <PhoneGrid phones={related} />
@@ -167,11 +175,12 @@ export default async function PhoneDetailPage({ params }: Props) {
               </div>
             </div>
 
-            {/* Sidebar */}
-            <aside className="hidden lg:flex flex-col gap-4 w-75 shrink-0 sticky top-24">
+            {/* Right sidebar ad */}
+            <aside className="hidden lg:flex flex-col gap-4 w-[160px] xl:w-[300px] shrink-0 sticky top-24">
               <AdBanner slot="mpu-top" />
               <AdBanner slot="mpu-sticky" />
             </aside>
+
           </div>
         </div>
       </main>
