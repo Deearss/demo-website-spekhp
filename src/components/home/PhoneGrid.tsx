@@ -53,7 +53,7 @@ export default function PhoneGrid({ phones, isLoading }: Props) {
         <Link
           key={phone.slug}
           href={`/phones/${phone.slug}`}
-          className="group flex flex-col rounded-xl overflow-hidden card-hover bg-surface/0 border border-white/10"
+          className="group flex flex-col rounded-xl overflow-hidden card-hover bg-surface border border-white/10"
         >
           {/* Image */}
           <div className="relative w-full aspect-square overflow-hidden bg-bg-2">
@@ -67,12 +67,12 @@ export default function PhoneGrid({ phones, isLoading }: Props) {
           </div>
 
           {/* Info */}
-          <div className="flex flex-col gap-2 p-2">
+          <div className="flex flex-col gap-2 py-3 px-2">
             <div>
               <p className="text-[10px] font-medium uppercase tracking-widest text-gold">
                 {phone.brand}
               </p>
-              <p className="text-sm font-semibold leading-snug mt-0.5 line-clamp-2 text-text">
+              <p className="text-sm font-semibold leading-snug mt-0.5 line-clamp-1 text-text">
                 {phone.name}
               </p>
             </div>
