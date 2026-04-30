@@ -29,10 +29,10 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
             <div
-              className="flex h-8 w-8 items-center justify-center rounded-lg transall group-hover:scale-105"
-              style={{ background: "var(--gold)", boxShadow: "0 0 16px rgba(201,168,76,0.4)" }}
+              className="relative flex h-8 w-8 items-center justify-center rounded-lg transall group-hover:scale-105 overflow-hidden"
+              style={{ boxShadow: "0 0 16px rgba(201,168,76,0.2)" }}
             >
-              <Cpu size={16} className="text-[#0D1B2A]" />
+              <img src="/images/logo.png" alt="WebSpec Logo" className="w-full h-full object-cover" />
             </div>
             <span className="text-lg font-bold tracking-tight">
               WebSpec <span className="gold-text">Demo</span>
