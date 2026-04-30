@@ -49,7 +49,7 @@ export default function PhoneGrid({ phones, isLoading }: Props) {
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5">
-      {phones.map((phone) => (
+      {phones.map((phone, index) => (
         <Link
           key={phone.slug}
           href={`/phones/${phone.slug}`}
@@ -61,6 +61,7 @@ export default function PhoneGrid({ phones, isLoading }: Props) {
               src={phone.image}
               alt={phone.name}
               fill
+              priority={index < 10}
               sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 20vw"
               className="object-contain p-0 transall group-hover:scale-105"
             />
