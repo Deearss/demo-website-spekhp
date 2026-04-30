@@ -15,7 +15,23 @@
 - [x] Initial git commit
 
 ### Pending
-- [ ] Project purpose defined by Dier
-- [ ] Update metadata (title, description) in `layout.tsx`
-- [ ] Replace placeholder favicon with custom logo 🗿
-- [ ] Fill `.env` with actual credentials once Dier provides them
+- [ ] Revisi dari Dier setelah review visual
+- [ ] Ganti placeholder foto HP dengan foto asli (opsional — tergantung kebutuhan demo)
+- [ ] Deploy ke Netlify (tunggu instruksi Dier)
+- [ ] Update metadata site name jika nama "SpecHive" berubah
+- [ ] Replace favicon default Vercel dengan logo custom 🗿
+
+---
+
+## [2026-04-30] — Build Website Demo Lengkap ✅
+
+### Done
+- [x] `src/types/phone.ts` — TypeScript types Phone + PhoneSpecs
+- [x] `scripts/generate-phones.mjs` — script generasi 50 HP mock data (8 brand, iteratif)
+- [x] `data/phones.json` — 50 HP: Samsung(12), Apple(10), Xiaomi(8), OPPO(6), Vivo(5), Realme(4), OnePlus(3), Google(2)
+- [x] `src/lib/api.ts` — getPhones, getPhoneBySlug, getBrands, getRelatedPhones
+- [x] Komponen: Navbar, Footer, SearchBar, BrandFilter, PhoneGrid, SpecTable, AdBanner, CookieBanner, ContactForm
+- [x] Pages: `/`, `/phones/[slug]`, `/terms`, `/privacy`, `/contact`
+- [x] Design: Navy + Gold, Inter font, glass effects, card hover animations
+- [x] Build: ✅ sukses, 0 TypeScript errors
+- [x] Git commit
