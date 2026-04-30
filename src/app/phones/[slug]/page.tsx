@@ -61,6 +61,8 @@ export default async function PhoneDetailPage({ params }: Props) {
             {/* Left sidebar ad */}
             <aside className="hidden xl:flex flex-col gap-4 w-40 shrink-0 sticky top-24">
               <AdBanner slot="mpu-top" />
+              <AdBanner slot="mpu-top" />
+              <AdBanner slot="mpu-top" />
             </aside>
 
             {/* Center content */}
