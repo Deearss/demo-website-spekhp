@@ -1,40 +1,40 @@
-import { notFound } from "next/navigation"
-import type { Metadata } from "next"
-import Image from "next/image"
-import Link from "next/link"
-import { Battery, Camera, Cpu, Monitor, ArrowLeft } from "lucide-react"
-import Navbar from "@/components/layout/Navbar"
-import Footer from "@/components/layout/Footer"
-import SpecTable from "@/components/detail/SpecTable"
-import AdBanner from "@/components/shared/AdBanner"
-import PhoneGrid from "@/components/home/PhoneGrid"
-import { getPhoneBySlug, getRelatedPhones } from "@/lib/api"
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { Battery, Camera, Cpu, Monitor, ArrowLeft } from "lucide-react";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import SpecTable from "@/components/detail/SpecTable";
+import AdBanner from "@/components/shared/AdBanner";
+import PhoneGrid from "@/components/home/PhoneGrid";
+import { getPhoneBySlug, getRelatedPhones } from "@/lib/api";
 
-type Props = { params: Promise<{ slug: string }> }
+type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
-  const phone = getPhoneBySlug(slug)
-  if (!phone) return { title: "HP Tidak Ditemukan" }
+  const { slug } = await params;
+  const phone = getPhoneBySlug(slug);
+  if (!phone) return { title: "HP Tidak Ditemukan" };
   return {
     title: phone.name,
     description: `Spesifikasi lengkap ${phone.name}: ${phone.specs.chipset}, ${phone.mainCameraMP} kamera, ${phone.batteryMah} baterai.`,
-  }
+  };
 }
 
 export default async function PhoneDetailPage({ params }: Props) {
-  const { slug } = await params
-  const phone = getPhoneBySlug(slug)
-  if (!phone) notFound()
+  const { slug } = await params;
+  const phone = getPhoneBySlug(slug);
+  if (!phone) notFound();
 
-  const related = getRelatedPhones(slug, phone.brand)
+  const related = getRelatedPhones(slug, phone.brand);
 
   const heroStats = [
     { icon: <Monitor size={16} />, label: "Layar", val: phone.displayInches },
     { icon: <Camera size={16} />, label: "Kamera", val: phone.mainCameraMP },
     { icon: <Cpu size={16} />, label: "RAM / Chip", val: phone.ramChipset },
     { icon: <Battery size={16} />, label: "Baterai", val: phone.batteryMah },
-  ]
+  ];
 
   return (
     <>
@@ -59,7 +59,10 @@ export default async function PhoneDetailPage({ params }: Props) {
           {/* Hero */}
           <div
             className="rounded-2xl p-6 sm:p-8 mb-6 flex flex-col sm:flex-row gap-8 items-center sm:items-start"
-            style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+            style={{
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+            }}
           >
             {/* Image */}
             <div
@@ -82,7 +85,10 @@ export default async function PhoneDetailPage({ params }: Props) {
                 <span className="text-xs font-bold uppercase tracking-widest gold-text">
                   {phone.brand}
                 </span>
-                <h1 className="text-2xl sm:text-3xl font-bold mt-1" style={{ color: "var(--text)" }}>
+                <h1
+                  className="text-2xl sm:text-3xl font-bold mt-1"
+                  style={{ color: "var(--text)" }}
+                >
                   {phone.name}
                 </h1>
                 <p className="text-sm mt-1" style={{ color: "var(--text-3)" }}>
@@ -96,13 +102,22 @@ export default async function PhoneDetailPage({ params }: Props) {
                   <div
                     key={s.label}
                     className="flex flex-col gap-1.5 rounded-xl p-3"
-                    style={{ background: "var(--bg-3)", border: "1px solid var(--border-2)" }}
+                    style={{
+                      background: "var(--bg-3)",
+                      border: "1px solid var(--border-2)",
+                    }}
                   >
                     <span style={{ color: "var(--gold)" }}>{s.icon}</span>
-                    <span className="text-[10px] uppercase tracking-wider" style={{ color: "var(--text-3)" }}>
+                    <span
+                      className="text-[10px] uppercase tracking-wider"
+                      style={{ color: "var(--text-3)" }}
+                    >
                       {s.label}
                     </span>
-                    <span className="text-sm font-semibold" style={{ color: "var(--text)" }}>
+                    <span
+                      className="text-sm font-semibold"
+                      style={{ color: "var(--text)" }}
+                    >
                       {s.val}
                     </span>
                   </div>
@@ -113,10 +128,17 @@ export default async function PhoneDetailPage({ params }: Props) {
               {phone.specs.priceIDR && (
                 <div
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-xl w-fit"
-                  style={{ background: "var(--gold-dim)", border: "1px solid var(--border)" }}
+                  style={{
+                    background: "var(--gold-dim)",
+                    border: "1px solid var(--border)",
+                  }}
                 >
-                  <span className="text-xs" style={{ color: "var(--text-3)" }}>Estimasi Harga</span>
-                  <span className="text-base font-bold gold-text">{phone.specs.priceIDR}</span>
+                  <span className="text-xs" style={{ color: "var(--text-3)" }}>
+                    Estimasi Harga
+                  </span>
+                  <span className="text-base font-bold gold-text">
+                    {phone.specs.priceIDR}
+                  </span>
                 </div>
               )}
             </div>
@@ -130,7 +152,10 @@ export default async function PhoneDetailPage({ params }: Props) {
               {/* Related */}
               {related.length > 0 && (
                 <div className="mt-10">
-                  <h2 className="text-lg font-bold mb-4" style={{ color: "var(--text)" }}>
+                  <h2
+                    className="text-lg font-bold mb-4"
+                    style={{ color: "var(--text)" }}
+                  >
                     HP {phone.brand} Lainnya
                   </h2>
                   <PhoneGrid phones={related} />
@@ -143,7 +168,7 @@ export default async function PhoneDetailPage({ params }: Props) {
             </div>
 
             {/* Sidebar */}
-            <aside className="hidden lg:flex flex-col gap-4 w-[300px] shrink-0 sticky top-24">
+            <aside className="hidden lg:flex flex-col gap-4 w-75 shrink-0 sticky top-24">
               <AdBanner slot="mpu-top" />
               <AdBanner slot="mpu-sticky" />
             </aside>
@@ -152,5 +177,5 @@ export default async function PhoneDetailPage({ params }: Props) {
       </main>
       <Footer />
     </>
-  )
+  );
 }
