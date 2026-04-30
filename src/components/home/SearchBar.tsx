@@ -15,7 +15,8 @@ export default function SearchBar({ value, onChange }: Props) {
 
   // Sync external value changes (e.g., clear from parent)
   useEffect(() => {
-    setLocalValue(value);
+    const timer = setTimeout(() => setLocalValue(value), 0);
+    return () => clearTimeout(timer);
   }, [value]);
 
   // Debounce user typing

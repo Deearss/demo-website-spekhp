@@ -11,7 +11,7 @@ type Props = {
 export default function PhoneGrid({ phones, isLoading }: Props) {
   if (isLoading) {
     return (
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5">
         {Array.from({ length: 10 }).map((_, i) => (
           <div
             key={i}
@@ -48,12 +48,12 @@ export default function PhoneGrid({ phones, isLoading }: Props) {
   }
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5">
       {phones.map((phone) => (
         <Link
           key={phone.slug}
           href={`/phones/${phone.slug}`}
-          className="group flex flex-col rounded-xl overflow-hidden card-hover bg-surface border border-white/10"
+          className="group flex flex-col rounded-xl overflow-hidden card-hover bg-surface/0 border border-white/10"
         >
           {/* Image */}
           <div className="relative w-full aspect-square overflow-hidden bg-bg-2">
@@ -67,7 +67,7 @@ export default function PhoneGrid({ phones, isLoading }: Props) {
           </div>
 
           {/* Info */}
-          <div className="flex flex-col gap-2 p-3">
+          <div className="flex flex-col gap-2 p-2">
             <div>
               <p className="text-[10px] font-medium uppercase tracking-widest text-gold">
                 {phone.brand}
