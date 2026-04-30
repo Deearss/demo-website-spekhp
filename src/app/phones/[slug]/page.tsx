@@ -74,96 +74,56 @@ export default async function PhoneDetailPage({ params }: Props) {
               </Link>
 
               {/* Hero */}
-              <div
-                className="rounded-2xl p-6 sm:p-8 mb-6 flex flex-col sm:flex-row gap-8 items-center sm:items-start"
-                style={{
-                  background: "var(--surface)",
-                  border: "1px solid var(--border)",
-                }}
-              >
+              <div className="mb-12 flex flex-col sm:flex-row gap-8 sm:gap-10 items-center sm:items-start pt-4">
                 {/* Image */}
-                <div
-                  className="relative w-52 h-52 shrink-0 rounded-xl overflow-hidden"
-                  style={{ background: "var(--bg-2)" }}
-                >
+                <div className="relative w-48 h-48 sm:w-64 sm:h-64 shrink-0 rounded-2xl overflow-hidden bg-bg-2">
                   <Image
                     src={phone.image}
                     alt={phone.name}
                     fill
-                    sizes="208px"
-                    className="object-contain p-4"
+                    sizes="(max-width: 640px) 192px, 256px"
+                    className="object-contain p-6"
                     priority
                   />
                 </div>
 
                 {/* Info */}
-                <div className="flex flex-col gap-4 flex-1">
+                <div className="flex flex-col gap-6 flex-1 pt-2 w-full text-center sm:text-left">
                   <div>
-                    <span className="text-xs font-bold uppercase tracking-widest gold-text">
+                    <span className="text-xs font-bold uppercase tracking-widest text-gold">
                       {phone.brand}
                     </span>
-                    <h1
-                      className="text-2xl sm:text-3xl font-bold mt-1"
-                      style={{ color: "var(--text)" }}
-                    >
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-1 text-text">
                       {phone.name}
                     </h1>
-                    <p
-                      className="text-sm mt-1"
-                      style={{ color: "var(--text-3)" }}
-                    >
+                    <p className="text-sm mt-2 text-text-3">
                       Dirilis {phone.releaseYear}
                     </p>
                   </div>
 
+                  {/* Price */}
+                  {phone.specs.priceIDR && (
+                    <div className="text-xl sm:text-2xl font-bold text-gold">
+                      {phone.specs.priceIDR}
+                    </div>
+                  )}
+
                   {/* Hero stats */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-8 mt-2">
                     {heroStats.map((s) => (
-                      <div
-                        key={s.label}
-                        className="flex flex-col gap-1.5 rounded-xl p-3"
-                        style={{
-                          background: "var(--bg-3)",
-                          border: "1px solid var(--border-2)",
-                        }}
-                      >
-                        <span style={{ color: "var(--gold)" }}>{s.icon}</span>
-                        <span
-                          className="text-[10px] uppercase tracking-wider"
-                          style={{ color: "var(--text-3)" }}
-                        >
-                          {s.label}
-                        </span>
-                        <span
-                          className="text-sm font-semibold"
-                          style={{ color: "var(--text)" }}
-                        >
+                      <div key={s.label} className="flex flex-col gap-1.5 min-w-[80px]">
+                        <div className="flex items-center justify-center sm:justify-start gap-1.5 text-text-3">
+                          {s.icon}
+                          <span className="text-[10px] uppercase tracking-wider">
+                            {s.label}
+                          </span>
+                        </div>
+                        <span className="text-sm sm:text-base font-medium text-text">
                           {s.val}
                         </span>
                       </div>
                     ))}
                   </div>
-
-                  {/* Price */}
-                  {phone.specs.priceIDR && (
-                    <div
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl w-fit"
-                      style={{
-                        background: "var(--gold-dim)",
-                        border: "1px solid var(--border)",
-                      }}
-                    >
-                      <span
-                        className="text-xs"
-                        style={{ color: "var(--text-3)" }}
-                      >
-                        Estimasi Harga
-                      </span>
-                      <span className="text-base font-bold gold-text">
-                        {phone.specs.priceIDR}
-                      </span>
-                    </div>
-                  )}
                 </div>
               </div>
 

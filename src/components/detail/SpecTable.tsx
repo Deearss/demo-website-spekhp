@@ -96,41 +96,27 @@ const sections: { title: string; rows: { label: string; key: keyof PhoneSpecs }[
 
 export default function SpecTable({ specs }: Props) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col border-t border-white/5 mt-4">
       {sections.map((section) => (
         <div
           key={section.title}
-          className="overflow-hidden rounded-xl"
-          style={{ border: "1px solid var(--border-2)" }}
+          className="flex flex-col lg:flex-row py-6 border-b border-white/5"
         >
           {/* Section header */}
-          <div
-            className="px-4 py-2.5"
-            style={{ background: "var(--bg-3)", borderBottom: "1px solid var(--border)" }}
-          >
-            <span className="text-xs font-bold uppercase tracking-widest gold-text">
+          <div className="w-full lg:w-48 shrink-0 mb-4 lg:mb-0">
+            <span className="text-xs font-bold uppercase tracking-widest text-gold">
               {section.title}
             </span>
           </div>
 
           {/* Rows */}
-          <div style={{ background: "var(--surface)" }}>
-            {section.rows.map((row, i) => (
-              <div
-                key={row.key}
-                className="flex px-4 py-3 text-sm gap-4"
-                style={{
-                  borderTop: i > 0 ? "1px solid var(--border-2)" : undefined,
-                  background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.02)",
-                }}
-              >
-                <span
-                  className="w-36 shrink-0 font-medium text-xs pt-0.5"
-                  style={{ color: "var(--text-3)" }}
-                >
+          <div className="flex-1 flex flex-col gap-4">
+            {section.rows.map((row) => (
+              <div key={row.key} className="flex flex-col sm:flex-row sm:gap-6">
+                <span className="w-full sm:w-40 shrink-0 text-sm font-medium text-text-3">
                   {row.label}
                 </span>
-                <span style={{ color: "var(--text)" }}>
+                <span className="text-sm text-text mt-0.5 sm:mt-0">
                   {specs[row.key] || "—"}
                 </span>
               </div>
