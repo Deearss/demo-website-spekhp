@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { useToastStore } from "@/store/useToastStore";
 import { adminCheckSlug } from "@/lib/admin-api";
+import KeyTip from "@/components/shared/KeyTip";
 
 type PhoneFormProps = {
   mode: "create" | "edit";
@@ -780,16 +781,18 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
       <div className="sticky bottom-4 z-40 flex items-center justify-end gap-4 p-4 mt-8 bg-surface/80 backdrop-blur-md border border-surface-2 rounded-xl shadow-xl">
         <Link
           href="/admin/phones"
-          className="flex items-center gap-2 bg-surface-2 hover:bg-surface text-text font-medium px-6 py-2.5 rounded-lg border border-surface-2 transition-colors"
+          className="relative flex items-center gap-2 bg-surface-2 hover:bg-surface text-text font-medium px-6 py-2.5 rounded-lg border border-surface-2 transition-colors"
         >
+          <KeyTip label="b" />
           <X size={18} />
           Batal
         </Link>
         <button
           type="submit"
           disabled={isLoading}
-          className="flex items-center gap-2 bg-gold hover:bg-gold-light text-bg-2 font-bold px-6 py-2.5 rounded-lg transition-colors disabled:opacity-50"
+          className="relative flex items-center gap-2 bg-gold hover:bg-gold-light text-bg-2 font-bold px-6 py-2.5 rounded-lg transition-colors disabled:opacity-50"
         >
+          <KeyTip label="s" />
           <Save size={18} />
           {isLoading ? "Menyimpan..." : "Simpan Data"}
         </button>

@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import type { Phone } from "@/types/phone";
 import { useToastStore } from "@/store/useToastStore";
 import DropdownSelect from "@/components/shared/DropdownSelect";
+import KeyTip from "@/components/shared/KeyTip";
 
 const PAGE_SIZE = 15;
 type SortKey = "name" | "brand" | "releaseYear" | "createdAt";
@@ -150,6 +151,7 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex gap-4 w-full sm:w-auto">
           <div className="relative w-full sm:w-64">
+            <KeyTip label="f" />
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-3" size={16} />
             <input
               type="text"
@@ -168,8 +170,9 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
 
         <Link
           href="/admin/phones/new"
-          className="flex items-center gap-2 bg-surface hover:bg-surface-2 border border-surface-2 rounded-lg text-text font-bold px-4 py-2 transition-colors text-sm shrink-0"
+          className="relative flex items-center gap-2 bg-surface hover:bg-surface-2 border border-surface-2 rounded-lg text-text font-bold px-4 py-2 transition-colors text-sm shrink-0"
         >
+          <KeyTip label="n" />
           <Plus size={16} />
           Tambah HP
         </Link>

@@ -3,6 +3,7 @@
 import { adminLogout } from "@/lib/admin-api";
 import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
+import KeyTip from "@/components/shared/KeyTip";
 
 export default function AdminNavbar() {
   const router = useRouter();
@@ -21,8 +22,9 @@ export default function AdminNavbar() {
       </div>
       <button
         onClick={handleLogout}
-        className="cursor-pointer flex items-center gap-2 text-sm text-text-3 hover:text-red-400 transition-colors"
+        className="relative cursor-pointer flex items-center gap-2 text-sm text-text-3 hover:text-red-400 transition-colors"
       >
+        <KeyTip label="l" />
         <LogOut size={16} />
         Logout
       </button>

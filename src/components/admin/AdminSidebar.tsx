@@ -4,16 +4,18 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Smartphone } from "lucide-react";
 import clsx from "clsx";
+import KeyTip from "@/components/shared/KeyTip";
 
 export default function AdminSidebar() {
   const pathname = usePathname();
 
   const links = [
-    { href: "/admin", label: "Dashboard", icon: <LayoutDashboard size={18} /> },
+    { href: "/admin", label: "Dashboard", icon: <LayoutDashboard size={18} />, key: "d" },
     {
       href: "/admin/phones",
       label: "Daftar HP",
       icon: <Smartphone size={18} />,
+      key: "p",
     },
   ];
 
@@ -30,12 +32,13 @@ export default function AdminSidebar() {
               key={link.href}
               href={link.href}
               className={clsx(
-                "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all",
+                "relative flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all",
                 isActive
                   ? "bg-surface-2 text-gold"
                   : "text-text-3 hover:text-text hover:bg-surface",
               )}
             >
+              <KeyTip label={link.key} />
               {link.icon}
               {link.label}
             </Link>
