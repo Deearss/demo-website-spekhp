@@ -1,10 +1,7 @@
-import { createClient } from '@supabase/supabase-js'
+import { createBrowserClient } from '@supabase/ssr'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
 
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error('Missing Supabase credentials in .env.local')
-}
-
-export const supabase = createClient(supabaseUrl, supabaseKey)
+// Browser client — dipakai di Client Components
+export const supabase = createBrowserClient(supabaseUrl, supabaseKey)

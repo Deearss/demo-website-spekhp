@@ -14,12 +14,6 @@ export async function adminLogout() {
   await supabase.auth.signOut()
 }
 
-// Cek session aktif
-export async function getSession() {
-  const { data } = await supabase.auth.getSession()
-  return data.session
-}
-
 // Ambil semua HP untuk admin panel
 export async function adminGetPhones(): Promise<Phone[]> {
   const { data, error } = await supabase

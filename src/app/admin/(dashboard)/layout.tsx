@@ -1,4 +1,4 @@
-import { getSession } from "@/lib/admin-api";
+import { getSession } from "@/lib/auth-server";
 import { redirect } from "next/navigation";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import AdminNavbar from "@/components/admin/AdminNavbar";
