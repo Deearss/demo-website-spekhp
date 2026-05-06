@@ -27,6 +27,11 @@ export default function ShortcutHandler() {
       // 3. If mode is active, handle shortcut keys
       if (isAltActive) {
         const key = e.key.toLowerCase();
+        const handledKeys = ["d", "p", "n", "f", "b", "s", "l"];
+
+        if (handledKeys.includes(key)) {
+          e.preventDefault(); // Mencegah karakter masuk ke input (cth: 'f' saat fokus search)
+        }
         
         // Mapping Logic
         switch (key) {
