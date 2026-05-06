@@ -26,3 +26,10 @@ The WebSpec Demo application has been successfully migrated from local JSON to a
 - **Sticky Actions**: "Simpan" dan "Batal" buttons are now sticky at the bottom of the form for easier access on long pages.
 - **Image Preview**: URL Gambar field now shows a live thumbnail with debounce (500ms), with a loading spinner and a "Gagal dimuat" fallback on error.
 - **Real-time Validation**: Critical fields (Slug, Nama, Brand, Tahun Rilis) show inline red border + error messages on invalid input. Slug also checks uniqueness against Supabase (debounced 600ms) and shows a yellow warning or green checkmark.
+- **Table Data Management**:
+  - Implemented client-side **Pagination** (15 items per page) with proper empty states.
+  - Implemented **Column Sorting** (asc/desc) with clickable headers for Name, Brand, Release Year, and Date Added.
+  - Replaced native `<select>` filter with a custom, accessible `DropdownSelect` component.
+- **Admin Dashboard & Navigation**:
+  - Auto-generated **Breadcrumb Navigation** added across Admin Panel routes.
+  - Dashboard upgraded with a new 3-column stats layout (including "Ditambahkan Bulan Ini") and a quick-access "Latest Phones" table with direct Action links.
