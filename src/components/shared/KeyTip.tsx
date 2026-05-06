@@ -10,9 +10,21 @@ export default function KeyTip({
   label: string;
   className?: string;
 }) {
-  const { isAltActive } = useShortcutStore();
+  const { isAltActive, activePrefix } = useShortcutStore();
 
   if (!isAltActive) return null;
+
+  // Logic Hirarki ala Ribbon MS Word:
+  // 1. Kalau gak ada prefix, tampilkan shortcut level 1 (label panjangnya 1)
+  // 2. Kalau ada prefix (misal 'p'), tampilkan yang mulai dengan prefix itu (misal 'pn')
+  const shouldShow = activePrefix
+    ? label.startsWith(activePrefix) && label.length > activePrefix.length
+    : label.length === 1;
+
+  if (!shouldShow) return null;
+
+  // Tampilkan sisa karakternya saja kalau sudah ada prefix (misal 'pn' jadi 'n')
+  const displayLabel = activePrefix ? label.slice(activePrefix.length) : label;
 
   return (
     <span
@@ -23,7 +35,7 @@ export default function KeyTip({
         className,
       )}
     >
-      {label.toUpperCase()}
+      {displayLabel.toUpperCase()}
     </span>
   );
 }
