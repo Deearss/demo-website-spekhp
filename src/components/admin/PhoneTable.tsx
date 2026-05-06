@@ -244,7 +244,7 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
 
         {/* Pagination Footer */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between px-6 py-3 border-t border-surface-2 bg-bg-2/50">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 px-6 py-3 border-t border-surface-2 bg-bg-2/50">
             <p className="text-xs text-text-3">
               {filteredAndSorted.length} HP •{" "}
               halaman {safePage} dari {totalPages}
