@@ -1,0 +1,138 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Search, Edit, Trash2, Plus } from "lucide-react";
+import { adminDeletePhone } from "@/lib/admin-api";
+import { useRouter } from "next/navigation";
+import type { Phone } from "@/types/phone";
+
+export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }) {
+  const [phones, setPhones] = useState<Phone[]>(initialPhones);
+  const [search, setSearch] = useState("");
+  const [brand, setBrand] = useState("All");
+  const [isDeleting, setIsDeleting] = useState<string | null>(null);
+  const router = useRouter();
+
+  const brands = ["All", ...Array.from(new Set(initialPhones.map(p => p.brand))).sort()];
+
+  const filteredPhones = phones.filter(p => {
+    const matchBrand = brand === "All" || p.brand === brand;
+    const matchSearch = search === "" || p.name.toLowerCase().includes(search.toLowerCase());
+    return matchBrand && matchSearch;
+  });
+
+  const handleDelete = async (slug: string, name: string) => {
+    if (!confirm(`Yakin ingin menghapus ${name}?`)) return;
+    
+    setIsDeleting(slug);
+    try {
+      await adminDeletePhone(slug);
+      setPhones(phones.filter(p => p.slug !== slug));
+      router.refresh();
+    } catch (e) {
+      alert("Gagal menghapus data");
+    } finally {
+      setIsDeleting(null);
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="flex gap-4 w-full sm:w-auto">
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-3" size={16} />
+            <input 
+              type="text"
+              placeholder="Cari nama HP..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full bg-bg-2 border border-border-2 rounded-lg pl-10 pr-4 py-2 text-sm outline-none focus:border-gold transition-colors text-text"
+            />
+          </div>
+          <select
+            value={brand}
+            onChange={(e) => setBrand(e.target.value)}
+            className="bg-bg-2 border border-border-2 rounded-lg px-4 py-2 text-sm outline-none focus:border-gold transition-colors text-text"
+          >
+            {brands.map(b => (
+              <option key={b} value={b}>{b}</option>
+            ))}
+          </select>
+        </div>
+        
+        <Link 
+          href="/admin/phones/new"
+          className="flex items-center gap-2 bg-gold hover:bg-gold-light text-bg-2 font-bold px-4 py-2 rounded-lg transition-colors text-sm shrink-0"
+        >
+          <Plus size={16} />
+          Tambah HP
+        </Link>
+      </div>
+
+      <div className="bg-surface border border-border-2 rounded-xl overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-sm whitespace-nowrap">
+            <thead className="bg-bg-2 text-text-3">
+              <tr>
+                <th className="px-6 py-4 font-medium w-16">No</th>
+                <th className="px-6 py-4 font-medium">Gambar</th>
+                <th className="px-6 py-4 font-medium">Nama HP</th>
+                <th className="px-6 py-4 font-medium">Brand</th>
+                <th className="px-6 py-4 font-medium">Rilis</th>
+                <th className="px-6 py-4 font-medium text-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border-2">
+              {filteredPhones.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="px-6 py-8 text-center text-text-3">Data tidak ditemukan</td>
+                </tr>
+              ) : (
+                filteredPhones.map((phone, i) => (
+                  <tr key={phone.slug} className="hover:bg-bg-2/50 transition-colors">
+                    <td className="px-6 py-4 text-text-3">{i + 1}</td>
+                    <td className="px-6 py-4">
+                      <div className="relative w-10 h-10 bg-bg rounded p-1">
+                        <Image 
+                          src={phone.image || "https://via.placeholder.com/150"} 
+                          alt={phone.name} 
+                          fill 
+                          className="object-contain" 
+                        />
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 font-medium text-text">{phone.name}</td>
+                    <td className="px-6 py-4 text-text-3">{phone.brand}</td>
+                    <td className="px-6 py-4 text-text-3">{phone.releaseYear}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center justify-end gap-3">
+                        <Link 
+                          href={`/admin/phones/${phone.slug}/edit`}
+                          className="p-1.5 text-text-3 hover:text-gold hover:bg-gold/10 rounded transition-colors"
+                          title="Edit"
+                        >
+                          <Edit size={16} />
+                        </Link>
+                        <button
+                          onClick={() => handleDelete(phone.slug, phone.name)}
+                          disabled={isDeleting === phone.slug}
+                          className="p-1.5 text-text-3 hover:text-red-400 hover:bg-red-400/10 rounded transition-colors disabled:opacity-50"
+                          title="Hapus"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}

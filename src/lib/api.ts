@@ -1,37 +1,60 @@
-import phonesData from "../../data/phones.json"
-import type { Phone, Brand } from "@/types/phone"
+import { supabase } from './supabase'
+import type { Phone, Brand } from '@/types/phone'
+import { mapRowToPhone } from './mappers'
 
-const phones: Phone[] = phonesData as Phone[]
+export async function getPhones(filter?: {
+  brand?: string
+  search?: string
+}): Promise<Phone[]> {
+  let query = supabase.from('phones').select('*')
 
-export function getPhones(filter?: { brand?: string; search?: string }): Phone[] {
-  let result = [...phones]
-
-  if (filter?.brand && filter.brand !== "All") {
-    result = result.filter((p) => p.brand === filter.brand)
+  if (filter?.brand && filter.brand !== 'All') {
+    query = query.eq('brand', filter.brand)
   }
 
   if (filter?.search) {
-    const q = filter.search.toLowerCase()
-    result = result.filter(
-      (p) =>
-        p.name.toLowerCase().includes(q) ||
-        p.brand.toLowerCase().includes(q) ||
-        p.specs.chipset.toLowerCase().includes(q)
-    )
+    query = query.ilike('name', `%${filter.search}%`)
   }
 
-  return result
+  const { data, error } = await query.order('release_year', { ascending: false })
+  if (error) {
+    console.error('Error fetching phones:', error)
+    return []
+  }
+  
+  return data.map(mapRowToPhone)
 }
 
-export function getPhoneBySlug(slug: string): Phone | null {
-  return phones.find((p) => p.slug === slug) ?? null
+export async function getPhoneBySlug(slug: string): Promise<Phone | null> {
+  const { data, error } = await supabase
+    .from('phones')
+    .select('*')
+    .eq('slug', slug)
+    .single()
+
+  if (error || !data) return null
+  return mapRowToPhone(data)
 }
 
-export function getBrands(): Brand[] {
-  const brands = Array.from(new Set(phones.map((p) => p.brand)))
-  return brands
+export async function getBrands(): Promise<Brand[]> {
+  const { data, error } = await supabase
+    .from('phones')
+    .select('brand')
+
+  if (error || !data) return []
+  
+  const brands = Array.from(new Set(data.map((row: any) => row.brand))) as Brand[]
+  return brands.sort()
 }
 
-export function getRelatedPhones(slug: string, brand: string): Phone[] {
-  return phones.filter((p) => p.brand === brand && p.slug !== slug).slice(0, 4)
+export async function getRelatedPhones(slug: string, brand: string): Promise<Phone[]> {
+  const { data, error } = await supabase
+    .from('phones')
+    .select('*')
+    .eq('brand', brand)
+    .neq('slug', slug)
+    .limit(4)
+
+  if (error || !data) return []
+  return data.map(mapRowToPhone)
 }

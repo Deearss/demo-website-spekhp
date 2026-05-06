@@ -11,9 +11,6 @@ import AdBanner from "@/components/shared/AdBanner";
 import CookieBanner from "@/components/shared/CookieBanner";
 import { getPhones, getBrands } from "@/lib/api";
 
-const allPhones = getPhones();
-const allBrands = getBrands();
-
 export default function HomePage() {
   const [search, setSearch] = useState("");
   const [brand, setBrand] = useState("All");
@@ -21,20 +18,24 @@ export default function HomePage() {
   // Simulated loading state
   const [isLoading, setIsLoading] = useState(true);
   const [phones, setPhones] = useState<Phone[]>([]);
+  const [allBrands, setAllBrands] = useState<string[]>([]);
+  const [totalPhones, setTotalPhones] = useState(0);
 
   useEffect(() => {
-    const startTimer = setTimeout(() => setIsLoading(true), 0);
+    getBrands().then(setAllBrands);
+    getPhones().then(p => setTotalPhones(p.length));
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
     const fetchTimer = setTimeout(() => {
-      setPhones(
-        getPhones({ brand: brand === "All" ? undefined : brand, search }),
-      );
-      setIsLoading(false);
+      getPhones({ brand: brand === "All" ? undefined : brand, search }).then(data => {
+        setPhones(data);
+        setIsLoading(false);
+      });
     }, 600); // 600ms delay for realism
 
-    return () => {
-      clearTimeout(startTimer);
-      clearTimeout(fetchTimer);
-    };
+    return () => clearTimeout(fetchTimer);
   }, [search, brand]);
 
   return (
@@ -59,7 +60,7 @@ export default function HomePage() {
                 className="mt-3 text-sm sm:text-base"
                 style={{ color: "var(--text-2)" }}
               >
-                Temukan spesifikasi lengkap {allPhones.length}+ smartphone dari
+                Temukan spesifikasi lengkap {totalPhones > 0 ? totalPhones : "50"}+ smartphone dari
                 berbagai brand terkemuka
               </p>
             </div>

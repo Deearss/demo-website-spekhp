@@ -15,7 +15,7 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const phone = getPhoneBySlug(slug);
+  const phone = await getPhoneBySlug(slug);
   if (!phone) return { title: "HP Tidak Ditemukan" };
   return {
     title: phone.name,
@@ -43,10 +43,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PhoneDetailPage({ params }: Props) {
   const { slug } = await params;
-  const phone = getPhoneBySlug(slug);
+  const phone = await getPhoneBySlug(slug);
   if (!phone) notFound();
 
-  const related = getRelatedPhones(slug, phone.brand);
+  const related = await getRelatedPhones(slug, phone.brand);
 
   const heroStats = [
     { icon: <Monitor size={16} />, label: "Layar", val: phone.displayInches },
