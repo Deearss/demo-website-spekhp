@@ -106,7 +106,8 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
     e: React.ChangeEvent<HTMLInputElement>,
     isSpec: boolean = false,
   ) => {
-    let { name, value } = e.target;
+    const { name } = e.target;
+    let { value } = e.target;
 
     // Sanitize slug: lowercase and replace non-url-friendly chars
     if (name === "slug") {
