@@ -84,9 +84,19 @@ export async function adminGetStats() {
     .order('created_at', { ascending: false })
     .limit(5)
 
+  // HP yang ditambahkan bulan ini
+  const startOfMonth = new Date()
+  startOfMonth.setDate(1)
+  startOfMonth.setHours(0, 0, 0, 0)
+  const { count: thisMonth } = await supabase
+    .from('phones')
+    .select('*', { count: 'exact', head: true })
+    .gte('created_at', startOfMonth.toISOString())
+
   return {
     totalPhones: totalPhones ?? 0,
     totalBrands,
+    thisMonth: thisMonth ?? 0,
     latestPhones: latestPhones ?? []
   }
 }

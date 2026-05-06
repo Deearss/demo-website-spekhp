@@ -6,6 +6,7 @@ import { adminUpdatePhone } from "@/lib/admin-api";
 import { getPhoneBySlug } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import type { Phone } from "@/types/phone";
+import AdminBreadcrumb from "@/components/admin/AdminBreadcrumb";
 
 export default function EditPhonePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
@@ -36,6 +37,7 @@ export default function EditPhonePage({ params }: { params: Promise<{ slug: stri
 
   return (
     <div className="flex flex-col gap-6 max-w-4xl mx-auto">
+      <AdminBreadcrumb phoneName={phone.name} />
       <div>
         <h1 className="text-2xl font-bold text-text mb-1">Edit HP: {phone.name}</h1>
         <p className="text-text-3 text-sm">Perbarui data spesifikasi smartphone</p>
