@@ -14,6 +14,7 @@ type PhoneFormProps = {
 type InputFieldProps = {
   label: string;
   name: string;
+  placeholder?: string;
   isSpec?: boolean;
   type?: string;
   required?: boolean;
@@ -27,6 +28,7 @@ type InputFieldProps = {
 const InputField = ({
   label,
   name,
+  placeholder,
   isSpec = false,
   type = "text",
   required = false,
@@ -43,9 +45,10 @@ const InputField = ({
         type={type}
         name={name}
         required={required}
+        placeholder={placeholder}
         value={value || ""}
         onChange={(e) => handleChange(e, isSpec)}
-        className="bg-bg-2 border border-surface-2 rounded-lg px-3 py-2 text-sm outline-none focus:border-gold transition-colors text-text"
+        className="bg-bg-2 border border-surface-2 rounded-lg px-3 py-2 text-sm outline-none focus:border-gold transition-colors text-text placeholder:text-text-3/50"
       />
     </div>
   );
@@ -146,6 +149,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
             handleChange={handleChange}
             label="Slug (URL-friendly)"
             name="slug"
+            placeholder="cth: samsung-galaxy-s25"
             required
           />
           <InputField
@@ -153,6 +157,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
             handleChange={handleChange}
             label="Brand"
             name="brand"
+            placeholder="cth: Samsung"
             required
           />
           <InputField
@@ -160,6 +165,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
             handleChange={handleChange}
             label="Nama HP"
             name="name"
+            placeholder="cth: Samsung Galaxy S25"
             required
           />
           <InputField
@@ -168,6 +174,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
             label="Tahun Rilis"
             name="releaseYear"
             type="number"
+            placeholder="cth: 2025"
             required
           />
           <div className="sm:col-span-2">
@@ -176,6 +183,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
               handleChange={handleChange}
               label="URL Gambar"
               name="image"
+              placeholder="cth: https://example.com/images/s25.webp"
               required
             />
           </div>
@@ -193,24 +201,28 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
             handleChange={handleChange}
             label="Display Inches"
             name="displayInches"
+            placeholder="cth: 6.7"
           />
           <InputField
             formData={formData}
             handleChange={handleChange}
             label="Main Camera MP"
             name="mainCameraMP"
+            placeholder="cth: 200 MP"
           />
           <InputField
             formData={formData}
             handleChange={handleChange}
             label="RAM / Chipset"
             name="ramChipset"
+            placeholder="cth: 12GB / Snapdragon 8 Gen 4"
           />
           <InputField
             formData={formData}
             handleChange={handleChange}
             label="Battery mAh"
             name="batteryMah"
+            placeholder="cth: 5000 mAh"
           />
         </div>
       </div>
@@ -232,6 +244,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Network"
                 name="network"
+                placeholder="cth: GSM / HSPA / LTE / 5G"
                 isSpec
               />
               <InputField
@@ -239,6 +252,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Announced"
                 name="announced"
+                placeholder="cth: 2025, January"
                 isSpec
               />
               <InputField
@@ -246,6 +260,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Status"
                 name="status"
+                placeholder="cth: Available. Released 2025, February"
                 isSpec
               />
             </div>
@@ -261,6 +276,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Dimensions"
                 name="dimensions"
+                placeholder="cth: 158.0 x 75.8 x 7.8 mm"
                 isSpec
               />
               <InputField
@@ -268,6 +284,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Weight"
                 name="weight"
+                placeholder="cth: 190 g"
                 isSpec
               />
               <InputField
@@ -275,6 +292,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="SIM"
                 name="sim"
+                placeholder="cth: Dual SIM (Nano-SIM)"
                 isSpec
               />
               <InputField
@@ -282,6 +300,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="IP Rating"
                 name="ipRating"
+                placeholder="cth: IP68"
                 isSpec
               />
             </div>
@@ -297,6 +316,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Type"
                 name="displayType"
+                placeholder="cth: Dynamic AMOLED 2X, 120Hz"
                 isSpec
               />
               <InputField
@@ -304,6 +324,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Size"
                 name="displaySize"
+                placeholder="cth: 6.7 inches, 108.4 cm²"
                 isSpec
               />
               <InputField
@@ -311,6 +332,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Resolution"
                 name="resolution"
+                placeholder="cth: 1440 x 3088 pixels, 20:9"
                 isSpec
               />
             </div>
@@ -326,6 +348,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="OS"
                 name="os"
+                placeholder="cth: Android 15, One UI 7"
                 isSpec
               />
               <InputField
@@ -333,6 +356,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Chipset"
                 name="chipset"
+                placeholder="cth: Snapdragon 8 Elite (3 nm)"
                 isSpec
               />
               <InputField
@@ -340,6 +364,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="CPU"
                 name="cpu"
+                placeholder="cth: Octa-core (2x4.47GHz + 6x3.53GHz)"
                 isSpec
               />
               <InputField
@@ -347,6 +372,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="GPU"
                 name="gpu"
+                placeholder="cth: Adreno 830"
                 isSpec
               />
               <InputField
@@ -354,6 +380,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Card Slot"
                 name="cardSlot"
+                placeholder="cth: No / microSDXC"
                 isSpec
               />
               <InputField
@@ -361,6 +388,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Internal"
                 name="internal"
+                placeholder="cth: 256GB 12GB RAM"
                 isSpec
               />
             </div>
@@ -376,6 +404,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Main Camera"
                 name="mainCamera"
+                placeholder="cth: 200 MP, f/1.7, OIS"
                 isSpec
               />
               <InputField
@@ -383,6 +412,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Main Features"
                 name="mainCameraFeatures"
+                placeholder="cth: LED flash, Auto-HDR, panorama"
                 isSpec
               />
               <InputField
@@ -390,6 +420,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Main Video"
                 name="mainCameraVideo"
+                placeholder="cth: 8K@30fps, 4K@120fps"
                 isSpec
               />
               <InputField
@@ -397,6 +428,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Selfie Camera"
                 name="frontCamera"
+                placeholder="cth: 12 MP, f/2.2"
                 isSpec
               />
               <InputField
@@ -404,6 +436,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Selfie Video"
                 name="frontCameraVideo"
+                placeholder="cth: 4K@60fps"
                 isSpec
               />
             </div>
@@ -419,6 +452,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Loudspeaker"
                 name="loudspeaker"
+                placeholder="cth: Yes, with stereo speakers"
                 isSpec
               />
               <InputField
@@ -426,6 +460,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="3.5mm Jack"
                 name="jack35mm"
+                placeholder="cth: No"
                 isSpec
               />
               <InputField
@@ -433,6 +468,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="WLAN"
                 name="wlan"
+                placeholder="cth: Wi-Fi 802.11 a/b/g/n/ac/6e"
                 isSpec
               />
               <InputField
@@ -440,6 +476,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Bluetooth"
                 name="bluetooth"
+                placeholder="cth: 5.4, A2DP, LE"
                 isSpec
               />
               <InputField
@@ -447,6 +484,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="NFC"
                 name="nfc"
+                placeholder="cth: Yes"
                 isSpec
               />
               <InputField
@@ -454,6 +492,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="USB"
                 name="usb"
+                placeholder="cth: USB Type-C 3.2, OTG"
                 isSpec
               />
             </div>
@@ -469,6 +508,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Type"
                 name="batteryType"
+                placeholder="cth: Li-Ion 5000 mAh, non-removable"
                 isSpec
               />
               <InputField
@@ -476,6 +516,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Charging"
                 name="charging"
+                placeholder="cth: 65W wired, 15W wireless"
                 isSpec
               />
               <InputField
@@ -483,6 +524,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Colors"
                 name="colors"
+                placeholder="cth: Icy Blue, Midnight Black"
                 isSpec
               />
               <InputField
@@ -490,6 +532,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                 handleChange={handleChange}
                 label="Price (IDR)"
                 name="priceIDR"
+                placeholder="cth: Rp 14.999.000"
                 isSpec
               />
             </div>
