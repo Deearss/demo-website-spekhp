@@ -32,6 +32,32 @@ function SortIcon({ col, sortKey, sortDir }: { col: SortKey; sortKey: SortKey; s
     : <ChevronDown size={14} className="text-gold" />;
 }
 
+function SortTh({
+  col,
+  label,
+  sortKey,
+  sortDir,
+  onSort,
+}: {
+  col: SortKey;
+  label: string;
+  sortKey: SortKey;
+  sortDir: SortDir;
+  onSort: (col: SortKey) => void;
+}) {
+  return (
+    <th
+      className="px-6 py-4 font-medium cursor-pointer select-none hover:text-text transition-colors"
+      onClick={() => onSort(col)}
+    >
+      <div className="flex items-center gap-1.5">
+        {label}
+        <SortIcon col={col} sortKey={sortKey} sortDir={sortDir} />
+      </div>
+    </th>
+  );
+}
+
 export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }) {
   const [phones, setPhones] = useState<Phone[]>(initialPhones);
   const [search, setSearch] = useState("");
@@ -110,17 +136,6 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
     }
   };
 
-  const SortTh = ({ col, label }: { col: SortKey; label: string }) => (
-    <th
-      className="px-6 py-4 font-medium cursor-pointer select-none hover:text-text transition-colors"
-      onClick={() => handleSort(col)}
-    >
-      <div className="flex items-center gap-1.5">
-        {label}
-        <SortIcon col={col} sortKey={sortKey} sortDir={sortDir} />
-      </div>
-    </th>
-  );
 
   return (
     <div className="flex flex-col gap-6">
@@ -165,9 +180,9 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
               <tr>
                 <th className="px-6 py-4 font-medium w-16">No</th>
                 <th className="px-6 py-4 font-medium">Gambar</th>
-                <SortTh col="name" label="Nama HP" />
-                <SortTh col="brand" label="Brand" />
-                <SortTh col="releaseYear" label="Rilis" />
+                <SortTh col="name" label="Nama HP" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                <SortTh col="brand" label="Brand" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                <SortTh col="releaseYear" label="Rilis" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
                 <th className="px-6 py-4 font-medium text-right">Aksi</th>
               </tr>
             </thead>
