@@ -1,4 +1,0 @@
-
-> demo-website-spekhp@0.1.0 lint
-> eslint
-
