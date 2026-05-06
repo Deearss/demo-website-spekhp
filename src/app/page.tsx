@@ -27,7 +27,7 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    setIsLoading(true);
+    const loadingTimer = setTimeout(() => setIsLoading(true), 0);
     const fetchTimer = setTimeout(() => {
       getPhones({ brand: brand === "All" ? undefined : brand, search }).then(data => {
         setPhones(data);
@@ -35,7 +35,10 @@ export default function HomePage() {
       });
     }, 600); // 600ms delay for realism
 
-    return () => clearTimeout(fetchTimer);
+    return () => {
+      clearTimeout(loadingTimer);
+      clearTimeout(fetchTimer);
+    };
   }, [search, brand]);
 
   return (

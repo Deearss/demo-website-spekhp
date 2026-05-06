@@ -31,7 +31,8 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
       await adminDeletePhone(slug);
       setPhones(phones.filter(p => p.slug !== slug));
       router.refresh();
-    } catch (e) {
+    } catch (err) {
+      console.error("Delete error:", err);
       alert("Gagal menghapus data");
     } finally {
       setIsDeleting(null);

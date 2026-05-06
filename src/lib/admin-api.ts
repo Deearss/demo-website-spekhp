@@ -74,7 +74,7 @@ export async function adminGetStats() {
     .from('phones')
     .select('brand')
 
-  const totalBrands = new Set(brands?.map((b: any) => b.brand)).size
+  const totalBrands = new Set(brands?.map((b: { brand: string }) => b.brand)).size
 
   const { data: latestPhones } = await supabase
     .from('phones')

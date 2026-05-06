@@ -46,7 +46,7 @@ export default async function AdminDashboard() {
                   <td colSpan={3} className="px-6 py-8 text-center text-text-3">Belum ada data</td>
                 </tr>
               ) : (
-                stats.latestPhones.map((phone: any) => (
+                stats.latestPhones.map((phone: { slug: string; name: string; brand: string; image: string }) => (
                   <tr key={phone.slug} className="hover:bg-bg-2/50 transition-colors">
                     <td className="px-6 py-3">
                       <div className="relative w-10 h-10 bg-bg rounded p-1">

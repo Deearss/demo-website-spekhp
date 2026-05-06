@@ -1,0 +1,1262 @@
+
+> demo-website-spekhp@0.1.0 lint
+> eslint
+
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/scripts/seed.ts
+  44:39  error    Unexpected any. Specify a different type   @typescript-eslint/no-explicit-any
+  87:11  warning  'data' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/app/admin/(dashboard)/page.tsx
+  49:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/app/admin/(dashboard)/phones/[slug]/edit/page.tsx
+  23:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/app/admin/(dashboard)/phones/new/page.tsx
+  10:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/app/admin/login/page.tsx
+  23:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/app/page.tsx
+  30:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/app/page.tsx:30:5
+  28 |
+  29 |   useEffect(() => {
+> 30 |     setIsLoading(true);
+     |     ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  31 |     const fetchTimer = setTimeout(() => {
+  32 |       getPhones({ brand: brand === "All" ? undefined : brand, search }).then(data => {
+  33 |         setPhones(data);  react-hooks/set-state-in-effect
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx
+   14:37  warning  'mode' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   90:89  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+   91:47  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+   91:73  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  113:12  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:113:12
+  111 |         <h3 className="text-lg font-bold text-text mb-4 border-b border-border-2 pb-2">Info Utama</h3>
+  112 |         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+> 113 |           <InputField label="Slug (URL-friendly)" name="slug" required />
+      |            ^^^^^^^^^^ This component is created during render
+  114 |           <InputField label="Brand" name="brand" required />
+  115 |           <InputField label="Nama HP" name="name" required />
+  116 |           <InputField label="Tahun Rilis" name="releaseYear" type="number" required />
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                  react-hooks/static-components
+  114:12  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:114:12
+  112 |         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  113 |           <InputField label="Slug (URL-friendly)" name="slug" required />
+> 114 |           <InputField label="Brand" name="brand" required />
+      |            ^^^^^^^^^^ This component is created during render
+  115 |           <InputField label="Nama HP" name="name" required />
+  116 |           <InputField label="Tahun Rilis" name="releaseYear" type="number" required />
+  117 |           <div className="sm:col-span-2">
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                               react-hooks/static-components
+  115:12  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:115:12
+  113 |           <InputField label="Slug (URL-friendly)" name="slug" required />
+  114 |           <InputField label="Brand" name="brand" required />
+> 115 |           <InputField label="Nama HP" name="name" required />
+      |            ^^^^^^^^^^ This component is created during render
+  116 |           <InputField label="Tahun Rilis" name="releaseYear" type="number" required />
+  117 |           <div className="sm:col-span-2">
+  118 |             <InputField label="URL Gambar" name="image" required />
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                           react-hooks/static-components
+  116:12  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:116:12
+  114 |           <InputField label="Brand" name="brand" required />
+  115 |           <InputField label="Nama HP" name="name" required />
+> 116 |           <InputField label="Tahun Rilis" name="releaseYear" type="number" required />
+      |            ^^^^^^^^^^ This component is created during render
+  117 |           <div className="sm:col-span-2">
+  118 |             <InputField label="URL Gambar" name="image" required />
+  119 |           </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                    react-hooks/static-components
+  118:14  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:118:14
+  116 |           <InputField label="Tahun Rilis" name="releaseYear" type="number" required />
+  117 |           <div className="sm:col-span-2">
+> 118 |             <InputField label="URL Gambar" name="image" required />
+      |              ^^^^^^^^^^ This component is created during render
+  119 |           </div>
+  120 |         </div>
+  121 |       </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                                                                                                                 react-hooks/static-components
+  127:12  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:127:12
+  125 |         <h3 className="text-lg font-bold text-text mb-4 border-b border-border-2 pb-2">Hero Stats (Shortcut)</h3>
+  126 |         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+> 127 |           <InputField label="Display Inches" name="displayInches" />
+      |            ^^^^^^^^^^ This component is created during render
+  128 |           <InputField label="Main Camera MP" name="mainCameraMP" />
+  129 |           <InputField label="RAM / Chipset" name="ramChipset" />
+  130 |           <InputField label="Battery mAh" name="batteryMah" />
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                          react-hooks/static-components
+  128:12  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:128:12
+  126 |         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  127 |           <InputField label="Display Inches" name="displayInches" />
+> 128 |           <InputField label="Main Camera MP" name="mainCameraMP" />
+      |            ^^^^^^^^^^ This component is created during render
+  129 |           <InputField label="RAM / Chipset" name="ramChipset" />
+  130 |           <InputField label="Battery mAh" name="batteryMah" />
+  131 |         </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                             react-hooks/static-components
+  129:12  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:129:12
+  127 |           <InputField label="Display Inches" name="displayInches" />
+  128 |           <InputField label="Main Camera MP" name="mainCameraMP" />
+> 129 |           <InputField label="RAM / Chipset" name="ramChipset" />
+      |            ^^^^^^^^^^ This component is created during render
+  130 |           <InputField label="Battery mAh" name="batteryMah" />
+  131 |         </div>
+  132 |       </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                                                                react-hooks/static-components
+  130:12  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:130:12
+  128 |           <InputField label="Main Camera MP" name="mainCameraMP" />
+  129 |           <InputField label="RAM / Chipset" name="ramChipset" />
+> 130 |           <InputField label="Battery mAh" name="batteryMah" />
+      |            ^^^^^^^^^^ This component is created during render
+  131 |         </div>
+  132 |       </div>
+  133 |
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                                                                                                                                     react-hooks/static-components
+  142:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:142:16
+  140 |             <h4 className="text-sm font-bold text-gold uppercase tracking-wider mb-3">Network & Launch</h4>
+  141 |             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+> 142 |               <InputField label="Network" name="network" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  143 |               <InputField label="Announced" name="announced" isSpec />
+  144 |               <InputField label="Status" name="status" isSpec />
+  145 |             </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                    react-hooks/static-components
+  143:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:143:16
+  141 |             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  142 |               <InputField label="Network" name="network" isSpec />
+> 143 |               <InputField label="Announced" name="announced" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  144 |               <InputField label="Status" name="status" isSpec />
+  145 |             </div>
+  146 |           </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                               react-hooks/static-components
+  144:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:144:16
+  142 |               <InputField label="Network" name="network" isSpec />
+  143 |               <InputField label="Announced" name="announced" isSpec />
+> 144 |               <InputField label="Status" name="status" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  145 |             </div>
+  146 |           </div>
+  147 |
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                                                                                                                  react-hooks/static-components
+  151:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:151:16
+  149 |             <h4 className="text-sm font-bold text-gold uppercase tracking-wider mb-3">Body</h4>
+  150 |             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+> 151 |               <InputField label="Dimensions" name="dimensions" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  152 |               <InputField label="Weight" name="weight" isSpec />
+  153 |               <InputField label="SIM" name="sim" isSpec />
+  154 |               <InputField label="IP Rating" name="ipRating" isSpec />
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                   react-hooks/static-components
+  152:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:152:16
+  150 |             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  151 |               <InputField label="Dimensions" name="dimensions" isSpec />
+> 152 |               <InputField label="Weight" name="weight" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  153 |               <InputField label="SIM" name="sim" isSpec />
+  154 |               <InputField label="IP Rating" name="ipRating" isSpec />
+  155 |             </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                react-hooks/static-components
+  153:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:153:16
+  151 |               <InputField label="Dimensions" name="dimensions" isSpec />
+  152 |               <InputField label="Weight" name="weight" isSpec />
+> 153 |               <InputField label="SIM" name="sim" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  154 |               <InputField label="IP Rating" name="ipRating" isSpec />
+  155 |             </div>
+  156 |           </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                                                  react-hooks/static-components
+  154:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:154:16
+  152 |               <InputField label="Weight" name="weight" isSpec />
+  153 |               <InputField label="SIM" name="sim" isSpec />
+> 154 |               <InputField label="IP Rating" name="ipRating" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  155 |             </div>
+  156 |           </div>
+  157 |
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                                                                                                                           react-hooks/static-components
+  161:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:161:16
+  159 |             <h4 className="text-sm font-bold text-gold uppercase tracking-wider mb-3">Display</h4>
+  160 |             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+> 161 |               <InputField label="Type" name="displayType" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  162 |               <InputField label="Size" name="displaySize" isSpec />
+  163 |               <InputField label="Resolution" name="resolution" isSpec />
+  164 |             </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                       react-hooks/static-components
+  162:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:162:16
+  160 |             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  161 |               <InputField label="Type" name="displayType" isSpec />
+> 162 |               <InputField label="Size" name="displaySize" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  163 |               <InputField label="Resolution" name="resolution" isSpec />
+  164 |             </div>
+  165 |           </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                         react-hooks/static-components
+  163:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:163:16
+  161 |               <InputField label="Type" name="displayType" isSpec />
+  162 |               <InputField label="Size" name="displaySize" isSpec />
+> 163 |               <InputField label="Resolution" name="resolution" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  164 |             </div>
+  165 |           </div>
+  166 |
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                                                                                                            react-hooks/static-components
+  170:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:170:16
+  168 |             <h4 className="text-sm font-bold text-gold uppercase tracking-wider mb-3">Platform & Memory</h4>
+  169 |             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+> 170 |               <InputField label="OS" name="os" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  171 |               <InputField label="Chipset" name="chipset" isSpec />
+  172 |               <InputField label="CPU" name="cpu" isSpec />
+  173 |               <InputField label="GPU" name="gpu" isSpec />
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                               react-hooks/static-components
+  171:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:171:16
+  169 |             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  170 |               <InputField label="OS" name="os" isSpec />
+> 171 |               <InputField label="Chipset" name="chipset" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  172 |               <InputField label="CPU" name="cpu" isSpec />
+  173 |               <InputField label="GPU" name="gpu" isSpec />
+  174 |               <InputField label="Card Slot" name="cardSlot" isSpec />
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                      react-hooks/static-components
+  172:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:172:16
+  170 |               <InputField label="OS" name="os" isSpec />
+  171 |               <InputField label="Chipset" name="chipset" isSpec />
+> 172 |               <InputField label="CPU" name="cpu" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  173 |               <InputField label="GPU" name="gpu" isSpec />
+  174 |               <InputField label="Card Slot" name="cardSlot" isSpec />
+  175 |               <InputField label="Internal" name="internal" isSpec />
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                    react-hooks/static-components
+  173:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:173:16
+  171 |               <InputField label="Chipset" name="chipset" isSpec />
+  172 |               <InputField label="CPU" name="cpu" isSpec />
+> 173 |               <InputField label="GPU" name="gpu" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  174 |               <InputField label="Card Slot" name="cardSlot" isSpec />
+  175 |               <InputField label="Internal" name="internal" isSpec />
+  176 |             </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                          react-hooks/static-components
+  174:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:174:16
+  172 |               <InputField label="CPU" name="cpu" isSpec />
+  173 |               <InputField label="GPU" name="gpu" isSpec />
+> 174 |               <InputField label="Card Slot" name="cardSlot" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  175 |               <InputField label="Internal" name="internal" isSpec />
+  176 |             </div>
+  177 |           </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                                                            react-hooks/static-components
+  175:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:175:16
+  173 |               <InputField label="GPU" name="gpu" isSpec />
+  174 |               <InputField label="Card Slot" name="cardSlot" isSpec />
+> 175 |               <InputField label="Internal" name="internal" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  176 |             </div>
+  177 |           </div>
+  178 |
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                                                                                                                       react-hooks/static-components
+  182:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:182:16
+  180 |             <h4 className="text-sm font-bold text-gold uppercase tracking-wider mb-3">Cameras</h4>
+  181 |             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+> 182 |               <InputField label="Main Camera" name="mainCamera" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  183 |               <InputField label="Main Features" name="mainCameraFeatures" isSpec />
+  184 |               <InputField label="Main Video" name="mainCameraVideo" isSpec />
+  185 |               <InputField label="Selfie Camera" name="frontCamera" isSpec />
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">  react-hooks/static-components
+  183:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:183:16
+  181 |             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  182 |               <InputField label="Main Camera" name="mainCamera" isSpec />
+> 183 |               <InputField label="Main Features" name="mainCameraFeatures" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  184 |               <InputField label="Main Video" name="mainCameraVideo" isSpec />
+  185 |               <InputField label="Selfie Camera" name="frontCamera" isSpec />
+  186 |               <InputField label="Selfie Video" name="frontCameraVideo" isSpec />
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                    react-hooks/static-components
+  184:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:184:16
+  182 |               <InputField label="Main Camera" name="mainCamera" isSpec />
+  183 |               <InputField label="Main Features" name="mainCameraFeatures" isSpec />
+> 184 |               <InputField label="Main Video" name="mainCameraVideo" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  185 |               <InputField label="Selfie Camera" name="frontCamera" isSpec />
+  186 |               <InputField label="Selfie Video" name="frontCameraVideo" isSpec />
+  187 |             </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                    react-hooks/static-components
+  185:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:185:16
+  183 |               <InputField label="Main Features" name="mainCameraFeatures" isSpec />
+  184 |               <InputField label="Main Video" name="mainCameraVideo" isSpec />
+> 185 |               <InputField label="Selfie Camera" name="frontCamera" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  186 |               <InputField label="Selfie Video" name="frontCameraVideo" isSpec />
+  187 |             </div>
+  188 |           </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                             react-hooks/static-components
+  186:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:186:16
+  184 |               <InputField label="Main Video" name="mainCameraVideo" isSpec />
+  185 |               <InputField label="Selfie Camera" name="frontCamera" isSpec />
+> 186 |               <InputField label="Selfie Video" name="frontCameraVideo" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  187 |             </div>
+  188 |           </div>
+  189 |
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                                                                                 react-hooks/static-components
+  193:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:193:16
+  191 |             <h4 className="text-sm font-bold text-gold uppercase tracking-wider mb-3">Sound & Comms</h4>
+  192 |             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+> 193 |               <InputField label="Loudspeaker" name="loudspeaker" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  194 |               <InputField label="3.5mm Jack" name="jack35mm" isSpec />
+  195 |               <InputField label="WLAN" name="wlan" isSpec />
+  196 |               <InputField label="Bluetooth" name="bluetooth" isSpec />
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                               react-hooks/static-components
+  194:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:194:16
+  192 |             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  193 |               <InputField label="Loudspeaker" name="loudspeaker" isSpec />
+> 194 |               <InputField label="3.5mm Jack" name="jack35mm" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  195 |               <InputField label="WLAN" name="wlan" isSpec />
+  196 |               <InputField label="Bluetooth" name="bluetooth" isSpec />
+  197 |               <InputField label="NFC" name="nfc" isSpec />
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                             react-hooks/static-components
+  195:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:195:16
+  193 |               <InputField label="Loudspeaker" name="loudspeaker" isSpec />
+  194 |               <InputField label="3.5mm Jack" name="jack35mm" isSpec />
+> 195 |               <InputField label="WLAN" name="wlan" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  196 |               <InputField label="Bluetooth" name="bluetooth" isSpec />
+  197 |               <InputField label="NFC" name="nfc" isSpec />
+  198 |               <InputField label="USB" name="usb" isSpec />
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                     react-hooks/static-components
+  196:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:196:16
+  194 |               <InputField label="3.5mm Jack" name="jack35mm" isSpec />
+  195 |               <InputField label="WLAN" name="wlan" isSpec />
+> 196 |               <InputField label="Bluetooth" name="bluetooth" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  197 |               <InputField label="NFC" name="nfc" isSpec />
+  198 |               <InputField label="USB" name="usb" isSpec />
+  199 |             </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                             react-hooks/static-components
+  197:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:197:16
+  195 |               <InputField label="WLAN" name="wlan" isSpec />
+  196 |               <InputField label="Bluetooth" name="bluetooth" isSpec />
+> 197 |               <InputField label="NFC" name="nfc" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  198 |               <InputField label="USB" name="usb" isSpec />
+  199 |             </div>
+  200 |           </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                                                                   react-hooks/static-components
+  198:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:198:16
+  196 |               <InputField label="Bluetooth" name="bluetooth" isSpec />
+  197 |               <InputField label="NFC" name="nfc" isSpec />
+> 198 |               <InputField label="USB" name="usb" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  199 |             </div>
+  200 |           </div>
+  201 |
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                                                                                                                                react-hooks/static-components
+  205:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:205:16
+  203 |             <h4 className="text-sm font-bold text-gold uppercase tracking-wider mb-3">Battery & Misc</h4>
+  204 |             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+> 205 |               <InputField label="Type" name="batteryType" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  206 |               <InputField label="Charging" name="charging" isSpec />
+  207 |               <InputField label="Colors" name="colors" isSpec />
+  208 |               <InputField label="Price (IDR)" name="priceIDR" isSpec />
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                  react-hooks/static-components
+  206:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:206:16
+  204 |             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  205 |               <InputField label="Type" name="batteryType" isSpec />
+> 206 |               <InputField label="Charging" name="charging" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  207 |               <InputField label="Colors" name="colors" isSpec />
+  208 |               <InputField label="Price (IDR)" name="priceIDR" isSpec />
+  209 |             </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                         react-hooks/static-components
+  207:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:207:16
+  205 |               <InputField label="Type" name="batteryType" isSpec />
+  206 |               <InputField label="Charging" name="charging" isSpec />
+> 207 |               <InputField label="Colors" name="colors" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  208 |               <InputField label="Price (IDR)" name="priceIDR" isSpec />
+  209 |             </div>
+  210 |           </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                                           react-hooks/static-components
+  208:16  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:208:16
+  206 |               <InputField label="Charging" name="charging" isSpec />
+  207 |               <InputField label="Colors" name="colors" isSpec />
+> 208 |               <InputField label="Price (IDR)" name="priceIDR" isSpec />
+      |                ^^^^^^^^^^ This component is created during render
+  209 |             </div>
+  210 |           </div>
+  211 |         </div>
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneForm.tsx:90:22
+   88 |   };
+   89 |
+>  90 |   const InputField = ({ label, name, isSpec = false, type = "text", required = false }: any) => {
+      |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |     const value = isSpec ? (formData.specs as any)[name] : (formData as any)[name];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  92 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 104 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 105 |   };
+      | ^^^^ The component is created during render here
+  106 |
+  107 |   return (
+  108 |     <form onSubmit={handleSubmit} className="flex flex-col gap-8">                                                                                                                                                                                                                                                react-hooks/static-components
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/components/admin/PhoneTable.tsx
+  34:14  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/lib/admin-api.ts
+  77:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/lib/api.ts
+  46:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/dier/Ngoding/vibe-coding/gemini-code/demo-website-spekhp/src/lib/mappers.ts
+   1:22  warning  'PhoneSpecs' is defined but never used    @typescript-eslint/no-unused-vars
+   3:36  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  50:55  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  51:14  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 58 problems (54 errors, 4 warnings)
+

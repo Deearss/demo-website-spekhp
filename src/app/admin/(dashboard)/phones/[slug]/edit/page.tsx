@@ -20,7 +20,7 @@ export default function EditPhonePage({ params }: { params: Promise<{ slug: stri
     });
   }, [slug]);
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: Partial<Phone>) => {
     await adminUpdatePhone(slug, data);
     router.push("/admin/phones");
     router.refresh();

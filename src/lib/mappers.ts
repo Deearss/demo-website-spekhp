@@ -1,6 +1,6 @@
-import type { Phone, PhoneSpecs } from "@/types/phone"
+import type { Phone } from "@/types/phone"
 
-export function mapRowToPhone(row: any): Phone {
+export function mapRowToPhone(row: Record<string, string | number | null | undefined>): Phone {
   return {
     slug: row.slug || "",
     brand: row.brand || "",
@@ -47,8 +47,8 @@ export function mapRowToPhone(row: any): Phone {
   }
 }
 
-export function mapPhoneToRow(phone: Partial<Phone>): any {
-  const row: any = {}
+export function mapPhoneToRow(phone: Partial<Phone>): Record<string, string | number | null | undefined> {
+  const row: Record<string, string | number | null | undefined> = {}
   
   if (phone.slug !== undefined) row.slug = phone.slug
   if (phone.brand !== undefined) row.brand = phone.brand

@@ -20,8 +20,8 @@ export default function AdminLoginPage() {
     try {
       await adminLogin(email, password);
       router.push("/admin");
-    } catch (err: any) {
-      setError(err.message || "Gagal login. Cek email dan password.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Gagal login. Cek email dan password.");
     } finally {
       setIsLoading(false);
     }

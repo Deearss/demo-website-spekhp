@@ -43,7 +43,7 @@ export async function getBrands(): Promise<Brand[]> {
 
   if (error || !data) return []
   
-  const brands = Array.from(new Set(data.map((row: any) => row.brand))) as Brand[]
+  const brands = Array.from(new Set(data.map((row: { brand: string }) => row.brand))) as Brand[]
   return brands.sort()
 }
 

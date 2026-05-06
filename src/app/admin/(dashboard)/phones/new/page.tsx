@@ -1,4 +1,5 @@
 "use client";
+import type { Phone } from "@/types/phone";
 
 import PhoneForm from "@/components/admin/PhoneForm";
 import { adminCreatePhone } from "@/lib/admin-api";
@@ -7,7 +8,7 @@ import { useRouter } from "next/navigation";
 export default function NewPhonePage() {
   const router = useRouter();
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: Partial<Phone>) => {
     await adminCreatePhone(data);
     router.push("/admin/phones");
     router.refresh();

@@ -41,6 +41,7 @@ async function seed() {
 
   console.log(`Logged in successfully. Found ${phonesData.length} phones to seed...`)
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const rows = phonesData.map((phone: any) => ({
     slug: phone.slug,
     brand: phone.brand,
@@ -84,7 +85,7 @@ async function seed() {
     price_idr: phone.specs?.priceIDR || "",
   }))
 
-  const { data, error } = await supabase.from('phones').upsert(rows, { onConflict: 'slug' })
+  const { error } = await supabase.from('phones').upsert(rows, { onConflict: 'slug' })
   
   if (error) {
     console.error("Error seeding data:", error)
