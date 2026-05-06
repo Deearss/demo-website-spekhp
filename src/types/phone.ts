@@ -71,4 +71,7 @@ export type Phone = {
   batteryMah: string            // e.g. "4000mAh"
 
   specs: PhoneSpecs
+
+  // Metadata
+  createdAt?: string            // ISO timestamp dari Supabase
 }

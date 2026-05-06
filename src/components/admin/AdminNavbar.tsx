@@ -21,7 +21,7 @@ export default function AdminNavbar() {
       </div>
       <button
         onClick={handleLogout}
-        className="flex items-center gap-2 text-sm text-text-3 hover:text-red-400 transition-colors"
+        className="cursor-pointer flex items-center gap-2 text-sm text-text-3 hover:text-red-400 transition-colors"
       >
         <LogOut size={16} />
         Logout

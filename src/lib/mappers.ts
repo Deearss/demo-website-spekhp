@@ -43,7 +43,8 @@ export function mapRowToPhone(row: Record<string, string | number | null | undef
       charging: String(row.charging ?? ""),
       colors: String(row.colors ?? ""),
       priceIDR: String(row.price_idr ?? ""),
-    }
+    },
+    createdAt: row.created_at ? String(row.created_at) : undefined,
   }
 }
 

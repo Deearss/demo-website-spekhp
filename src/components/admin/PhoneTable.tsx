@@ -23,7 +23,7 @@ import { useToastStore } from "@/store/useToastStore";
 import DropdownSelect from "@/components/shared/DropdownSelect";
 
 const PAGE_SIZE = 15;
-type SortKey = "name" | "brand" | "releaseYear";
+type SortKey = "name" | "brand" | "releaseYear" | "createdAt";
 type SortDir = "asc" | "desc";
 
 function SortIcon({ col, sortKey, sortDir }: { col: SortKey; sortKey: SortKey; sortDir: SortDir }) {
@@ -100,6 +100,7 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
     });
 
     return filtered.sort((a, b) => {
+      // Sort berdasarkan createdAt (ISO string) bisa langsung compare string
       const aVal = a[sortKey] ?? "";
       const bVal = b[sortKey] ?? "";
       const cmp = String(aVal).localeCompare(String(bVal), "id", { numeric: true });
@@ -185,13 +186,14 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
                 <SortTh col="name" label="Nama HP" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
                 <SortTh col="brand" label="Brand" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
                 <SortTh col="releaseYear" label="Rilis" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                <SortTh col="createdAt" label="Ditambahkan" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
                 <th className="px-6 py-4 font-medium text-right">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border-2">
               {paginatedPhones.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-16 text-center">
+                  <td colSpan={7} className="px-6 py-16 text-center">
                     <div className="flex flex-col items-center gap-3 text-text-3">
                       <Package size={40} className="opacity-30" />
                       <p className="font-medium">Nggak ada HP yang cocok dengan pencarian ini</p>
@@ -218,6 +220,15 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
                     <td className="px-6 py-4 font-medium text-text">{phone.name}</td>
                     <td className="px-6 py-4 text-text-3">{phone.brand}</td>
                     <td className="px-6 py-4 text-text-3">{phone.releaseYear}</td>
+                    <td className="px-6 py-4 text-text-3 text-xs">
+                      {phone.createdAt
+                        ? new Date(phone.createdAt).toLocaleDateString("id-ID", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          })
+                        : "—"}
+                    </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-3">
                         <Link
