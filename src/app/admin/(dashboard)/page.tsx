@@ -42,7 +42,7 @@ export default async function AdminDashboard() {
                 <th className="px-6 py-3 font-medium">Brand</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border-2">
+            <tbody className="divide-y divide-surface-2">
               {stats.latestPhones.length === 0 ? (
                 <tr>
                   <td colSpan={3} className="px-6 py-8 text-center text-text-3">
