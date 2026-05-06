@@ -20,6 +20,7 @@ import { adminDeletePhone } from "@/lib/admin-api";
 import { useRouter } from "next/navigation";
 import type { Phone } from "@/types/phone";
 import { useToastStore } from "@/store/useToastStore";
+import DropdownSelect from "@/components/shared/DropdownSelect";
 
 const PAGE_SIZE = 15;
 type SortKey = "name" | "brand" | "releaseYear";
@@ -114,8 +115,13 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
     safePage * PAGE_SIZE,
   );
 
-  const handleFilterChange = (setter: (v: string) => void) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setter(e.target.value);
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    setPage(1);
+  };
+
+  const handleBrandChange = (value: string) => {
+    setBrand(value);
     setPage(1);
   };
 
@@ -148,19 +154,15 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
               type="text"
               placeholder="Cari nama HP..."
               value={search}
-              onChange={handleFilterChange(setSearch)}
+              onChange={handleSearchChange}
               className="w-full bg-bg-2 border border-surface-2 rounded-lg pl-10 pr-4 py-2 text-sm outline-none focus:border-gold transition-colors text-text"
             />
           </div>
-          <select
+          <DropdownSelect
             value={brand}
-            onChange={handleFilterChange(setBrand)}
-            className="bg-bg-2 border border-surface-2 rounded-lg px-4 py-2 text-sm outline-none focus:border-gold transition-colors text-text"
-          >
-            {brands.map((b) => (
-              <option key={b} value={b}>{b}</option>
-            ))}
-          </select>
+            onChange={handleBrandChange}
+            options={brands.map((b) => ({ value: b, label: b }))}
+          />
         </div>
 
         <Link
