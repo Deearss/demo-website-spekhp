@@ -106,7 +106,17 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
     e: React.ChangeEvent<HTMLInputElement>,
     isSpec: boolean = false,
   ) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+
+    // Sanitize slug: lowercase and replace non-url-friendly chars
+    if (name === "slug") {
+      value = value
+        .toLowerCase()
+        .replace(/\s+/g, "-") // replace spaces with hyphens
+        .replace(/[^a-z0-9-]/g, "") // remove all non-alphanumeric except hyphens
+        .replace(/-+/g, "-"); // prevent multiple hyphens
+    }
+
     if (isSpec) {
       setFormData((prev) => ({
         ...prev,
@@ -116,10 +126,24 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
         } as PhoneSpecs,
       }));
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: name === "releaseYear" ? parseInt(value) : value,
-      }));
+      setFormData((prev) => {
+        const newData = {
+          ...prev,
+          [name]: name === "releaseYear" ? parseInt(value) || 0 : value,
+        };
+
+        // Auto-generate slug from name if slug is empty and name is changing
+        if (name === "name" && !prev.slug) {
+          newData.slug = value
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, "-")
+            .replace(/[^a-z0-9-]/g, "")
+            .replace(/-+/g, "-");
+        }
+
+        return newData;
+      });
     }
   };
 
