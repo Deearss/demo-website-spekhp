@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, Edit, Trash2, Plus } from "lucide-react";
+import { Search, Edit, Trash2, Plus, AlertTriangle } from "lucide-react";
 import { adminDeletePhone } from "@/lib/admin-api";
 import { useRouter } from "next/navigation";
 import type { Phone } from "@/types/phone";
+import { useToastStore } from "@/store/useToastStore";
 
 export default function PhoneTable({
   initialPhones,
@@ -17,7 +18,9 @@ export default function PhoneTable({
   const [search, setSearch] = useState("");
   const [brand, setBrand] = useState("All");
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
+  const [itemToDelete, setItemToDelete] = useState<{ slug: string; name: string } | null>(null);
   const router = useRouter();
+  const { showToast } = useToastStore();
 
   const brands = [
     "All",
@@ -31,19 +34,20 @@ export default function PhoneTable({
     return matchBrand && matchSearch;
   });
 
-  const handleDelete = async (slug: string, name: string) => {
-    if (!confirm(`Yakin ingin menghapus ${name}?`)) return;
-
-    setIsDeleting(slug);
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
+    setIsDeleting(itemToDelete.slug);
     try {
-      await adminDeletePhone(slug);
-      setPhones(phones.filter((p) => p.slug !== slug));
+      await adminDeletePhone(itemToDelete.slug);
+      setPhones(phones.filter((p) => p.slug !== itemToDelete.slug));
       router.refresh();
+      showToast(`${itemToDelete.name} berhasil dihapus!`, "success");
     } catch (err) {
       console.error("Delete error:", err);
-      alert("Gagal menghapus data");
+      showToast("Gagal menghapus data", "error");
     } finally {
       setIsDeleting(null);
+      setItemToDelete(null);
     }
   };
 
@@ -140,7 +144,7 @@ export default function PhoneTable({
                           <Edit size={16} />
                         </Link>
                         <button
-                          onClick={() => handleDelete(phone.slug, phone.name)}
+                          onClick={() => setItemToDelete({ slug: phone.slug, name: phone.name })}
                           disabled={isDeleting === phone.slug}
                           className="p-1.5 text-text-3 hover:text-red-400 hover:bg-red-400/10 rounded transition-colors disabled:opacity-50"
                           title="Hapus"
@@ -156,6 +160,39 @@ export default function PhoneTable({
           </table>
         </div>
       </div>
+
+      {/* Modal Konfirmasi Hapus */}
+      {itemToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-bg border border-surface-2 rounded-xl p-6 max-w-sm w-full shadow-xl">
+            <div className="flex items-center gap-3 text-red-400 mb-4">
+              <div className="p-2 bg-red-400/10 rounded-full">
+                <AlertTriangle size={24} />
+              </div>
+              <h3 className="text-lg font-bold">Hapus Data?</h3>
+            </div>
+            <p className="text-text-2 mb-6">
+              Yakin mau hapus <span className="font-bold text-text">{itemToDelete.name}</span>? Aksi ini tidak bisa dibatalkan.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setItemToDelete(null)}
+                disabled={isDeleting !== null}
+                className="px-4 py-2 text-sm font-medium text-text bg-surface hover:bg-surface-2 rounded-lg transition-colors disabled:opacity-50"
+              >
+                Batal
+              </button>
+              <button
+                onClick={confirmDelete}
+                disabled={isDeleting !== null}
+                className="px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50"
+              >
+                {isDeleting ? "Menghapus..." : "Hapus"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

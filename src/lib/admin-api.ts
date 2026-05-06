@@ -58,6 +58,14 @@ export async function adminDeletePhone(slug: string): Promise<void> {
   if (error) throw error
 }
 
+// Cek apakah slug sudah dipakai HP lain (exclude slug saat ini untuk mode edit)
+export async function adminCheckSlug(slug: string, excludeSlug?: string): Promise<boolean> {
+  let query = supabase.from('phones').select('slug', { count: 'exact', head: true }).eq('slug', slug)
+  if (excludeSlug) query = query.neq('slug', excludeSlug)
+  const { count } = await query
+  return (count ?? 0) > 0
+}
+
 // Ambil stats untuk dashboard
 export async function adminGetStats() {
   const { count: totalPhones } = await supabase

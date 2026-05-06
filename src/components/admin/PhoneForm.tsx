@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import type { Phone, PhoneSpecs } from "@/types/phone";
-import { Save, X } from "lucide-react";
+import { Save, X, ImageOff, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import Link from "next/link";
+import { useToastStore } from "@/store/useToastStore";
+import { adminCheckSlug } from "@/lib/admin-api";
 
 type PhoneFormProps = {
   mode: "create" | "edit";
@@ -18,6 +20,10 @@ type InputFieldProps = {
   isSpec?: boolean;
   type?: string;
   required?: boolean;
+  list?: string;
+  options?: string[];
+  error?: string | null;
+  warning?: string | null;
   formData: Partial<Phone>;
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -32,12 +38,18 @@ const InputField = ({
   isSpec = false,
   type = "text",
   required = false,
+  list,
+  options,
+  error,
+  warning,
   formData,
   handleChange,
 }: InputFieldProps) => {
   const value = isSpec
     ? (formData.specs as Record<string, string | number | undefined>)?.[name]
     : (formData as Record<string, string | number | undefined>)?.[name];
+  const hasError = !!error;
+  const hasWarning = !hasError && !!warning;
   return (
     <div className="flex flex-col gap-1.5">
       <label className="text-sm font-medium text-text-2">{label}</label>
@@ -47,9 +59,33 @@ const InputField = ({
         required={required}
         placeholder={placeholder}
         value={value || ""}
+        list={list}
         onChange={(e) => handleChange(e, isSpec)}
-        className="bg-bg-2 border border-surface-2 rounded-lg px-3 py-2 text-sm outline-none focus:border-gold transition-colors text-text placeholder:text-text-3/50"
+        className={`bg-bg-2 border rounded-lg px-3 py-2 text-sm outline-none transition-colors text-text placeholder:text-text-3/50 ${
+          hasError
+            ? "border-red-500/70 focus:border-red-500"
+            : hasWarning
+            ? "border-yellow-500/70 focus:border-yellow-500"
+            : "border-surface-2 focus:border-gold"
+        }`}
       />
+      {list && options && (
+        <datalist id={list}>
+          {options.map((opt) => (
+            <option key={opt} value={opt} />
+          ))}
+        </datalist>
+      )}
+      {hasError && (
+        <p className="text-xs text-red-400 flex items-center gap-1">
+          <AlertCircle size={12} /> {error}
+        </p>
+      )}
+      {hasWarning && (
+        <p className="text-xs text-yellow-400 flex items-center gap-1">
+          <AlertCircle size={12} /> {warning}
+        </p>
+      )}
     </div>
   );
 };
@@ -101,6 +137,80 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const { showToast } = useToastStore();
+
+  // ── Validasi real-time ──
+  type FieldErrors = { slug?: string | null; name?: string | null; brand?: string | null; releaseYear?: string | null };
+  type FieldWarnings = { slug?: string | null };
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [warnings, setWarnings] = useState<FieldWarnings>({});
+  const [isCheckingSlug, setIsCheckingSlug] = useState(false);
+  const slugCheckTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // ── Preview Gambar ──
+  const [imageStatus, setImageStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
+  const imageDebounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const validateField = useCallback(
+    async (name: string, value: string | number | undefined) => {
+      const newErrors: FieldErrors = { ...errors };
+      const newWarnings: FieldWarnings = { ...warnings };
+
+      if (name === "name") {
+        newErrors.name = !String(value).trim() ? "Nama HP wajib diisi" : null;
+      }
+      if (name === "brand") {
+        newErrors.brand = !String(value).trim() ? "Brand wajib diisi" : null;
+      }
+      if (name === "releaseYear") {
+        const year = Number(value);
+        newErrors.releaseYear =
+          isNaN(year) || year < 2000 || year > 2030
+            ? "Tahun rilis harus antara 2000–2030"
+            : null;
+      }
+      if (name === "slug") {
+        const slugVal = String(value);
+        if (!slugVal.trim()) {
+          newErrors.slug = "Slug wajib diisi";
+          newWarnings.slug = null;
+        } else {
+          newErrors.slug = null;
+          // Cek keunikan slug dengan debounce
+          if (slugCheckTimeout.current) clearTimeout(slugCheckTimeout.current);
+          setIsCheckingSlug(true);
+          slugCheckTimeout.current = setTimeout(async () => {
+            try {
+              const taken = await adminCheckSlug(slugVal, initialData?.slug);
+              setWarnings((prev) => ({ ...prev, slug: taken ? "Slug ini sudah dipakai HP lain" : null }));
+            } finally {
+              setIsCheckingSlug(false);
+            }
+          }, 600);
+        }
+      }
+
+      setErrors(newErrors);
+      if (name !== "slug") setWarnings(newWarnings); // slug warnings diset async
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [errors, warnings, initialData?.slug]
+  );
+
+  // Trigger preview saat image URL berubah
+  useEffect(() => {
+    const url = formData.image;
+    if (!url) { setImageStatus("idle"); return; }
+    if (imageDebounceTimeout.current) clearTimeout(imageDebounceTimeout.current);
+    setImageStatus("loading");
+    imageDebounceTimeout.current = setTimeout(() => {
+      const img = new Image();
+      img.onload = () => setImageStatus("ok");
+      img.onerror = () => setImageStatus("error");
+      img.src = url;
+    }, 500);
+    return () => { if (imageDebounceTimeout.current) clearTimeout(imageDebounceTimeout.current); };
+  }, [formData.image]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -133,8 +243,8 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
           [name]: name === "releaseYear" ? parseInt(value) || 0 : value,
         };
 
-        // Auto-generate slug from name if slug is empty and name is changing
-        if (name === "name" && !prev.slug) {
+        // Auto-generate slug from name
+        if (name === "name") {
           newData.slug = value
             .toLowerCase()
             .trim()
@@ -146,6 +256,9 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
         return newData;
       });
     }
+    // Trigger validasi real-time langsung dengan value final
+    const finalVal = name === "releaseYear" ? parseInt(value) || 0 : value;
+    validateField(name, finalVal);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -153,9 +266,10 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
     setIsLoading(true);
     try {
       await onSubmit(formData);
+      showToast("Data HP berhasil disimpan!", "success");
     } catch (err) {
       console.error(err);
-      alert("Terjadi kesalahan saat menyimpan data.");
+      showToast("Terjadi kesalahan saat menyimpan data.", "error");
     } finally {
       setIsLoading(false);
     }
@@ -169,20 +283,49 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
           Info Utama
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <InputField
-            formData={formData}
-            handleChange={handleChange}
-            label="Slug (URL-friendly)"
-            name="slug"
-            placeholder="cth: samsung-galaxy-s25"
-            required
-          />
+          {/* Slug field + indicator cek keunikan */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-medium text-text-2">Slug (URL-friendly)</label>
+            <div className="relative">
+              <input
+                type="text"
+                name="slug"
+                required
+                placeholder="cth: samsung-galaxy-s25"
+                value={formData.slug || ""}
+                onChange={(e) => handleChange(e)}
+                className={`w-full bg-bg-2 border rounded-lg px-3 py-2 pr-8 text-sm outline-none transition-colors text-text placeholder:text-text-3/50 ${
+                  errors.slug
+                    ? "border-red-500/70 focus:border-red-500"
+                    : warnings.slug
+                    ? "border-yellow-500/70 focus:border-yellow-500"
+                    : "border-surface-2 focus:border-gold"
+                }`}
+              />
+              <div className="absolute right-2.5 top-1/2 -translate-y-1/2">
+                {isCheckingSlug && <Loader2 size={14} className="text-text-3 animate-spin" />}
+                {!isCheckingSlug && formData.slug && !errors.slug && !warnings.slug && (
+                  <CheckCircle2 size={14} className="text-green-500" />
+                )}
+              </div>
+            </div>
+            {errors.slug && (
+              <p className="text-xs text-red-400 flex items-center gap-1"><AlertCircle size={12} /> {errors.slug}</p>
+            )}
+            {!errors.slug && warnings.slug && (
+              <p className="text-xs text-yellow-400 flex items-center gap-1"><AlertCircle size={12} /> {warnings.slug}</p>
+            )}
+          </div>
+
           <InputField
             formData={formData}
             handleChange={handleChange}
             label="Brand"
             name="brand"
             placeholder="cth: Samsung"
+            list="brand-options"
+            options={["Samsung", "Apple", "Xiaomi", "OPPO", "Vivo", "Realme", "OnePlus", "Google"]}
+            error={errors.brand}
             required
           />
           <InputField
@@ -191,6 +334,7 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
             label="Nama HP"
             name="name"
             placeholder="cth: Samsung Galaxy S25"
+            error={errors.name}
             required
           />
           <InputField
@@ -200,17 +344,40 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
             name="releaseYear"
             type="number"
             placeholder="cth: 2025"
+            error={errors.releaseYear}
             required
           />
-          <div className="sm:col-span-2">
-            <InputField
-              formData={formData}
-              handleChange={handleChange}
-              label="URL Gambar"
-              name="image"
-              placeholder="cth: https://example.com/images/s25.webp"
-              required
-            />
+          {/* URL Gambar + Image Preview */}
+          <div className="sm:col-span-2 flex gap-4 items-start">
+            <div className="flex-1">
+              <InputField
+                formData={formData}
+                handleChange={handleChange}
+                label="URL Gambar"
+                name="image"
+                placeholder="cth: https://example.com/images/s25.webp"
+                required
+              />
+            </div>
+            {/* Preview thumbnail */}
+            <div className="mt-6 shrink-0 w-20 h-20 bg-bg-2 border border-surface-2 rounded-lg flex items-center justify-center overflow-hidden">
+              {imageStatus === "idle" && <ImageOff size={24} className="text-text-3/40" />}
+              {imageStatus === "loading" && <Loader2 size={24} className="text-text-3 animate-spin" />}
+              {imageStatus === "error" && (
+                <div className="flex flex-col items-center gap-1 text-center px-1">
+                  <ImageOff size={18} className="text-red-400" />
+                  <span className="text-[10px] text-red-400">Gagal dimuat</span>
+                </div>
+              )}
+              {imageStatus === "ok" && formData.image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={formData.image}
+                  alt="Preview"
+                  className="w-full h-full object-contain p-1"
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -565,7 +732,14 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 pt-4">
+      <div className="sticky bottom-4 z-40 flex items-center justify-end gap-4 p-4 mt-8 bg-surface/80 backdrop-blur-md border border-surface-2 rounded-xl shadow-xl">
+        <Link
+          href="/admin/phones"
+          className="flex items-center gap-2 bg-surface-2 hover:bg-surface text-text font-medium px-6 py-2.5 rounded-lg border border-surface-2 transition-colors"
+        >
+          <X size={18} />
+          Batal
+        </Link>
         <button
           type="submit"
           disabled={isLoading}
@@ -574,13 +748,6 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
           <Save size={18} />
           {isLoading ? "Menyimpan..." : "Simpan Data"}
         </button>
-        <Link
-          href="/admin/phones"
-          className="flex items-center gap-2 bg-surface-2 hover:bg-surface text-text font-medium px-6 py-2.5 rounded-lg border border-surface-2 transition-colors"
-        >
-          <X size={18} />
-          Batal
-        </Link>
       </div>
     </form>
   );

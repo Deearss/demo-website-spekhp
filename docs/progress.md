@@ -16,3 +16,13 @@ The WebSpec Demo application has been successfully migrated from local JSON to a
 - Verify the seeded data in Supabase.
 - Conduct comprehensive end-to-end testing of the admin CRUD operations.
 - Expand data models or features if requested by the client.
+
+### Recent Updates (Admin Panel UI/UX Improvements):
+- **Fixed Scroll Bug**: Removed `h-full` from `<html>` to allow full scrolling in Admin forms.
+- **Custom Notifications**: Replaced native browser `confirm()` and `alert()` with a custom global Toast Notification (Zustand) and a sleek Modal Confirmation for deletion.
+- **Smart Form Fields**:
+  - `Slug` now auto-generates dynamically as the admin types the phone name.
+  - `Brand` field converted to a native combobox using `<datalist>` for autocomplete.
+- **Sticky Actions**: "Simpan" dan "Batal" buttons are now sticky at the bottom of the form for easier access on long pages.
+- **Image Preview**: URL Gambar field now shows a live thumbnail with debounce (500ms), with a loading spinner and a "Gagal dimuat" fallback on error.
+- **Real-time Validation**: Critical fields (Slug, Nama, Brand, Tahun Rilis) show inline red border + error messages on invalid input. Slug also checks uniqueness against Supabase (debounced 600ms) and shows a yellow warning or green checkmark.
