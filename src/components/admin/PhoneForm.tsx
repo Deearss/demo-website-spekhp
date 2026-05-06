@@ -1,8 +1,15 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 import type { Phone, PhoneSpecs } from "@/types/phone";
-import { Save, X, ImageOff, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import {
+  Save,
+  X,
+  ImageOff,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
 import Link from "next/link";
 import { useToastStore } from "@/store/useToastStore";
 import { adminCheckSlug } from "@/lib/admin-api";
@@ -65,8 +72,8 @@ const InputField = ({
           hasError
             ? "border-red-500/70 focus:border-red-500"
             : hasWarning
-            ? "border-yellow-500/70 focus:border-yellow-500"
-            : "border-surface-2 focus:border-gold"
+              ? "border-yellow-500/70 focus:border-yellow-500"
+              : "border-surface-2 focus:border-gold"
         }`}
       />
       {list && options && (
@@ -140,7 +147,12 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
   const { showToast } = useToastStore();
 
   // ── Validasi real-time ──
-  type FieldErrors = { slug?: string | null; name?: string | null; brand?: string | null; releaseYear?: string | null };
+  type FieldErrors = {
+    slug?: string | null;
+    name?: string | null;
+    brand?: string | null;
+    releaseYear?: string | null;
+  };
   type FieldWarnings = { slug?: string | null };
   const [errors, setErrors] = useState<FieldErrors>({});
   const [warnings, setWarnings] = useState<FieldWarnings>({});
@@ -148,8 +160,12 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
   const slugCheckTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── Preview Gambar ──
-  const [imageStatus, setImageStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
-  const imageDebounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [imageStatus, setImageStatus] = useState<
+    "idle" | "loading" | "ok" | "error"
+  >("idle");
+  const imageDebounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
 
   const validateField = useCallback(
     async (name: string, value: string | number | undefined) => {
@@ -182,7 +198,10 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
           slugCheckTimeout.current = setTimeout(async () => {
             try {
               const taken = await adminCheckSlug(slugVal, initialData?.slug);
-              setWarnings((prev) => ({ ...prev, slug: taken ? "Slug ini sudah dipakai HP lain" : null }));
+              setWarnings((prev) => ({
+                ...prev,
+                slug: taken ? "Slug ini sudah dipakai HP lain" : null,
+              }));
             } finally {
               setIsCheckingSlug(false);
             }
@@ -193,24 +212,9 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
       setErrors(newErrors);
       if (name !== "slug") setWarnings(newWarnings); // slug warnings diset async
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [errors, warnings, initialData?.slug]
-  );
 
-  // Trigger preview saat image URL berubah
-  useEffect(() => {
-    const url = formData.image;
-    if (!url) { setImageStatus("idle"); return; }
-    if (imageDebounceTimeout.current) clearTimeout(imageDebounceTimeout.current);
-    setImageStatus("loading");
-    imageDebounceTimeout.current = setTimeout(() => {
-      const img = new Image();
-      img.onload = () => setImageStatus("ok");
-      img.onerror = () => setImageStatus("error");
-      img.src = url;
-    }, 500);
-    return () => { if (imageDebounceTimeout.current) clearTimeout(imageDebounceTimeout.current); };
-  }, [formData.image]);
+    [errors, warnings, initialData?.slug],
+  );
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -259,6 +263,23 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
     // Trigger validasi real-time langsung dengan value final
     const finalVal = name === "releaseYear" ? parseInt(value) || 0 : value;
     validateField(name, finalVal);
+
+    // Handle image preview tanpa useEffect
+    if (name === "image" && !isSpec) {
+      if (imageDebounceTimeout.current)
+        clearTimeout(imageDebounceTimeout.current);
+      if (!value) {
+        setImageStatus("idle");
+      } else {
+        setImageStatus("loading");
+        imageDebounceTimeout.current = setTimeout(() => {
+          const img = new Image();
+          img.onload = () => setImageStatus("ok");
+          img.onerror = () => setImageStatus("error");
+          img.src = value;
+        }, 500);
+      }
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -285,7 +306,9 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Slug field + indicator cek keunikan */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-text-2">Slug (URL-friendly)</label>
+            <label className="text-sm font-medium text-text-2">
+              Slug (URL-friendly)
+            </label>
             <div className="relative">
               <input
                 type="text"
@@ -298,22 +321,31 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
                   errors.slug
                     ? "border-red-500/70 focus:border-red-500"
                     : warnings.slug
-                    ? "border-yellow-500/70 focus:border-yellow-500"
-                    : "border-surface-2 focus:border-gold"
+                      ? "border-yellow-500/70 focus:border-yellow-500"
+                      : "border-surface-2 focus:border-gold"
                 }`}
               />
               <div className="absolute right-2.5 top-1/2 -translate-y-1/2">
-                {isCheckingSlug && <Loader2 size={14} className="text-text-3 animate-spin" />}
-                {!isCheckingSlug && formData.slug && !errors.slug && !warnings.slug && (
-                  <CheckCircle2 size={14} className="text-green-500" />
+                {isCheckingSlug && (
+                  <Loader2 size={14} className="text-text-3 animate-spin" />
                 )}
+                {!isCheckingSlug &&
+                  formData.slug &&
+                  !errors.slug &&
+                  !warnings.slug && (
+                    <CheckCircle2 size={14} className="text-green-500" />
+                  )}
               </div>
             </div>
             {errors.slug && (
-              <p className="text-xs text-red-400 flex items-center gap-1"><AlertCircle size={12} /> {errors.slug}</p>
+              <p className="text-xs text-red-400 flex items-center gap-1">
+                <AlertCircle size={12} /> {errors.slug}
+              </p>
             )}
             {!errors.slug && warnings.slug && (
-              <p className="text-xs text-yellow-400 flex items-center gap-1"><AlertCircle size={12} /> {warnings.slug}</p>
+              <p className="text-xs text-yellow-400 flex items-center gap-1">
+                <AlertCircle size={12} /> {warnings.slug}
+              </p>
             )}
           </div>
 
@@ -324,7 +356,16 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
             name="brand"
             placeholder="cth: Samsung"
             list="brand-options"
-            options={["Samsung", "Apple", "Xiaomi", "OPPO", "Vivo", "Realme", "OnePlus", "Google"]}
+            options={[
+              "Samsung",
+              "Apple",
+              "Xiaomi",
+              "OPPO",
+              "Vivo",
+              "Realme",
+              "OnePlus",
+              "Google",
+            ]}
             error={errors.brand}
             required
           />
@@ -361,8 +402,12 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
             </div>
             {/* Preview thumbnail */}
             <div className="mt-6 shrink-0 w-20 h-20 bg-bg-2 border border-surface-2 rounded-lg flex items-center justify-center overflow-hidden">
-              {imageStatus === "idle" && <ImageOff size={24} className="text-text-3/40" />}
-              {imageStatus === "loading" && <Loader2 size={24} className="text-text-3 animate-spin" />}
+              {imageStatus === "idle" && (
+                <ImageOff size={24} className="text-text-3/40" />
+              )}
+              {imageStatus === "loading" && (
+                <Loader2 size={24} className="text-text-3 animate-spin" />
+              )}
               {imageStatus === "error" && (
                 <div className="flex flex-col items-center gap-1 text-center px-1">
                   <ImageOff size={18} className="text-red-400" />
