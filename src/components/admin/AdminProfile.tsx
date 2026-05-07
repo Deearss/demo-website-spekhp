@@ -38,27 +38,24 @@ export default function AdminProfile({ user }: { user: UserInfo | null }) {
       <button
         onClick={() => setOpen(!open)}
         className={clsx(
-          "relative flex items-center gap-3 p-1 rounded-xl transition-all duration-200 group",
-          open ? "bg-surface-2" : "hover:bg-surface"
+          "cursor-pointer relative flex items-center gap-3 p-1 rounded-xl transition-all duration-200 group",
+          open ? "bg-surface-2" : "hover:bg-surface",
         )}
       >
         {/* Shortcut label L - Sekarang ditaruh di level paling luar biar gak kepotong */}
         <KeyTip label="l" className="-top-1 -right-1" />
 
-        <div className="hidden sm:flex flex-col items-end pl-3">
-          <span className="text-xs font-bold text-text line-clamp-1 capitalize">
-            {user?.email?.split("@")[0] || "Admin"}
-          </span>
-        </div>
-        
-        <div className="w-9 h-9 rounded-lg bg-bg-2 border border-surface-2 flex items-center justify-center text-gold group-hover:border-gold/50 transition-colors">
+        <div className="w-9 h-9 rounded-full bg-bg-2 border border-surface-2 flex items-center justify-center text-gold group-hover:border-gold/50 transition-colors">
           <User size={20} />
         </div>
-        
+
         <div className="pr-2">
-          <ChevronDown 
-            size={14} 
-            className={clsx("text-text-3 transition-transform duration-300", open && "rotate-180")} 
+          <ChevronDown
+            size={14}
+            className={clsx(
+              "text-text-3 transition-transform duration-300",
+              open && "rotate-180",
+            )}
           />
         </div>
       </button>
@@ -67,8 +64,12 @@ export default function AdminProfile({ user }: { user: UserInfo | null }) {
       {open && (
         <div className="absolute right-0 top-[calc(100%+8px)] w-60 bg-bg-2 border border-surface-2 rounded-2xl shadow-2xl shadow-black/50 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="px-4 py-3 border-b border-surface-2/50 mb-1">
-            <p className="text-[10px] uppercase tracking-wider font-bold text-text-3 mb-1">Administrator</p>
-            <p className="text-sm font-bold text-text truncate">{user?.email}</p>
+            <p className="text-[10px] uppercase tracking-wider font-bold text-text-3 mb-1">
+              Administrator
+            </p>
+            <p className="text-sm font-bold text-text truncate">
+              {user?.email}
+            </p>
           </div>
 
           <div className="px-2">
