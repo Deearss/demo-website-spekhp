@@ -9,7 +9,8 @@ const SEGMENT_LABELS: Record<string, string> = {
   admin: "Dashboard",
   phones: "Daftar HP",
   new: "Tambah HP",
-  edit: "Edit",
+  edit: "Edit HP",
+  settings: "Settings",
 };
 
 export default function AdminBreadcrumb({ phoneName }: { phoneName?: string }) {
@@ -26,13 +27,14 @@ export default function AdminBreadcrumb({ phoneName }: { phoneName?: string }) {
     accPath += `/${seg}`;
 
     // Skip segment yang merupakan slug HP (panjang & bukan kata kunci dikenal)
-    const isSlug = !SEGMENT_LABELS[seg] && i > 0 && segments[i - 1] === "phones";
+    const isSlug =
+      !SEGMENT_LABELS[seg] && i > 0 && segments[i - 1] === "phones";
     if (isSlug) continue;
 
     const label =
       seg === "edit" && phoneName
         ? `Edit: ${phoneName}`
-        : SEGMENT_LABELS[seg] ?? seg;
+        : (SEGMENT_LABELS[seg] ?? seg);
 
     crumbs.push({ label, href: accPath });
   }
@@ -50,7 +52,10 @@ export default function AdminBreadcrumb({ phoneName }: { phoneName?: string }) {
             {isLast ? (
               <span className="text-text font-medium">{crumb.label}</span>
             ) : (
-              <Link href={crumb.href} className="hover:text-gold transition-colors">
+              <Link
+                href={crumb.href}
+                className="hover:text-gold transition-colors"
+              >
                 {crumb.label}
               </Link>
             )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import type { Phone, PhoneSpecs } from "@/types/phone";
 import {
   Save,
@@ -168,6 +168,30 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
     null,
   );
 
+  // Handle image preview
+  useEffect(() => {
+    const imageUrl = formData.image;
+    if (imageDebounceTimeout.current) clearTimeout(imageDebounceTimeout.current);
+
+    if (!imageUrl) {
+      requestAnimationFrame(() => setImageStatus("idle"));
+      return;
+    }
+
+    requestAnimationFrame(() => setImageStatus("loading"));
+    imageDebounceTimeout.current = setTimeout(() => {
+      if (typeof window === "undefined") return;
+      const img = new window.Image();
+      img.onload = () => requestAnimationFrame(() => setImageStatus("ok"));
+      img.onerror = () => requestAnimationFrame(() => setImageStatus("error"));
+      img.src = imageUrl;
+    }, 500);
+
+    return () => {
+      if (imageDebounceTimeout.current) clearTimeout(imageDebounceTimeout.current);
+    };
+  }, [formData.image]);
+
   const validateField = useCallback(
     async (name: string, value: string | number | undefined) => {
       const newErrors: FieldErrors = { ...errors };
@@ -264,23 +288,6 @@ export default function PhoneForm({ initialData, onSubmit }: PhoneFormProps) {
     // Trigger validasi real-time langsung dengan value final
     const finalVal = name === "releaseYear" ? parseInt(value) || 0 : value;
     validateField(name, finalVal);
-
-    // Handle image preview tanpa useEffect
-    if (name === "image" && !isSpec) {
-      if (imageDebounceTimeout.current)
-        clearTimeout(imageDebounceTimeout.current);
-      if (!value) {
-        setImageStatus("idle");
-      } else {
-        setImageStatus("loading");
-        imageDebounceTimeout.current = setTimeout(() => {
-          const img = new Image();
-          img.onload = () => setImageStatus("ok");
-          img.onerror = () => setImageStatus("error");
-          img.src = value;
-        }, 500);
-      }
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
