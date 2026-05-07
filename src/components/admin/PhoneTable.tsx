@@ -67,9 +67,12 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [itemToDelete, setItemToDelete] = useState<{ slug: string; name: string } | null>(null);
 
-  // Sorting
-  const [sortKey, setSortKey] = useState<SortKey>("name");
-  const [sortDir, setSortDir] = useState<SortDir>("asc");
+  // Global Sorting (Mempengaruhi pagination)
+  const [globalSort, setGlobalSort] = useState("newest");
+
+  // Local Sorting (Hanya urutkan data di halaman yang sama)
+  const [localSortKey, setLocalSortKey] = useState<SortKey>("name");
+  const [localSortDir, setLocalSortDir] = useState<SortDir>("asc");
 
   // Pagination
   const [page, setPage] = useState(1);
@@ -82,40 +85,65 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
     ...Array.from(new Set(initialPhones.map((p) => p.brand))).sort(),
   ];
 
-  const handleSort = (key: SortKey) => {
-    if (sortKey === key) {
-      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+  const globalSortOptions = [
+    { value: "newest", label: "Terbaru" },
+    { value: "oldest", label: "Terlama" },
+    { value: "name-asc", label: "Nama A-Z" },
+    { value: "name-desc", label: "Nama Z-A" },
+  ];
+
+  const handleLocalSort = (key: SortKey) => {
+    if (localSortKey === key) {
+      setLocalSortDir((d) => (d === "asc" ? "desc" : "asc"));
     } else {
-      setSortKey(key);
-      setSortDir("asc");
+      setLocalSortKey(key);
+      setLocalSortDir("asc");
     }
-    setPage(1); // reset ke page 1 ketika sort berubah
   };
 
-  const filteredAndSorted = useMemo(() => {
-    const filtered = phones.filter((p) => {
+  // 1. Filter dan Global Sort (Mempengaruhi siapa yang masuk ke tiap page)
+  const globallyFilteredAndSorted = useMemo(() => {
+    const result = phones.filter((p) => {
       const matchBrand = brand === "All" || p.brand === brand;
       const matchSearch =
         search === "" || p.name.toLowerCase().includes(search.toLowerCase());
       return matchBrand && matchSearch;
     });
 
-    return filtered.sort((a, b) => {
-      // Sort berdasarkan createdAt (ISO string) bisa langsung compare string
-      const aVal = a[sortKey] ?? "";
-      const bVal = b[sortKey] ?? "";
-      const cmp = String(aVal).localeCompare(String(bVal), "id", { numeric: true });
-      return sortDir === "asc" ? cmp : -cmp;
+    // Global Sorting Logic
+    return result.sort((a, b) => {
+      switch (globalSort) {
+        case "newest":
+          return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+        case "oldest":
+          return new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime();
+        case "name-asc":
+          return a.name.localeCompare(b.name);
+        case "name-desc":
+          return b.name.localeCompare(a.name);
+        default:
+          return 0;
+      }
     });
-  }, [phones, search, brand, sortKey, sortDir]);
+  }, [phones, search, brand, globalSort]);
 
-  // Reset ke page 1 kalau filter/search berubah (via useEffect-free approach)
-  const totalPages = Math.max(1, Math.ceil(filteredAndSorted.length / PAGE_SIZE));
+  // 2. Pagination (Ambil potongan data berdasarkan filter global)
+  const totalPages = Math.max(1, Math.ceil(globallyFilteredAndSorted.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
-  const paginatedPhones = filteredAndSorted.slice(
+  const rawPaginatedPhones = globallyFilteredAndSorted.slice(
     (safePage - 1) * PAGE_SIZE,
     safePage * PAGE_SIZE,
   );
+
+  // 3. Local Sorting (Urutkan HANYA data yang ada di halaman sekarang)
+  const paginatedPhones = useMemo(() => {
+    return [...rawPaginatedPhones].sort((a, b) => {
+      const aVal = a[localSortKey] ?? "";
+      const bVal = b[localSortKey] ?? "";
+      const cmp = String(aVal).localeCompare(String(bVal), "id", { numeric: true });
+      return localSortDir === "asc" ? cmp : -cmp;
+    });
+  }, [rawPaginatedPhones, localSortKey, localSortDir]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -144,12 +172,11 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
     }
   };
 
-
   return (
     <div className="flex flex-col gap-6">
       {/* Filter Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div className="flex gap-4 w-full sm:w-auto">
+        <div className="flex flex-wrap gap-3 w-full sm:w-auto">
           <div className="relative w-full sm:w-64">
             <KeyTip label="f" />
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-3" size={16} />
@@ -161,10 +188,17 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
               className="w-full bg-bg-2 border border-surface-2 rounded-lg pl-10 pr-4 py-2 text-sm outline-none focus:border-gold transition-colors text-text"
             />
           </div>
+          
           <DropdownSelect
             value={brand}
             onChange={handleBrandChange}
             options={brands.map((b) => ({ value: b, label: b }))}
+          />
+
+          <DropdownSelect
+            value={globalSort}
+            onChange={setGlobalSort}
+            options={globalSortOptions}
           />
         </div>
 
@@ -179,17 +213,17 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
       </div>
 
       {/* Tabel */}
-      <div className="bg-surface border border-surface-2 rounded-xl overflow-hidden">
+      <div className="bg-surface border border-surface-2 rounded-xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm whitespace-nowrap">
             <thead className="bg-bg-2 text-text-3 border-b border-surface-2">
               <tr>
                 <th className="px-6 py-4 font-medium w-16">No</th>
                 <th className="px-6 py-4 font-medium">Gambar</th>
-                <SortTh col="name" label="Nama HP" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
-                <SortTh col="brand" label="Brand" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
-                <SortTh col="releaseYear" label="Rilis" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
-                <SortTh col="createdAt" label="Ditambahkan" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                <SortTh col="name" label="Nama HP" sortKey={localSortKey} sortDir={localSortDir} onSort={handleLocalSort} />
+                <SortTh col="brand" label="Brand" sortKey={localSortKey} sortDir={localSortDir} onSort={handleLocalSort} />
+                <SortTh col="releaseYear" label="Rilis" sortKey={localSortKey} sortDir={localSortDir} onSort={handleLocalSort} />
+                <SortTh col="createdAt" label="Ditambahkan" sortKey={localSortKey} sortDir={localSortDir} onSort={handleLocalSort} />
                 <th className="px-6 py-4 font-medium text-right">Aksi</th>
               </tr>
             </thead>
@@ -262,8 +296,7 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
         {totalPages > 1 && (
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 px-6 py-3 border-t border-surface-2 bg-bg-2/50">
             <p className="text-xs text-text-3">
-              {filteredAndSorted.length} HP •{" "}
-              halaman {safePage} dari {totalPages}
+              {globallyFilteredAndSorted.length} HP • halaman {safePage} dari {totalPages}
             </p>
             <div className="flex items-center gap-1">
               <button
