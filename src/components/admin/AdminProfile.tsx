@@ -63,7 +63,7 @@ export default function AdminProfile({ user }: { user: UserInfo | null }) {
             aria-label="profile-menu"
             onClick={() => setOpen(!open)}
             className={clsx(
-              "cursor-pointer relative flex items-center gap-3 p-1 rounded-xl transition-all duration-200 group",
+              "cursor-pointer relative flex items-center gap-3 p-1 ps-3 rounded-lg transition-all duration-200 group",
               open ? "bg-surface-2" : "hover:bg-surface",
             )}
           >
