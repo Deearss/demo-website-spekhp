@@ -5,7 +5,7 @@ import { Keyboard, Command, MousePointer2, User } from "lucide-react";
 
 export default function AdminSettingsPage() {
   const shortcuts = [
-    { key: "Alt", desc: "Masuk ke Shortcut Mode (Aktifkan Key Tips)" },
+    { key: "Alt", desc: "Masuk atau Keluar dari Shortcut Mode (Toggle)" },
     { key: "Alt + D", desc: "Pindah ke Dashboard" },
     { key: "Alt + P", desc: "Pindah ke Daftar Phones" },
     { key: "Alt + P + N", desc: "Tambah HP Baru (Shortcut Berantai)" },

@@ -90,7 +90,7 @@ export default function AdminSidebar() {
             <div>
               <p className="text-[11px] font-bold text-text mb-0.5">Power User?</p>
               <p className="text-[10px] text-text-3 leading-relaxed">
-                Tekan <kbd className="px-1 bg-bg-2 rounded border border-surface-2 text-gold text-[9px] font-bold">Alt</kbd> untuk mengaktifkan shortcut.
+                Tekan <kbd className="px-1 bg-bg-2 rounded border border-surface-2 text-gold text-[9px] font-bold">Alt</kbd> untuk mengaktifkan atau membatalkan shortcut.
               </p>
             </div>
           </div>

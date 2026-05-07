@@ -14,7 +14,9 @@ export default function ShortcutHandler() {
       // 1. Toggle Alt Mode
       if (e.key === "Alt") {
         e.preventDefault();
-        setAltActive(!isAltActive);
+        const nextActive = !isAltActive;
+        setAltActive(nextActive);
+        if (!nextActive) setPrefix(""); // Reset prefix saat dimatikan
         return;
       }
 
