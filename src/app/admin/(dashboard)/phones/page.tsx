@@ -2,6 +2,7 @@ import { adminGetPhones } from "@/lib/admin-api";
 import PhoneTable from "@/components/admin/PhoneTable";
 import AdminBreadcrumb from "@/components/admin/AdminBreadcrumb";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function AdminPhonesPage({
   searchParams,
@@ -11,9 +12,27 @@ export default async function AdminPhonesPage({
   const resolvedParams = await searchParams;
   const cookieStore = await cookies();
   
-  // Ambil dari URL dulu, kalo gak ada baru ambil dari Cookies
-  const brand = (resolvedParams.brand as string) || cookieStore.get("admin-brand")?.value || "All";
-  const sort = (resolvedParams.sort as string) || cookieStore.get("admin-sort")?.value || "newest";
+  const urlBrand = resolvedParams.brand as string;
+  const urlSort = resolvedParams.sort as string;
+  const cookieBrand = cookieStore.get("admin-brand")?.value;
+  const cookieSort = cookieStore.get("admin-sort")?.value;
+
+  // 1. Logika Sticky URL: Kalo URL kosong tapi Cookies ada isinya, REDIRECT di server!
+  // Ini biar URL sinkron sama Cookies tanpa nunggu client-side render (Anti-Flicker)
+  if (!urlBrand && !urlSort && (cookieBrand || cookieSort)) {
+    const params = new URLSearchParams();
+    if (cookieBrand && cookieBrand !== "All") params.set("brand", cookieBrand);
+    if (cookieSort && cookieSort !== "newest") params.set("sort", cookieSort);
+    
+    const queryString = params.toString();
+    if (queryString) {
+      redirect(`/admin/phones?${queryString}`);
+    }
+  }
+
+  // 2. Ambil nilai final buat render (Prioritas URL)
+  const brand = urlBrand || cookieBrand || "All";
+  const sort = urlSort || cookieSort || "newest";
 
   const phones = await adminGetPhones();
 

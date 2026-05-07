@@ -26,7 +26,7 @@ import Tooltip from "@/components/shared/Tooltip";
 import clsx from "clsx";
 
 const PAGE_SIZE = 15;
-type SortKey = "name" | "brand" | "releaseYear" | "createdAt";
+type SortKey = "name" | "brand" | "releaseYear" | "createdAt" | "updatedAt";
 type SortDir = "asc" | "desc";
 
 function SortIcon({
@@ -207,10 +207,10 @@ export default function PhoneTable({
 
     return [...rawPaginatedPhones].sort((a, b) => {
       let cmp = 0;
-      if (localSortKey === "createdAt") {
-        cmp =
-          new Date(a.createdAt || 0).getTime() -
-          new Date(b.createdAt || 0).getTime();
+      if (localSortKey === "createdAt" || localSortKey === "updatedAt") {
+        const dateA = new Date(a[localSortKey] || 0).getTime();
+        const dateB = new Date(b[localSortKey] || 0).getTime();
+        cmp = dateA - dateB;
       } else {
         const aVal = String(a[localSortKey] ?? "");
         const bVal = String(b[localSortKey] ?? "");
@@ -330,7 +330,13 @@ export default function PhoneTable({
                   sortDir={localSortDir}
                   onSort={handleLocalSort}
                 />
-                <th className="px-6 py-4 font-medium">Update</th>
+                <SortTh
+                  col="updatedAt"
+                  label="Update"
+                  sortKey={localSortKey}
+                  sortDir={localSortDir}
+                  onSort={handleLocalSort}
+                />
                 <th className="px-6 py-4 font-medium text-right">Aksi</th>
               </tr>
             </thead>
