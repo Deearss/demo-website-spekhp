@@ -22,6 +22,7 @@ import type { Phone } from "@/types/phone";
 import { useToastStore } from "@/store/useToastStore";
 import DropdownSelect from "@/components/shared/DropdownSelect";
 import KeyTip from "@/components/shared/KeyTip";
+import Tooltip from "@/components/shared/Tooltip";
 import clsx from "clsx";
 
 const PAGE_SIZE = 15;
@@ -55,18 +56,23 @@ function SortTh({
 }: {
   col: SortKey;
   label: string;
-  sortKey: SortKey;
+  sortKey: SortKey | null;
   sortDir: SortDir;
   onSort: (col: SortKey) => void;
 }) {
   return (
     <th
-      className="px-6 py-4 font-medium cursor-pointer select-none hover:text-text transition-colors"
+      className="px-6 py-4 font-medium cursor-pointer select-none hover:text-text transition-colors group/th"
       onClick={() => onSort(col)}
     >
       <div className="flex items-center gap-1.5">
         {label}
-        <SortIcon col={col} sortKey={sortKey} sortDir={sortDir} />
+        <div className={clsx(
+          "transition-opacity",
+          sortKey === col ? "opacity-100" : "opacity-0 group-hover/th:opacity-50"
+        )}>
+          <SortIcon col={col} sortKey={sortKey as SortKey} sortDir={sortDir} />
+        </div>
       </div>
     </th>
   );
@@ -89,8 +95,8 @@ export default function PhoneTable({
   // Global Sorting
   const [globalSort, setGlobalSort] = useState("newest");
 
-  // Local Sorting
-  const [localSortKey, setLocalSortKey] = useState<SortKey>("name");
+  // Local Sorting (null berarti nurut Global Sort)
+  const [localSortKey, setLocalSortKey] = useState<SortKey | null>(null);
   const [localSortDir, setLocalSortDir] = useState<SortDir>("asc");
 
   // Pagination
@@ -106,6 +112,7 @@ export default function PhoneTable({
 
   const globalSortOptions = [
     { value: "newest", label: "Terbaru" },
+    { value: "updated", label: "Terakhir Diupdate" },
     { value: "oldest", label: "Terlama" },
     { value: "name-asc", label: "Nama A-Z" },
     { value: "name-desc", label: "Nama Z-A" },
@@ -136,6 +143,11 @@ export default function PhoneTable({
             new Date(b.createdAt || 0).getTime() -
             new Date(a.createdAt || 0).getTime()
           );
+        case "updated":
+          return (
+            new Date(b.updatedAt || b.createdAt || 0).getTime() -
+            new Date(a.updatedAt || a.createdAt || 0).getTime()
+          );
         case "oldest":
           return (
             new Date(a.createdAt || 0).getTime() -
@@ -162,8 +174,10 @@ export default function PhoneTable({
     safePage * PAGE_SIZE,
   );
 
-  // 3. Local Sorting
+  // 3. Local Sorting (HANYA jalan kalo admin klik header tabel)
   const paginatedPhones = useMemo(() => {
+    if (!localSortKey) return rawPaginatedPhones;
+    
     return [...rawPaginatedPhones].sort((a, b) => {
       let cmp = 0;
       if (localSortKey === "createdAt") {
@@ -286,6 +300,7 @@ export default function PhoneTable({
                   sortDir={localSortDir}
                   onSort={handleLocalSort}
                 />
+                <th className="px-6 py-4 font-medium">Update</th>
                 <th className="px-6 py-4 font-medium text-right">Aksi</th>
               </tr>
             </thead>
@@ -333,26 +348,39 @@ export default function PhoneTable({
                           )
                         : "—"}
                     </td>
+                    <td className="px-6 py-4 text-text-3 text-xs">
+                      {phone.updatedAt
+                        ? new Date(phone.updatedAt).toLocaleDateString(
+                            "id-ID",
+                            { day: "numeric", month: "short", year: "numeric" },
+                          )
+                        : "—"}
+                    </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-3">
-                        <Link
-                          href={`/admin/phones/${phone.slug}/edit`}
-                          className="p-1.5 text-text-3 hover:text-gold hover:bg-gold/10 rounded transition-colors"
-                        >
-                          <Edit size={16} />
-                        </Link>
-                        <button
-                          onClick={() =>
-                            setItemToDelete({
-                              slug: phone.slug,
-                              name: phone.name,
-                            })
-                          }
-                          disabled={isDeleting === phone.slug}
-                          className="p-1.5 text-text-3 hover:text-red-400 hover:bg-red-400/10 rounded transition-colors"
-                        >
-                          <Trash2 size={16} />
-                        </button>
+                        <Tooltip content="Edit Spesifikasi" position="left">
+                          <Link
+                            href={`/admin/phones/${phone.slug}/edit`}
+                            className="p-1.5 text-text-3 hover:text-gold hover:bg-gold/10 rounded transition-colors"
+                          >
+                            <Edit size={16} />
+                          </Link>
+                        </Tooltip>
+
+                        <Tooltip content="Hapus Data" position="left">
+                          <button
+                            onClick={() =>
+                              setItemToDelete({
+                                slug: phone.slug,
+                                name: phone.name,
+                              })
+                            }
+                            disabled={isDeleting === phone.slug}
+                            className="p-1.5 text-text-3 hover:text-red-400 hover:bg-red-400/10 rounded transition-colors"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </Tooltip>
                       </div>
                     </td>
                   </tr>
@@ -370,7 +398,8 @@ export default function PhoneTable({
             <p className="text-xs text-text-3 font-medium whitespace-nowrap">
               <span className="text-gold">
                 {globallyFilteredAndSorted.length}
-              </span>{" "}
+              </span>
+              {" data "}
               HP • hal {safePage} / {totalPages}
             </p>
 

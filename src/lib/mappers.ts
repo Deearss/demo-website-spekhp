@@ -45,6 +45,7 @@ export function mapRowToPhone(row: Record<string, string | number | null | undef
       priceIDR: String(row.price_idr ?? ""),
     },
     createdAt: row.created_at ? String(row.created_at) : undefined,
+    updatedAt: row.updated_at ? String(row.updated_at) : undefined,
   }
 }
 

@@ -73,5 +73,6 @@ export type Phone = {
   specs: PhoneSpecs
 
   // Metadata
-  createdAt?: string            // ISO timestamp dari Supabase
+  createdAt?: string; // ISO timestamp dari Supabase
+  updatedAt?: string; // ISO timestamp pembaruan terakhir
 }

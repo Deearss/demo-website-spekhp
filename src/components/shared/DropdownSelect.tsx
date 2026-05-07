@@ -27,7 +27,8 @@ export default function DropdownSelect({
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  const selectedLabel = options.find((o) => o.value === value)?.label ?? placeholder;
+  const selectedLabel =
+    options.find((o) => o.value === value)?.label ?? placeholder;
 
   // Tutup kalau klik di luar
   useEffect(() => {
@@ -47,16 +48,24 @@ export default function DropdownSelect({
         type="button"
         onClick={() => setOpen((o) => !o)}
         className={clsx(
-          "flex items-center gap-2 bg-bg-2 border rounded-lg px-3 py-2 text-sm text-text transition-all outline-none min-w-32",
-          open ? "border-gold" : "border-surface-2 hover:border-text-3"
+          "cursor-pointer flex items-center gap-2 bg-bg-2 border rounded-lg px-3 py-2 text-sm text-text transition-all outline-none min-w-32",
+          open ? "border-gold" : "border-surface-2 hover:border-text-3",
         )}
       >
-        <span className={clsx("flex-1 text-left truncate", value ? "text-text" : "text-text-3")}>
+        <span
+          className={clsx(
+            "flex-1 text-left truncate",
+            value ? "text-text" : "text-text-3",
+          )}
+        >
           {selectedLabel}
         </span>
         <ChevronDown
           size={14}
-          className={clsx("text-text-3 shrink-0 transition-transform duration-200", open && "rotate-180")}
+          className={clsx(
+            "text-text-3 shrink-0 transition-transform duration-200",
+            open && "rotate-180",
+          )}
         />
       </button>
 
@@ -77,11 +86,13 @@ export default function DropdownSelect({
                   "w-full flex items-center justify-between gap-3 px-4 py-2 text-sm text-left transition-colors",
                   isSelected
                     ? "text-gold bg-gold/5"
-                    : "text-text-2 hover:text-text hover:bg-surface"
+                    : "text-text-2 hover:text-text hover:bg-surface",
                 )}
               >
                 <span>{opt.label}</span>
-                {isSelected && <Check size={14} className="text-gold shrink-0" />}
+                {isSelected && (
+                  <Check size={14} className="text-gold shrink-0" />
+                )}
               </button>
             );
           })}
