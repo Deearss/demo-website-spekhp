@@ -306,9 +306,9 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
           </table>
         </div>
 
-        {/* Pagination Footer */}
+        {/* Pagination Footer - Sticky Floating */}
         {totalPages > 1 && (
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 px-6 py-3 border-t border-surface-2 bg-bg-2/50">
+          <div className="sticky bottom-0 z-20 flex flex-col sm:flex-row items-start sm:items-center gap-3 px-6 py-3 border-t border-surface-2 bg-bg-2/80 backdrop-blur-md shadow-[0_-4px_12px_rgba(0,0,0,0.1)]">
             <p className="text-xs text-text-3">
               {globallyFilteredAndSorted.length} HP • halaman {safePage} dari {totalPages}
             </p>
