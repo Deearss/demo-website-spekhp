@@ -182,7 +182,7 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
       <div className="bg-surface border border-surface-2 rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="bg-bg-2 text-text-3">
+            <thead className="bg-bg-2 text-text-3 border-b border-surface-2">
               <tr>
                 <th className="px-6 py-4 font-medium w-16">No</th>
                 <th className="px-6 py-4 font-medium">Gambar</th>
@@ -193,7 +193,7 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
                 <th className="px-6 py-4 font-medium text-right">Aksi</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border-2">
+            <tbody className="divide-y divide-surface-2">
               {paginatedPhones.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="px-6 py-16 text-center">
