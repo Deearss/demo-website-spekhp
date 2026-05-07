@@ -138,9 +138,23 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
   // 3. Local Sorting (Urutkan HANYA data yang ada di halaman sekarang)
   const paginatedPhones = useMemo(() => {
     return [...rawPaginatedPhones].sort((a, b) => {
-      const aVal = a[localSortKey] ?? "";
-      const bVal = b[localSortKey] ?? "";
-      const cmp = String(aVal).localeCompare(String(bVal), "id", { numeric: true });
+      let cmp = 0;
+      
+      if (localSortKey === "createdAt") {
+        const timeA = new Date(a.createdAt || 0).getTime();
+        const timeB = new Date(b.createdAt || 0).getTime();
+        cmp = timeA - timeB;
+      } else {
+        const aVal = String(a[localSortKey] ?? "");
+        const bVal = String(b[localSortKey] ?? "");
+        cmp = aVal.localeCompare(bVal, "id", { numeric: true });
+      }
+
+      // Fallback: Jika nilai utama sama, urutkan berdasarkan nama agar stabil
+      if (cmp === 0 && localSortKey !== "name") {
+        cmp = a.name.localeCompare(b.name, "id");
+      }
+
       return localSortDir === "asc" ? cmp : -cmp;
     });
   }, [rawPaginatedPhones, localSortKey, localSortDir]);
