@@ -1,6 +1,7 @@
 import { adminGetPhones } from "@/lib/admin-api";
 import PhoneTable from "@/components/admin/PhoneTable";
 import AdminBreadcrumb from "@/components/admin/AdminBreadcrumb";
+import { cookies } from "next/headers";
 
 export default async function AdminPhonesPage({
   searchParams,
@@ -8,6 +9,12 @@ export default async function AdminPhonesPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const resolvedParams = await searchParams;
+  const cookieStore = await cookies();
+  
+  // Ambil dari URL dulu, kalo gak ada baru ambil dari Cookies
+  const brand = (resolvedParams.brand as string) || cookieStore.get("admin-brand")?.value || "All";
+  const sort = (resolvedParams.sort as string) || cookieStore.get("admin-sort")?.value || "newest";
+
   const phones = await adminGetPhones();
 
   return (
@@ -20,8 +27,8 @@ export default async function AdminPhonesPage({
 
       <PhoneTable 
         initialPhones={phones} 
-        initialBrand={resolvedParams.brand as string}
-        initialSort={resolvedParams.sort as string}
+        initialBrand={brand}
+        initialSort={sort}
       />
     </div>
   );

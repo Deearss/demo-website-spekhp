@@ -107,7 +107,7 @@ export default function PhoneTable({
   const searchParams = useSearchParams();
   const { showToast } = useToastStore();
 
-  // Ambil state dari URL (fallback ke initial atau default)
+  // Ambil state (Prioritas: URL > Prop dari Server > Default)
   const brand = searchParams.get("brand") || initialBrand || "All";
   const globalSort = searchParams.get("sort") || initialSort || "newest";
 
@@ -115,8 +115,13 @@ export default function PhoneTable({
   const [localSortKey, setLocalSortKey] = useState<SortKey | null>(null);
   const [localSortDir, setLocalSortDir] = useState<SortDir>("asc");
 
-  // Fungsi helper untuk update URL Params
+  // Fungsi helper untuk update URL Params & Cookies
   const updateParams = (name: string, value: string) => {
+    // 1. Simpan ke Cookie agar Server tau buat render berikutnya (Anti-Flicker)
+    const cookieName = name === "brand" ? "admin-brand" : "admin-sort";
+    document.cookie = `${cookieName}=${value}; path=/; max-age=31536000`; // 1 year
+
+    // 2. Update URL agar responsif (Tanpa Refresh)
     const params = new URLSearchParams(searchParams.toString());
     if (value && value !== "All" && value !== "newest") {
       params.set(name, value);
@@ -124,7 +129,7 @@ export default function PhoneTable({
       params.delete(name);
     }
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-    setPage(1); // Reset page saat filter berubah
+    setPage(1);
   };
 
   const brands = [
