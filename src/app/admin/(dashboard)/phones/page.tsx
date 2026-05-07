@@ -2,7 +2,12 @@ import { adminGetPhones } from "@/lib/admin-api";
 import PhoneTable from "@/components/admin/PhoneTable";
 import AdminBreadcrumb from "@/components/admin/AdminBreadcrumb";
 
-export default async function AdminPhonesPage() {
+export default async function AdminPhonesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const resolvedParams = await searchParams;
   const phones = await adminGetPhones();
 
   return (
@@ -13,7 +18,11 @@ export default async function AdminPhonesPage() {
         <p className="text-text-3 text-sm">Kelola data smartphone di dalam database</p>
       </div>
 
-      <PhoneTable initialPhones={phones} />
+      <PhoneTable 
+        initialPhones={phones} 
+        initialBrand={resolvedParams.brand as string}
+        initialSort={resolvedParams.sort as string}
+      />
     </div>
   );
 }

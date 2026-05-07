@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -17,10 +17,9 @@ import {
   Package,
 } from "lucide-react";
 import { adminDeletePhone } from "@/lib/admin-api";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import type { Phone } from "@/types/phone";
 import { useToastStore } from "@/store/useToastStore";
-import { usePhoneFilterStore } from "@/store/usePhoneFilterStore";
 import DropdownSelect from "@/components/shared/DropdownSelect";
 import KeyTip from "@/components/shared/KeyTip";
 import Tooltip from "@/components/shared/Tooltip";
@@ -85,14 +84,15 @@ function SortTh({
 
 export default function PhoneTable({
   initialPhones,
+  initialBrand,
+  initialSort,
 }: {
   initialPhones: Phone[];
+  initialBrand?: string;
+  initialSort?: string;
 }) {
-  const { brand, globalSort, setBrand, setGlobalSort } = usePhoneFilterStore();
   const [phones, setPhones] = useState<Phone[]>(initialPhones);
   const [search, setSearch] = useState("");
-  const [localSortKey, setLocalSortKey] = useState<SortKey | null>(null);
-  const [localSortDir, setLocalSortDir] = useState<SortDir>("asc");
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [itemToDelete, setItemToDelete] = useState<{
     slug: string;
@@ -102,17 +102,30 @@ export default function PhoneTable({
   // Pagination
   const [page, setPage] = useState(1);
 
-  // Hydration fix for persisted state
-  const [isHydrated, setIsHydrated] = useState(false);
-  useEffect(() => {
-    const handle = requestAnimationFrame(() => {
-      setIsHydrated(true);
-    });
-    return () => cancelAnimationFrame(handle);
-  }, []);
-
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { showToast } = useToastStore();
+
+  // Ambil state dari URL (fallback ke initial atau default)
+  const brand = searchParams.get("brand") || initialBrand || "All";
+  const globalSort = searchParams.get("sort") || initialSort || "newest";
+
+  // Local Sorting (null berarti nurut Global Sort)
+  const [localSortKey, setLocalSortKey] = useState<SortKey | null>(null);
+  const [localSortDir, setLocalSortDir] = useState<SortDir>("asc");
+
+  // Fungsi helper untuk update URL Params
+  const updateParams = (name: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value && value !== "All" && value !== "newest") {
+      params.set(name, value);
+    } else {
+      params.delete(name);
+    }
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    setPage(1); // Reset page saat filter berubah
+  };
 
   const brands = [
     "All",
@@ -138,9 +151,6 @@ export default function PhoneTable({
 
   // 1. Filter dan Global Sort
   const globallyFilteredAndSorted = useMemo(() => {
-    // Tunggu hidrasi selesai agar tidak mismatch dengan server render
-    if (!isHydrated) return initialPhones;
-
     const result = phones.filter((p) => {
       const matchBrand = brand === "All" || p.brand === brand;
       const matchSearch =
@@ -173,7 +183,7 @@ export default function PhoneTable({
           return 0;
       }
     });
-  }, [isHydrated, initialPhones, phones, brand, search, globalSort]);
+  }, [phones, brand, search, globalSort]);
 
   // 2. Pagination
   const totalPages = Math.max(
@@ -214,8 +224,11 @@ export default function PhoneTable({
   };
 
   const handleBrandChange = (value: string) => {
-    setBrand(value);
-    setPage(1);
+    updateParams("brand", value);
+  };
+
+  const handleGlobalSortChange = (value: string) => {
+    updateParams("sort", value);
   };
 
   const confirmDelete = async () => {
@@ -261,7 +274,7 @@ export default function PhoneTable({
           />
           <DropdownSelect
             value={globalSort}
-            onChange={setGlobalSort}
+            onChange={handleGlobalSortChange}
             options={globalSortOptions}
           />
         </div>
