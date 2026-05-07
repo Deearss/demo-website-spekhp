@@ -85,8 +85,10 @@ export default function ShortcutHandler() {
               setAltActive(false);
               break;
             case "n":
-              router.push("/admin/phones/new");
-              setAltActive(false);
+              if (pathname === "/admin/phones") {
+                router.push("/admin/phones/new");
+                setAltActive(false);
+              }
               break;
             default:
               if (e.key.length === 1) setAltActive(false);

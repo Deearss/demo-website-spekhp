@@ -22,16 +22,28 @@ import type { Phone } from "@/types/phone";
 import { useToastStore } from "@/store/useToastStore";
 import DropdownSelect from "@/components/shared/DropdownSelect";
 import KeyTip from "@/components/shared/KeyTip";
+import clsx from "clsx";
 
 const PAGE_SIZE = 15;
 type SortKey = "name" | "brand" | "releaseYear" | "createdAt";
 type SortDir = "asc" | "desc";
 
-function SortIcon({ col, sortKey, sortDir }: { col: SortKey; sortKey: SortKey; sortDir: SortDir }) {
-  if (col !== sortKey) return <ChevronsUpDown size={14} className="opacity-30" />;
-  return sortDir === "asc"
-    ? <ChevronUp size={14} className="text-gold" />
-    : <ChevronDown size={14} className="text-gold" />;
+function SortIcon({
+  col,
+  sortKey,
+  sortDir,
+}: {
+  col: SortKey;
+  sortKey: SortKey;
+  sortDir: SortDir;
+}) {
+  if (col !== sortKey)
+    return <ChevronsUpDown size={14} className="opacity-30" />;
+  return sortDir === "asc" ? (
+    <ChevronUp size={14} className="text-gold" />
+  ) : (
+    <ChevronDown size={14} className="text-gold" />
+  );
 }
 
 function SortTh({
@@ -60,17 +72,24 @@ function SortTh({
   );
 }
 
-export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }) {
+export default function PhoneTable({
+  initialPhones,
+}: {
+  initialPhones: Phone[];
+}) {
   const [phones, setPhones] = useState<Phone[]>(initialPhones);
   const [search, setSearch] = useState("");
   const [brand, setBrand] = useState("All");
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
-  const [itemToDelete, setItemToDelete] = useState<{ slug: string; name: string } | null>(null);
+  const [itemToDelete, setItemToDelete] = useState<{
+    slug: string;
+    name: string;
+  } | null>(null);
 
-  // Global Sorting (Mempengaruhi pagination)
+  // Global Sorting
   const [globalSort, setGlobalSort] = useState("newest");
 
-  // Local Sorting (Hanya urutkan data di halaman yang sama)
+  // Local Sorting
   const [localSortKey, setLocalSortKey] = useState<SortKey>("name");
   const [localSortDir, setLocalSortDir] = useState<SortDir>("asc");
 
@@ -101,7 +120,7 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
     }
   };
 
-  // 1. Filter dan Global Sort (Mempengaruhi siapa yang masuk ke tiap page)
+  // 1. Filter dan Global Sort
   const globallyFilteredAndSorted = useMemo(() => {
     const result = phones.filter((p) => {
       const matchBrand = brand === "All" || p.brand === brand;
@@ -110,13 +129,18 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
       return matchBrand && matchSearch;
     });
 
-    // Global Sorting Logic
     return result.sort((a, b) => {
       switch (globalSort) {
         case "newest":
-          return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+          return (
+            new Date(b.createdAt || 0).getTime() -
+            new Date(a.createdAt || 0).getTime()
+          );
         case "oldest":
-          return new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime();
+          return (
+            new Date(a.createdAt || 0).getTime() -
+            new Date(b.createdAt || 0).getTime()
+          );
         case "name-asc":
           return a.name.localeCompare(b.name);
         case "name-desc":
@@ -127,34 +151,33 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
     });
   }, [phones, search, brand, globalSort]);
 
-  // 2. Pagination (Ambil potongan data berdasarkan filter global)
-  const totalPages = Math.max(1, Math.ceil(globallyFilteredAndSorted.length / PAGE_SIZE));
+  // 2. Pagination
+  const totalPages = Math.max(
+    1,
+    Math.ceil(globallyFilteredAndSorted.length / PAGE_SIZE),
+  );
   const safePage = Math.min(page, totalPages);
   const rawPaginatedPhones = globallyFilteredAndSorted.slice(
     (safePage - 1) * PAGE_SIZE,
     safePage * PAGE_SIZE,
   );
 
-  // 3. Local Sorting (Urutkan HANYA data yang ada di halaman sekarang)
+  // 3. Local Sorting
   const paginatedPhones = useMemo(() => {
     return [...rawPaginatedPhones].sort((a, b) => {
       let cmp = 0;
-      
       if (localSortKey === "createdAt") {
-        const timeA = new Date(a.createdAt || 0).getTime();
-        const timeB = new Date(b.createdAt || 0).getTime();
-        cmp = timeA - timeB;
+        cmp =
+          new Date(a.createdAt || 0).getTime() -
+          new Date(b.createdAt || 0).getTime();
       } else {
         const aVal = String(a[localSortKey] ?? "");
         const bVal = String(b[localSortKey] ?? "");
         cmp = aVal.localeCompare(bVal, "id", { numeric: true });
       }
-
-      // Fallback: Jika nilai utama sama, urutkan berdasarkan nama agar stabil
       if (cmp === 0 && localSortKey !== "name") {
         cmp = a.name.localeCompare(b.name, "id");
       }
-
       return localSortDir === "asc" ? cmp : -cmp;
     });
   }, [rawPaginatedPhones, localSortKey, localSortDir]);
@@ -187,13 +210,16 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 pb-20 relative">
       {/* Filter Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex flex-wrap gap-3 w-full sm:w-auto">
           <div className="relative w-full sm:w-64">
             <KeyTip label="f" />
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-3" size={16} />
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-text-3"
+              size={16}
+            />
             <input
               type="text"
               placeholder="Cari nama HP..."
@@ -202,13 +228,11 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
               className="w-full bg-bg-2 border border-surface-2 rounded-lg pl-10 pr-4 py-2 text-sm outline-none focus:border-gold transition-colors text-text"
             />
           </div>
-          
           <DropdownSelect
             value={brand}
             onChange={handleBrandChange}
             options={brands.map((b) => ({ value: b, label: b }))}
           />
-
           <DropdownSelect
             value={globalSort}
             onChange={setGlobalSort}
@@ -226,7 +250,7 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
         </Link>
       </div>
 
-      {/* Tabel */}
+      {/* Tabel Container */}
       <div className="bg-surface border border-surface-2 rounded-xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm whitespace-nowrap">
@@ -234,10 +258,34 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
               <tr>
                 <th className="px-6 py-4 font-medium w-16">No</th>
                 <th className="px-6 py-4 font-medium">Gambar</th>
-                <SortTh col="name" label="Nama HP" sortKey={localSortKey} sortDir={localSortDir} onSort={handleLocalSort} />
-                <SortTh col="brand" label="Brand" sortKey={localSortKey} sortDir={localSortDir} onSort={handleLocalSort} />
-                <SortTh col="releaseYear" label="Rilis" sortKey={localSortKey} sortDir={localSortDir} onSort={handleLocalSort} />
-                <SortTh col="createdAt" label="Ditambahkan" sortKey={localSortKey} sortDir={localSortDir} onSort={handleLocalSort} />
+                <SortTh
+                  col="name"
+                  label="Nama HP"
+                  sortKey={localSortKey}
+                  sortDir={localSortDir}
+                  onSort={handleLocalSort}
+                />
+                <SortTh
+                  col="brand"
+                  label="Brand"
+                  sortKey={localSortKey}
+                  sortDir={localSortDir}
+                  onSort={handleLocalSort}
+                />
+                <SortTh
+                  col="releaseYear"
+                  label="Rilis"
+                  sortKey={localSortKey}
+                  sortDir={localSortDir}
+                  onSort={handleLocalSort}
+                />
+                <SortTh
+                  col="createdAt"
+                  label="Ditambahkan"
+                  sortKey={localSortKey}
+                  sortDir={localSortDir}
+                  onSort={handleLocalSort}
+                />
                 <th className="px-6 py-4 font-medium text-right">Aksi</th>
               </tr>
             </thead>
@@ -247,37 +295,42 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
                   <td colSpan={7} className="px-6 py-16 text-center">
                     <div className="flex flex-col items-center gap-3 text-text-3">
                       <Package size={40} className="opacity-30" />
-                      <p className="font-medium">Nggak ada HP yang cocok dengan pencarian ini</p>
-                      <p className="text-sm opacity-60">Coba ubah filter atau kata kunci pencarian</p>
+                      <p className="font-medium">Nggak ada HP yang cocok</p>
                     </div>
                   </td>
                 </tr>
               ) : (
                 paginatedPhones.map((phone, i) => (
-                  <tr key={phone.slug} className="hover:bg-bg-2/50 transition-colors">
+                  <tr
+                    key={phone.slug}
+                    className="hover:bg-bg-2/50 transition-colors"
+                  >
                     <td className="px-6 py-4 text-text-3">
                       {(safePage - 1) * PAGE_SIZE + i + 1}
                     </td>
                     <td className="px-6 py-4">
                       <div className="relative w-10 h-10 bg-bg rounded p-1">
                         <Image
-                          src={phone.image || "https://via.placeholder.com/150"}
+                          src={phone.image || ""}
                           alt={phone.name}
                           fill
                           className="object-contain"
                         />
                       </div>
                     </td>
-                    <td className="px-6 py-4 font-medium text-text">{phone.name}</td>
+                    <td className="px-6 py-4 font-medium text-text">
+                      {phone.name}
+                    </td>
                     <td className="px-6 py-4 text-text-3">{phone.brand}</td>
-                    <td className="px-6 py-4 text-text-3">{phone.releaseYear}</td>
+                    <td className="px-6 py-4 text-text-3">
+                      {phone.releaseYear}
+                    </td>
                     <td className="px-6 py-4 text-text-3 text-xs">
                       {phone.createdAt
-                        ? new Date(phone.createdAt).toLocaleDateString("id-ID", {
-                            day: "numeric",
-                            month: "short",
-                            year: "numeric",
-                          })
+                        ? new Date(phone.createdAt).toLocaleDateString(
+                            "id-ID",
+                            { day: "numeric", month: "short", year: "numeric" },
+                          )
                         : "—"}
                     </td>
                     <td className="px-6 py-4">
@@ -285,15 +338,18 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
                         <Link
                           href={`/admin/phones/${phone.slug}/edit`}
                           className="p-1.5 text-text-3 hover:text-gold hover:bg-gold/10 rounded transition-colors"
-                          title="Edit"
                         >
                           <Edit size={16} />
                         </Link>
                         <button
-                          onClick={() => setItemToDelete({ slug: phone.slug, name: phone.name })}
+                          onClick={() =>
+                            setItemToDelete({
+                              slug: phone.slug,
+                              name: phone.name,
+                            })
+                          }
                           disabled={isDeleting === phone.slug}
-                          className="p-1.5 text-text-3 hover:text-red-400 hover:bg-red-400/10 rounded transition-colors disabled:opacity-50"
-                          title="Hapus"
+                          className="p-1.5 text-text-3 hover:text-red-400 hover:bg-red-400/10 rounded transition-colors"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -305,84 +361,108 @@ export default function PhoneTable({ initialPhones }: { initialPhones: Phone[] }
             </tbody>
           </table>
         </div>
+      </div>
 
-        {/* Pagination Footer - Sticky Floating */}
-        {totalPages > 1 && (
-          <div className="sticky bottom-0 z-20 flex flex-col sm:flex-row items-start sm:items-center gap-3 px-6 py-3 border-t border-surface-2 bg-bg-2/80 backdrop-blur-md shadow-[0_-4px_12px_rgba(0,0,0,0.1)]">
-            <p className="text-xs text-text-3">
-              {globallyFilteredAndSorted.length} HP • halaman {safePage} dari {totalPages}
+      {/* Pagination Footer - REAL Floating Sticky */}
+      {totalPages > 1 && (
+        <div className="sticky bottom-6 z-30 mt-4 self-center w-full max-w-2xl">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-3 bg-bg-2/90 backdrop-blur-xl border border-surface-2 rounded-2xl shadow-2xl shadow-black/50">
+            <p className="text-xs text-text-3 font-medium whitespace-nowrap">
+              <span className="text-gold">
+                {globallyFilteredAndSorted.length}
+              </span>{" "}
+              HP • hal {safePage} / {totalPages}
             </p>
-            <div className="flex items-center gap-1">
+
+            <div className="flex items-center gap-1.5">
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={safePage === 1}
-                className="p-1.5 rounded text-text-3 hover:text-text hover:bg-surface-2 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                className="p-1.5 rounded-lg text-text-3 hover:text-text hover:bg-surface-2 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
               >
-                <ChevronLeft size={16} />
+                <ChevronLeft size={18} />
               </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1)
-                .filter((p) => p === 1 || p === totalPages || Math.abs(p - safePage) <= 1)
-                .reduce<(number | "...")[]>((acc, p, idx, arr) => {
-                  if (idx > 0 && p - (arr[idx - 1] as number) > 1) acc.push("...");
-                  acc.push(p);
-                  return acc;
-                }, [])
-                .map((p, idx) =>
-                  p === "..." ? (
-                    <span key={`ellipsis-${idx}`} className="px-2 text-text-3 text-xs">…</span>
-                  ) : (
-                    <button
-                      key={p}
-                      onClick={() => setPage(p as number)}
-                      className={`w-7 h-7 rounded text-xs font-medium transition-colors ${
-                        safePage === p
-                          ? "bg-gold text-bg-2"
-                          : "text-text-3 hover:text-text hover:bg-surface-2"
-                      }`}
-                    >
-                      {p}
-                    </button>
+
+              <div className="flex items-center gap-1 mx-2">
+                {Array.from({ length: totalPages }, (_, i) => i + 1)
+                  .filter(
+                    (p) =>
+                      p === 1 ||
+                      p === totalPages ||
+                      Math.abs(p - safePage) <= 1,
                   )
-                )}
+                  .reduce<(number | "...")[]>((acc, p, idx, arr) => {
+                    if (idx > 0 && p - (arr[idx - 1] as number) > 1)
+                      acc.push("...");
+                    acc.push(p);
+                    return acc;
+                  }, [])
+                  .map((p, idx) =>
+                    p === "..." ? (
+                      <span
+                        key={`ellipsis-${idx}`}
+                        className="px-1 text-text-3"
+                      >
+                        …
+                      </span>
+                    ) : (
+                      <button
+                        key={p}
+                        onClick={() => setPage(p as number)}
+                        className={clsx(
+                          "w-8 h-8 rounded-lg text-xs font-bold transition-all",
+                          safePage === p
+                            ? "bg-gold text-bg-2 shadow-lg shadow-gold/20"
+                            : "text-text-3 hover:text-text hover:bg-surface-2",
+                        )}
+                      >
+                        {p}
+                      </button>
+                    ),
+                  )}
+              </div>
+
               <button
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={safePage === totalPages}
-                className="p-1.5 rounded text-text-3 hover:text-text hover:bg-surface-2 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                className="p-1.5 rounded-lg text-text-3 hover:text-text hover:bg-surface-2 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
               >
-                <ChevronRight size={16} />
+                <ChevronRight size={18} />
               </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
-      {/* Modal Konfirmasi Hapus */}
+      {/* Delete Confirmation Modal */}
       {itemToDelete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-bg border border-surface-2 rounded-xl p-6 max-w-sm w-full shadow-xl">
-            <div className="flex items-center gap-3 text-red-400 mb-4">
-              <div className="p-2 bg-red-400/10 rounded-full">
+        <div className="fixed inset-0 z-100 flexcc p-4">
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300"
+            onClick={() => setItemToDelete(null)}
+          />
+          <div className="relative bg-bg border border-surface-2 rounded-2xl p-6 max-w-sm w-full shadow-2xl animate-in zoom-in-95 duration-200">
+            <div className="flex items-center gap-3 text-red-500 mb-4">
+              <div className="p-2 bg-red-500/10 rounded-xl border border-red-500/20">
                 <AlertTriangle size={24} />
               </div>
               <h3 className="text-lg font-bold">Hapus Data?</h3>
             </div>
             <p className="text-text-2 mb-6">
               Yakin mau hapus{" "}
-              <span className="font-bold text-text">{itemToDelete.name}</span>?{" "}
-              Aksi ini tidak bisa dibatalkan.
+              <span className="font-bold text-text">{itemToDelete.name}</span>?
             </p>
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setItemToDelete(null)}
-                disabled={isDeleting !== null}
-                className="px-4 py-2 text-sm font-medium text-text bg-surface hover:bg-surface-2 rounded-lg transition-colors disabled:opacity-50"
+                className="px-4 py-2 text-sm font-bold text-text-2 bg-surface hover:bg-surface-2 rounded-xl transition-all"
               >
                 Batal
               </button>
               <button
                 onClick={confirmDelete}
                 disabled={isDeleting !== null}
-                className="px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50"
+                className="px-4 py-2 text-sm font-bold text-white bg-red-500 hover:bg-red-600 rounded-xl transition-all flexc gap-2 shadow-lg shadow-red-500/20"
               >
                 {isDeleting ? "Menghapus..." : "Hapus"}
               </button>
