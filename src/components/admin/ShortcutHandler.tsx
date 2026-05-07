@@ -28,7 +28,7 @@ export default function ShortcutHandler() {
       if (isAltActive) {
         const key = e.key.toLowerCase();
         
-        // List handled keys (termasuk yang butuh chaining)
+        // List handled keys
         const handledKeys = ["d", "p", "n", "f", "b", "s", "l", "o", ","];
         if (handledKeys.includes(key)) {
           e.preventDefault();
@@ -50,13 +50,11 @@ export default function ShortcutHandler() {
             case "l":
               // Grup Profile: set prefix dan buka dropdown
               setPrefix("l");
-              const profileBtn = Array.from(document.querySelectorAll('button')).find(el => 
-                el.innerText.toUpperCase().includes("SUSANTO") || 
-                el.querySelector('span')?.innerText === "L"
-              ) as HTMLElement;
+              // Cari button dropdown profile
+              const profileBtn = document.querySelector('button[aria-label="profile-menu"]') as HTMLElement 
+                || (Array.from(document.querySelectorAll('button')).find(el => el.querySelector('span')?.innerText === "L") as HTMLElement);
               
               if (profileBtn) profileBtn.click();
-              // Jangan matikan AltActive biar bisa lanjut chaining (misal LO)
               break;
             case "d":
               router.push("/admin");
@@ -92,7 +90,7 @@ export default function ShortcutHandler() {
               if (e.key.length === 1) setAltActive(false);
           }
         } 
-        // Level 2: Sudah ada prefix "p" (Phones Group)
+        // Level 2: Phones Group ("p")
         else if (activePrefix === "p") {
           switch (key) {
             case "n":
@@ -107,28 +105,18 @@ export default function ShortcutHandler() {
               if (e.key.length === 1) setAltActive(false);
           }
         }
-        // Level 2: Sudah ada prefix "l" (Profile Group)
+        // Level 2: Profile Group ("l")
         else if (activePrefix === "l") {
           switch (key) {
-            case ",":
+            case "s": // S for Settings
               router.push("/admin/settings");
               setAltActive(false);
               break;
-            case "o":
-              // Logout: cari tombol logout di dalem dropdown
+            case "l": // L for Logout
               const logoutBtn = Array.from(document.querySelectorAll('button')).find(el => 
                 el.textContent?.toLowerCase().includes("logout")
               );
               if (logoutBtn) logoutBtn.click();
-              setAltActive(false);
-              break;
-            case "l":
-              // "LL" buat nutup balik dropdown
-              const profileBtn = Array.from(document.querySelectorAll('button')).find(el => 
-                el.innerText.toUpperCase().includes("SUSANTO") || 
-                el.querySelector('span')?.innerText === "L"
-              ) as HTMLElement;
-              if (profileBtn) profileBtn.click();
               setAltActive(false);
               break;
             default:

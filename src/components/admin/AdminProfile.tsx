@@ -30,24 +30,30 @@ export default function AdminProfile({ user }: { user: UserInfo | null }) {
         setOpen(false);
       }
     };
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
     document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
+    document.addEventListener("keydown", handleEsc);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+      document.removeEventListener("keydown", handleEsc);
+    };
   }, []);
 
   return (
     <div className="relative" ref={ref}>
       <Tooltip content="Buka Profil & Settings" position="bottom">
         <button
+          aria-label="profile-menu"
           onClick={() => setOpen(!open)}
           className={clsx(
             "cursor-pointer relative flex items-center gap-3 p-1 rounded-xl transition-all duration-200 group",
             open ? "bg-surface-2" : "hover:bg-surface",
           )}
         >
-          {/* Shortcut label L - Sekarang ditaruh di level paling luar biar gak kepotong */}
+          {/* Shortcut label L */}
           <KeyTip label="l" className="-top-1 -right-1" />
-
-          {/* nggk usah dimunculin lagi itu username ataupun email ataupun nama gue Dier, cukup icon User aja sama icon panah bawah aja 🗿 */}
 
           <div className="w-9 h-9 rounded-full bg-bg-2 border border-surface-2 flex items-center justify-center text-gold group-hover:border-gold/50 transition-colors">
             <User size={20} />
@@ -83,7 +89,7 @@ export default function AdminProfile({ user }: { user: UserInfo | null }) {
               onClick={() => setOpen(false)}
               className="relative flex items-center gap-3 px-3 py-2 text-sm text-text-2 hover:text-gold hover:bg-surface rounded-lg transition-all"
             >
-              <KeyTip label="l," />
+              <KeyTip label="ls" />
               <Settings size={16} />
               Settings & Shortcuts
             </Link>
@@ -92,7 +98,7 @@ export default function AdminProfile({ user }: { user: UserInfo | null }) {
               onClick={handleLogout}
               className="relative w-full flex items-center gap-3 px-3 py-2 text-sm text-red-400/80 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-all mt-1"
             >
-              <KeyTip label="lo" />
+              <KeyTip label="ll" />
               <LogOut size={16} />
               Logout
             </button>
