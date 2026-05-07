@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -20,6 +20,7 @@ import { adminDeletePhone } from "@/lib/admin-api";
 import { useRouter } from "next/navigation";
 import type { Phone } from "@/types/phone";
 import { useToastStore } from "@/store/useToastStore";
+import { usePhoneFilterStore } from "@/store/usePhoneFilterStore";
 import DropdownSelect from "@/components/shared/DropdownSelect";
 import KeyTip from "@/components/shared/KeyTip";
 import Tooltip from "@/components/shared/Tooltip";
@@ -67,10 +68,14 @@ function SortTh({
     >
       <div className="flex items-center gap-1.5">
         {label}
-        <div className={clsx(
-          "transition-opacity",
-          sortKey === col ? "opacity-100" : "opacity-0 group-hover/th:opacity-50"
-        )}>
+        <div
+          className={clsx(
+            "transition-opacity",
+            sortKey === col
+              ? "opacity-100"
+              : "opacity-0 group-hover/th:opacity-50",
+          )}
+        >
           <SortIcon col={col} sortKey={sortKey as SortKey} sortDir={sortDir} />
         </div>
       </div>
@@ -83,24 +88,28 @@ export default function PhoneTable({
 }: {
   initialPhones: Phone[];
 }) {
+  const { brand, globalSort, setBrand, setGlobalSort } = usePhoneFilterStore();
   const [phones, setPhones] = useState<Phone[]>(initialPhones);
   const [search, setSearch] = useState("");
-  const [brand, setBrand] = useState("All");
+  const [localSortKey, setLocalSortKey] = useState<SortKey | null>(null);
+  const [localSortDir, setLocalSortDir] = useState<SortDir>("asc");
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [itemToDelete, setItemToDelete] = useState<{
     slug: string;
     name: string;
   } | null>(null);
 
-  // Global Sorting
-  const [globalSort, setGlobalSort] = useState("newest");
-
-  // Local Sorting (null berarti nurut Global Sort)
-  const [localSortKey, setLocalSortKey] = useState<SortKey | null>(null);
-  const [localSortDir, setLocalSortDir] = useState<SortDir>("asc");
-
   // Pagination
   const [page, setPage] = useState(1);
+
+  // Hydration fix for persisted state
+  const [isHydrated, setIsHydrated] = useState(false);
+  useEffect(() => {
+    const handle = requestAnimationFrame(() => {
+      setIsHydrated(true);
+    });
+    return () => cancelAnimationFrame(handle);
+  }, []);
 
   const router = useRouter();
   const { showToast } = useToastStore();
@@ -129,6 +138,9 @@ export default function PhoneTable({
 
   // 1. Filter dan Global Sort
   const globallyFilteredAndSorted = useMemo(() => {
+    // Tunggu hidrasi selesai agar tidak mismatch dengan server render
+    if (!isHydrated) return initialPhones;
+
     const result = phones.filter((p) => {
       const matchBrand = brand === "All" || p.brand === brand;
       const matchSearch =
@@ -161,7 +173,7 @@ export default function PhoneTable({
           return 0;
       }
     });
-  }, [phones, search, brand, globalSort]);
+  }, [isHydrated, initialPhones, phones, brand, search, globalSort]);
 
   // 2. Pagination
   const totalPages = Math.max(
@@ -177,7 +189,7 @@ export default function PhoneTable({
   // 3. Local Sorting (HANYA jalan kalo admin klik header tabel)
   const paginatedPhones = useMemo(() => {
     if (!localSortKey) return rawPaginatedPhones;
-    
+
     return [...rawPaginatedPhones].sort((a, b) => {
       let cmp = 0;
       if (localSortKey === "createdAt") {
