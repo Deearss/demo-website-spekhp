@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Smartphone, Plus } from "lucide-react";
+import { LayoutDashboard, Smartphone, Plus, Keyboard, ExternalLink } from "lucide-react";
 import clsx from "clsx";
 import KeyTip from "@/components/shared/KeyTip";
 import Tooltip from "@/components/shared/Tooltip";
@@ -22,7 +22,6 @@ export default function AdminSidebar() {
       label: "Daftar HP",
       icon: <Smartphone size={18} />,
       key: "p",
-      // Sub-action: Tambah HP
       subAction: {
         href: "/admin/phones/new",
         icon: <Plus size={14} />,
@@ -57,14 +56,14 @@ export default function AdminSidebar() {
                 {link.label}
               </Link>
 
-              {/* Sub-action Button (Muncul pas hover atau pas mode Alt aktif) */}
+              {/* Sub-action Button */}
               {link.subAction && (
                 <Tooltip content={link.subAction.tooltip} position="right">
                   <Link
                     href={link.subAction.href}
                     className={clsx(
                       "relative p-2 rounded-lg text-text-3 hover:text-gold hover:bg-surface transition-all shrink-0",
-                      "opacity-30 group-hover/item:opacity-100 focus:opacity-100", // Muncul pas hover
+                      "opacity-30 group-hover/item:opacity-100 focus:opacity-100",
                       isActive && "text-gold/50",
                     )}
                   >
@@ -76,6 +75,34 @@ export default function AdminSidebar() {
             </div>
           );
         })}
+      </div>
+
+      {/* Shortcut Info Card */}
+      <div className="p-4 border-t border-surface-2 bg-bg-2/50 backdrop-blur-sm">
+        <div className="bg-surface/50 border border-surface-2 rounded-xl p-3 relative overflow-hidden group">
+          {/* Subtle background icon */}
+          <Keyboard className="absolute -right-2 -bottom-2 text-gold/5 rotate-12 group-hover:rotate-0 transition-transform duration-500" size={64} />
+          
+          <div className="flex items-start gap-3 mb-2">
+            <div className="p-1.5 rounded-lg bg-gold/10 text-gold shrink-0">
+              <Keyboard size={14} />
+            </div>
+            <div>
+              <p className="text-[11px] font-bold text-text mb-0.5">Power User?</p>
+              <p className="text-[10px] text-text-3 leading-relaxed">
+                Tekan <kbd className="px-1 bg-bg-2 rounded border border-surface-2 text-gold text-[9px] font-bold">Alt</kbd> untuk mengaktifkan shortcut.
+              </p>
+            </div>
+          </div>
+          
+          <Link 
+            href="/admin/settings"
+            className="flex items-center justify-between px-2 py-1.5 rounded-lg bg-bg-2 border border-surface-2 text-[10px] font-bold text-text-2 hover:text-gold hover:border-gold/30 transition-all"
+          >
+            Lihat Semua Shortcut
+            <ExternalLink size={10} />
+          </Link>
+        </div>
       </div>
     </aside>
   );
