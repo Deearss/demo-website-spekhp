@@ -5,12 +5,18 @@ import { usePathname } from "next/navigation";
 import { LayoutDashboard, Smartphone, Plus } from "lucide-react";
 import clsx from "clsx";
 import KeyTip from "@/components/shared/KeyTip";
+import Tooltip from "@/components/shared/Tooltip";
 
 export default function AdminSidebar() {
   const pathname = usePathname();
 
   const links = [
-    { href: "/admin", label: "Dashboard", icon: <LayoutDashboard size={18} />, key: "d" },
+    {
+      href: "/admin",
+      label: "Dashboard",
+      icon: <LayoutDashboard size={18} />,
+      key: "d",
+    },
     {
       href: "/admin/phones",
       label: "Daftar HP",
@@ -21,8 +27,8 @@ export default function AdminSidebar() {
         href: "/admin/phones/new",
         icon: <Plus size={14} />,
         key: "pn",
-        tooltip: "Tambah HP Baru"
-      }
+        tooltip: "Tambah HP Baru",
+      },
     },
   ];
 
@@ -34,7 +40,7 @@ export default function AdminSidebar() {
             link.href === "/admin"
               ? pathname === "/admin"
               : pathname.startsWith(link.href);
-              
+
           return (
             <div key={link.href} className="group/item flex items-center gap-1">
               <Link
@@ -53,18 +59,19 @@ export default function AdminSidebar() {
 
               {/* Sub-action Button (Muncul pas hover atau pas mode Alt aktif) */}
               {link.subAction && (
-                <Link
-                  href={link.subAction.href}
-                  title={link.subAction.tooltip}
-                  className={clsx(
-                    "relative p-2 rounded-lg text-text-3 hover:text-gold hover:bg-surface transition-all shrink-0",
-                    "opacity-0 group-hover/item:opacity-100 focus:opacity-100", // Muncul pas hover
-                    isActive && "text-gold/50"
-                  )}
-                >
-                  <KeyTip label={link.subAction.key} />
-                  {link.subAction.icon}
-                </Link>
+                <Tooltip content={link.subAction.tooltip} position="right">
+                  <Link
+                    href={link.subAction.href}
+                    className={clsx(
+                      "relative p-2 rounded-lg text-text-3 hover:text-gold hover:bg-surface transition-all shrink-0",
+                      "opacity-30 group-hover/item:opacity-100 focus:opacity-100", // Muncul pas hover
+                      isActive && "text-gold/50",
+                    )}
+                  >
+                    <KeyTip label={link.subAction.key} />
+                    {link.subAction.icon}
+                  </Link>
+                </Tooltip>
               )}
             </div>
           );

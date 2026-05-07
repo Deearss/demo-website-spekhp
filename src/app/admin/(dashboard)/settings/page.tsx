@@ -12,8 +12,10 @@ export default function AdminSettingsPage() {
     { key: "Alt + F", desc: "Fokus ke Kolom Pencarian (Filter)" },
     { key: "Alt + S", desc: "Simpan Data (Hanya di Halaman Form)" },
     { key: "Alt + B", desc: "Batal / Kembali ke Halaman Sebelumnya" },
-    { key: "Alt + L", desc: "Buka Menu Profil / Logout" },
-    { key: "Alt + ,", desc: "Buka Halaman Settings (Halaman Ini)" },
+    { key: "Alt + L", desc: "Buka/Tutup Menu Profil Admin" },
+    { key: "Alt + L + O", desc: "Logout dari Dashboard" },
+    { key: "Alt + L + ,", desc: "Buka Settings (via Menu Profil)" },
+    { key: "Alt + ,", desc: "Buka Halaman Settings (Langsung)" },
     { key: "Esc", desc: "Keluar dari Shortcut Mode / Batal" },
   ];
 

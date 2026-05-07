@@ -6,6 +6,7 @@ import { adminLogout } from "@/lib/admin-api";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import KeyTip from "@/components/shared/KeyTip";
+import Tooltip from "@/components/shared/Tooltip";
 import clsx from "clsx";
 
 interface UserInfo {
@@ -35,30 +36,34 @@ export default function AdminProfile({ user }: { user: UserInfo | null }) {
 
   return (
     <div className="relative" ref={ref}>
-      <button
-        onClick={() => setOpen(!open)}
-        className={clsx(
-          "cursor-pointer relative flex items-center gap-3 p-1 rounded-xl transition-all duration-200 group",
-          open ? "bg-surface-2" : "hover:bg-surface",
-        )}
-      >
-        {/* Shortcut label L - Sekarang ditaruh di level paling luar biar gak kepotong */}
-        <KeyTip label="l" className="-top-1 -right-1" />
+      <Tooltip content="Buka Profil & Settings" position="bottom">
+        <button
+          onClick={() => setOpen(!open)}
+          className={clsx(
+            "cursor-pointer relative flex items-center gap-3 p-1 rounded-xl transition-all duration-200 group",
+            open ? "bg-surface-2" : "hover:bg-surface",
+          )}
+        >
+          {/* Shortcut label L - Sekarang ditaruh di level paling luar biar gak kepotong */}
+          <KeyTip label="l" className="-top-1 -right-1" />
 
-        <div className="w-9 h-9 rounded-full bg-bg-2 border border-surface-2 flex items-center justify-center text-gold group-hover:border-gold/50 transition-colors">
-          <User size={20} />
-        </div>
+          {/* nggk usah dimunculin lagi itu username ataupun email ataupun nama gue Dier, cukup icon User aja sama icon panah bawah aja 🗿 */}
 
-        <div className="pr-2">
-          <ChevronDown
-            size={14}
-            className={clsx(
-              "text-text-3 transition-transform duration-300",
-              open && "rotate-180",
-            )}
-          />
-        </div>
-      </button>
+          <div className="w-9 h-9 rounded-full bg-bg-2 border border-surface-2 flex items-center justify-center text-gold group-hover:border-gold/50 transition-colors">
+            <User size={20} />
+          </div>
+
+          <div className="pr-2">
+            <ChevronDown
+              size={14}
+              className={clsx(
+                "text-text-3 transition-transform duration-300",
+                open && "rotate-180",
+              )}
+            />
+          </div>
+        </button>
+      </Tooltip>
 
       {/* Dropdown Menu */}
       {open && (
@@ -78,17 +83,18 @@ export default function AdminProfile({ user }: { user: UserInfo | null }) {
               onClick={() => setOpen(false)}
               className="relative flex items-center gap-3 px-3 py-2 text-sm text-text-2 hover:text-gold hover:bg-surface rounded-lg transition-all"
             >
-              <KeyTip label="," />
+              <KeyTip label="l," />
               <Settings size={16} />
               Settings & Shortcuts
             </Link>
 
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-400/80 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-all mt-1"
+              className="relative w-full flex items-center gap-3 px-3 py-2 text-sm text-red-400/80 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-all mt-1"
             >
+              <KeyTip label="lo" />
               <LogOut size={16} />
-              Logout Session
+              Logout
             </button>
           </div>
         </div>
